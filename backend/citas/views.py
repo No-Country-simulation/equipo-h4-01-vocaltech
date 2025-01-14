@@ -12,7 +12,7 @@ class StandardResultsSetPagination(PageNumberPagination):
     max_page_size = 100
 
 class CitaViewSet(viewsets.ModelViewSet):
-    queryset = Cita.objects.all().prefetch_related('related_field')  # Reemplaza 'related_field' con el campo relacionado real
+    queryset = Cita.objects.all().order_by('fecha')
     serializer_class = CitaSerializer
     pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
