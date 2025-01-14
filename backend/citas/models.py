@@ -25,6 +25,3 @@ class Cita(models.Model):
 
     def __str__(self):
         return self.motivo
-
-    def get_absolute_url(self):
-        return reverse('cita-detail', kwargs={'pk': self.pk})
