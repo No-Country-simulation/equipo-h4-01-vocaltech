@@ -217,6 +217,7 @@ Se espera el siguiente mensaje, junto al código HTTP 200 OK.
   "motivo": "Coaching para Emprendedores",
   "estado": "CO"
 }
+```
 
 ---
 
