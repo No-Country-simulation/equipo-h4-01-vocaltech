@@ -219,7 +219,7 @@ Se espera el siguiente mensaje, junto al código HTTP 200 OK.
 
 ### Eliminar Cita
 
-- Permite eliminar una cita específica, pkentificada por su pk.
+- Permite eliminar una cita específica, identificada por su pk.
 - La cita se elimina de la base de datos y se devuelve una respuesta de éxito.
 
 ```http
