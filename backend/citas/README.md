@@ -231,3 +231,4 @@ Se espera el siguiente mensaje, junto al código HTTP 200 OK.
 | `pk`      | `string` | **Required**. Pk de la cita |
 
 > ⚠️ **Advertencia:** Realizar esta acción implica eliminar el registro de la base de datos.
+
