@@ -8,7 +8,7 @@ La aplicación de citas está diseñada para gestionar citas de manera eficiente
 
 Los endpoints de la aplicación de citas se detallan a continuación.
 
-#### Listar Citas
+### Listar Citas
 
 - Permite obtener una lista de todas las citas registradas en el sistema.
 - Las citas se devuelven ordenadas por fecha en orden ascendente.
@@ -25,7 +25,7 @@ Los endpoints de la aplicación de citas se detallan a continuación.
 
 ---
 
-#### Obtener Detalle de Cita
+### Obtener Detalle de Cita
 
 - Permite obtener los detalles de una cita específica, pkentificada por su pk.
 - Se devuelve la información completa de la cita solicitada.
@@ -40,7 +40,7 @@ Los endpoints de la aplicación de citas se detallan a continuación.
 
 ---
 
-#### Crear Cita
+### Crear Cita
 
 - Permite crear una nueva cita.
 - Se debe proporcionar la información de la cita en el cuerpo de la solicitud.
@@ -102,7 +102,7 @@ Se espera el siguiente mensaje, junto al código HTTP 201 Created.
 
 ---
 
-#### Actualizar Cita
+### Actualizar Cita
 
 - Permite actualizar completamente una cita existente.
 - Se debe proporcionar la información completa de la cita en el cuerpo de la solicitud.
@@ -163,7 +163,7 @@ Se espera el siguiente mensaje, junto al código HTTP 200 OK.
 ```
 ---
 
-#### Actualizar Parcialmente una Cita
+### Actualizar Parcialmente una Cita
 
 - Permite actualizar parcialmente una cita existente.
 - Se puede proporcionar solo la información que se desea actualizar en el cuerpo de la solicitud.
@@ -221,7 +221,7 @@ Se espera el siguiente mensaje, junto al código HTTP 200 OK.
 
 ---
 
-#### Eliminar Cita
+### Eliminar Cita
 
 - Permite eliminar una cita específica, pkentificada por su pk.
 - La cita se elimina de la base de datos y se devuelve una respuesta de éxito.
