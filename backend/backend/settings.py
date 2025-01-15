@@ -32,9 +32,12 @@ INSTALLED_APPS = [
     'rest_framework',
     # Third party libraries
     "import_export",
+    "rest_framework",
+    "drf_yasg",
     # Custom apps
     "auth_service",
     'citas',
+    "docs",
 ]
 
 REST_FRAMEWORK = {
@@ -58,6 +61,17 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        # "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",  # Require authentication for all views
+    ],
+}
 
 ROOT_URLCONF = "backend.urls"
 
