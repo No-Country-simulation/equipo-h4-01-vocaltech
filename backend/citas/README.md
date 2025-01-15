@@ -160,7 +160,7 @@ Se espera el siguiente mensaje, junto al código HTTP 200 OK.
   "motivo": "Consulta sobre MVP",
   "estado": "CO"
 }
-
+```
 ---
 
 #### Actualizar Parcialmente una Cita
