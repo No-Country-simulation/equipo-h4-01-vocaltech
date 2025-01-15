@@ -23,7 +23,6 @@ Los endpoints de la aplicación de citas se detallan a continuación.
 | :-------- | :-------- | :-------------------- |
 | `Ninguno` | `Ninguno` | No recibe parámetros. |
 
----
 
 ### Obtener Detalle de Cita
 
@@ -38,7 +37,6 @@ Los endpoints de la aplicación de citas se detallan a continuación.
 | :-------- | :------- | :--------------------------- |
 | `pk`      | `string` | **Required**. Pk de la cita. |
 
----
 
 ### Crear Cita
 
@@ -100,7 +98,6 @@ Se espera el siguiente mensaje, junto al código HTTP 201 Created.
 }
 ```
 
----
 
 ### Actualizar Cita
 
@@ -161,7 +158,7 @@ Se espera el siguiente mensaje, junto al código HTTP 200 OK.
   "estado": "CO"
 }
 ```
----
+
 
 ### Actualizar Parcialmente una Cita
 
@@ -219,7 +216,6 @@ Se espera el siguiente mensaje, junto al código HTTP 200 OK.
 }
 ```
 
----
 
 ### Eliminar Cita
 
@@ -235,5 +231,3 @@ Se espera el siguiente mensaje, junto al código HTTP 200 OK.
 | `pk`      | `string` | **Required**. Pk de la cita |
 
 > ⚠️ **Advertencia:** Realizar esta acción implica eliminar el registro de la base de datos.
-
-
