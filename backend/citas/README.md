@@ -58,7 +58,7 @@ Los endpoints de la aplicación de citas se detallan a continuación.
 
 **NOTA**:
 
-Se deben conspkerar los siguientes formatos y valores esperados al momento de realizar la solicitud:
+Se deben considerar los siguientes formatos y valores esperados al momento de realizar la solicitud:
 
 - La `fecha` debe estar en formato `YYYY-MM-DD`.
 - Tanto `hora_inicio` como `hora_fin` deben estar en formato `HH:MM:SS`.
@@ -120,7 +120,7 @@ Se espera el siguiente mensaje, junto al código HTTP 201 Created.
 
 **NOTA**:
 
-Se deben conspkerar los siguientes formatos y valores esperados al momento de realizar la solicitud:
+Se deben considerar los siguientes formatos y valores esperados al momento de realizar la solicitud:
 
 - La `fecha` debe estar en formato `YYYY-MM-DD`.
 - Tanto `hora_inicio` como `hora_fin` deben estar en formato `HH:MM:SS`.
@@ -181,7 +181,7 @@ Se espera el siguiente mensaje, junto al código HTTP 200 OK.
 
 **NOTA**:
 
-Se deben conspkerar los siguientes formatos y valores esperados al momento de realizar la solicitud:
+Se deben considerar los siguientes formatos y valores esperados al momento de realizar la solicitud:
 
 - La `fecha` debe estar en formato `YYYY-MM-DD`.
 - Tanto `hora_inicio` como `hora_fin` deben estar en formato `HH:MM:SS`.
