@@ -26,7 +26,7 @@ Los endpoints de la aplicación de citas se detallan a continuación.
 
 ### Obtener Detalle de Cita
 
-- Permite obtener los detalles de una cita específica, pkentificada por su pk.
+- Permite obtener los detalles de una cita específica, identificada por su pk.
 - Se devuelve la información completa de la cita solicitada.
 
 ```http
