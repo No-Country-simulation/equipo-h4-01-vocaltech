@@ -7,6 +7,8 @@ import i18nConfig from '@/i18n/config//i18nConfig';
 import { ChangeEvent } from 'react';
 
 export default function LanguageChanger() {
+
+  const { t } = useTranslation('languagechanger');
   const { i18n } = useTranslation();
   const currentLocale = i18n.language;
   const router = useRouter();

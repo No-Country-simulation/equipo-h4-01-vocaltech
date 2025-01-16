@@ -1,3 +1,5 @@
 export * from './view/InContruction/InConstruction';
-export * from './view/LanguageChander/LanguageChanger';
+export * from './view/LanguageChanger/LanguageChanger';
+export * from './view/ThemeChanger/ThemeChanger';
+
 

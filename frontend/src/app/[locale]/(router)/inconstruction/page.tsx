@@ -1,14 +1,15 @@
 import InConstruction from '@/components/view/InContruction/InConstruction';
-import LanguageChanger from '@/components/view/LanguageChander/LanguageChanger';
+import LanguageChanger from '@/components/view/LanguageChanger/LanguageChanger';
 import TranslationsProvider from '@/provider/TranslationsProvider/TranslationsProvider';
+import ThemeChanger from '@/components/view/ThemeChanger/ThemeChanger';
 import initTranslations from '@/i18n/config/i18n';
 
-const i18nNamespaces = ['inconstruction'];
+const i18nNamespaces = ['inconstruction', 'languagechanger', 'themechanger'];
 
 async function Home(props: { params: Promise<{ locale: string }> }) {
   const { locale } = await props.params;
 
-  const { t, resources } = await initTranslations(locale, i18nNamespaces);
+  const { resources } = await initTranslations(locale, i18nNamespaces);
 
   return (
     <TranslationsProvider
@@ -17,6 +18,7 @@ async function Home(props: { params: Promise<{ locale: string }> }) {
       resources={resources}>
       <InConstruction />
       <LanguageChanger />
+      <ThemeChanger />
     </TranslationsProvider>
   );
 }
