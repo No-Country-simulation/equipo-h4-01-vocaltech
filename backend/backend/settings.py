@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     # Custom apps
     'auth_service',
     'citas',
+    'diagnosticos',
 ]
 
 REST_FRAMEWORK = {
