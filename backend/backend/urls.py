@@ -35,6 +35,7 @@ urlpatterns = [
     # path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     # path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/", include("auth_service.urls")),
+    path("api/", include("citas.urls")),
     path(
         "docs/",
         schema_view.with_ui("swagger", cache_timeout=0),

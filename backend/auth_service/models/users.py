@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils import timezone
 from ..managers import UserManager
-from auth_service.models.roles import Role
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -11,7 +10,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
-    role = models.ManyToManyField(Role, blank=True)
+    role = models.OneToOneField(
+        "auth_services.Role",
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="user",
+    )
+
     objects = UserManager()
 
     USERNAME_FIELD = "username"
