@@ -1,5 +1,17 @@
 from django.db import models
 
+
+class Service(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'services'
+        managed = True
+
 class TipoDiagnostico(models.TextChoices):
     EMPRESA = 'Empresa'
     EMPRENDEDOR = 'Emprendedor'
@@ -21,6 +33,8 @@ class Pregunta(models.Model):
         ]
     )
     opciones = models.JSONField(null=True, blank=True)
+    service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    peso = models.IntegerField(default=1)
 
     def __str__(self):
         return self.texto
@@ -29,12 +43,20 @@ class Pregunta(models.Model):
         db_table = 'preguntas'
         managed = True
 
-class PesoPregunta(models.Model):
+class Respuesta(models.Model):
     pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE)
-    categoría = models.CharField(max_length=20, choices=TipoDiagnostico.choices)
-    peso = models.IntegerField()
-    
+    respuesta = models.JSONField()
+    tipo_diagnostico = models.CharField(max_length=20, choices=TipoDiagnostico.choices)
+
     class Meta:
-        db_table = 'pesos_preguntas'
+        db_table = 'respuestas'
         managed = True
-    
+
+class Diagnostico(models.Model):
+    nombre = models.CharField(max_length=100)
+    tipo_diagnostico = models.CharField(max_length=20, choices=TipoDiagnostico.choices)
+    respuestas = models.ManyToManyField(Respuesta)
+
+    class Meta:
+        db_table = 'diagnosticos'
+        managed = True
