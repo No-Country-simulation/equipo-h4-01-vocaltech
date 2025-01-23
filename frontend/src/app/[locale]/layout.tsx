@@ -2,21 +2,10 @@ import { ReactNode } from "react";
 import { useTranslation } from 'react-i18next';
 import type { Metadata } from "next";
 import { notFound } from 'next/navigation';
-import { Geist, Geist_Mono } from "next/font/google";
 import i18nConfig from '@/i18n/config/i18nConfig';
 import { dir } from 'i18next';
-import "./Styles/globals.css";
+import "./styles/globals.css";
 import ThemeProvider from "@/provider/ThemeProvider/ThemeProvider";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 const metadata: Metadata = {
   title: "Vocal Tech - In construction",
@@ -40,9 +29,7 @@ export default async function RootLayout(props: Readonly<{
   }
   return (
     <html lang={locale} dir={dir(locale)} suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
