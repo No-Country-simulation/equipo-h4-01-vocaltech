@@ -1,36 +1,26 @@
 from rest_framework import serializers
-from .models import Pregunta
+from .models import Question
 
-class PreguntaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Pregunta
-        fields = '__all__'
+def generate_dynamic_serializer(client_type):
+    class DynamicSerializer(serializers.Serializer):
+        pass
 
-    def validate(self, attrs):
-        tipo_pregunta = attrs.get('tipo_pregunta')
-        opciones = attrs.get('opciones')
-        peso = attrs.get('peso')
+    questions = Question.objects.filter(group__client_type=client_type).prefetch_related('options')
+    for question in questions:
+        if question.question_type == 'text':
+            field = serializers.CharField(required=question.required)
+        elif question.question_type == 'radio':
+            choices = [(option.id, option.text) for option in question.options.all()]
+            field = serializers.ChoiceField(choices=choices, required=question.required)
+        elif question.question_type == 'checkbox':
+            choices = [(option.id, option.text) for option in question.options.all()]
+            field = serializers.ListField(
+                child=serializers.ChoiceField(choices=choices),
+                required=question.required
+            )
+        elif question.question_type == 'number':
+            field = serializers.IntegerField(required=question.required)
 
-        if tipo_pregunta == 'abierta' and opciones:
-            raise serializers.ValidationError('No se pueden agregar opciones a una pregunta abierta')
-        if tipo_pregunta in ['Si/No', 'escala', 'multiple_choice'] and not opciones:
-            raise serializers.ValidationError('Las preguntas cerradas deben tener opciones')
-        if tipo_pregunta in ['Si/No', 'escala', 'multiple_choice'] and len(opciones) < 2:
-            raise serializers.ValidationError('Las preguntas cerradas deben tener al menos 2 opciones')
-        if tipo_pregunta in ['Si/No', 'escala', 'multiple_choice'] and len(opciones) > 5:
-            raise serializers.ValidationError('Las preguntas cerradas no pueden tener más de 5 opciones')
-        if tipo_pregunta in ['Si/No', 'escala', 'multiple_choice'] and len(set(opciones)) != len(opciones):
-            raise serializers.ValidationError('Las opciones de una pregunta cerrada no pueden repetirse')
-        
-        if tipo_pregunta == 'escala':
-            if sorted(opciones) != list(range(1, 6)):
-                raise serializers.ValidationError('Las opciones para una pregunta de escala deben ser números consecutivos del 1 al 5')
-        
-        if tipo_pregunta == 'Si/No':
-            if set(opciones) != {'Sí', 'No'}:
-                raise serializers.ValidationError('Las opciones para una pregunta de Si/No deben ser "Sí" y "No"')
-        
-        if peso < 1 or peso > 4:
-            raise serializers.ValidationError('El peso de la pregunta debe estar entre 1 y 4')
+        DynamicSerializer._declared_fields[f'question_{question.id}'] = field
 
-        return super().validate(attrs)
+    return DynamicSerializer

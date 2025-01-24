@@ -1,13 +1,12 @@
-from django.contrib import admin
 from django import forms
-from .models import Question, Service, QuestionGroup
+from .models import Question
 
 class QuestionForm(forms.ModelForm):
     options_input = forms.CharField(widget=forms.Textarea, required=False, help_text="Ingrese las opciones separadas por salto de línea. Use ':' para separar la opción de su valoración.")
 
     class Meta:
         model = Question
-        fields = ['group', 'text', 'question_type', 'required', 'services', 'options']
+        fields = ['text', 'question_type', 'required', 'services', 'options']
 
     def save(self, commit=True):
         question = super().save(commit=False)
@@ -34,21 +33,3 @@ class QuestionForm(forms.ModelForm):
         if commit:
             question.save()
         return question
-
-@admin.register(Service)
-class ServiceAdmin(admin.ModelAdmin):
-    list_display = ('name',)
-
-@admin.register(QuestionGroup)
-class QuestionGroupAdmin(admin.ModelAdmin):
-    list_display = ('name', 'client_type')
-    list_filter = ('client_type',)
-
-@admin.register(Question)
-class QuestionAdmin(admin.ModelAdmin):
-    form = QuestionForm
-    list_display = ('text', 'group', 'question_type', 'required')
-    list_filter = ('group', 'question_type',)
-    search_fields = ('text',)
-    filter_horizontal = ('services',)
-    fields = ('group', 'text', 'question_type', 'required', 'services', 'options')  # Eliminar 'options_input' de aquí
