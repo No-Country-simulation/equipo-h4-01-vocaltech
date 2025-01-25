@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django import forms
+from markdown2 import markdown
+from django.utils.safestring import mark_safe
 from django.urls import path
 from .models import Question, Service, QuestionGroup, SurveyResponse
 
@@ -25,12 +27,10 @@ class QuestionForm(forms.ModelForm):
                     except ValueError:
                         value = 0  # Si no se puede convertir a entero, usar 0
                 else:
-                    text = parts[0].strip()
-                    value = 0  # Si no hay valoración, usar 0
-
+                    text = option_text.strip()
+                    value = 0
                 options.append({'text': text, 'value': value})
-
-            question.options = options  # Asignar las opciones al campo JSON
+            question.options = options
 
         if commit:
             question.save()
@@ -47,6 +47,7 @@ class QuestionGroupAdmin(admin.ModelAdmin):
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
+    form = QuestionForm
     list_display = ('text', 'group', 'question_type', 'required')
     list_filter = ('group', 'question_type',)
     search_fields = ('text',)
@@ -55,12 +56,28 @@ class QuestionAdmin(admin.ModelAdmin):
 
 @admin.register(SurveyResponse)
 class SurveyResponseAdmin(admin.ModelAdmin):
-    list_display = ('created_at', 'get_responses', 'get_recommendations')
+    list_display = ('created_at',)
     list_filter = ('created_at',)
-    search_fields = ('responses',)
+    search_fields = ('recommendations',)
     date_hierarchy = 'created_at'
-    readonly_fields = ('get_responses', 'get_recommendations')
+    readonly_fields = ('formatted_responses', 'formatted_recommendations')
     exclude = ('responses', 'recommendations')
+
+    def formatted_responses(self, obj):
+        '''
+        Renderiza las respuestas en Markdown.
+        '''
+        responses_md = obj.get_responses()
+        return mark_safe(markdown(responses_md))
+    formatted_responses.short_description = 'Respuestas'
+
+    def formatted_recommendations(self, obj):
+        '''
+        Renderiza las recomendaciones en Markdown.
+        '''
+        recommendations_md = obj.get_recommendations()
+        return mark_safe(markdown(recommendations_md))
+    formatted_recommendations.short_description = 'Recomendaciones'
 
     def has_add_permission(self, request, obj=None):
         return False
@@ -71,13 +88,5 @@ class SurveyResponseAdmin(admin.ModelAdmin):
         return super().has_change_permission(request, obj=obj)
 
     def has_delete_permission(self, request, obj=None):
-        #Disable delete
+        # Disable delete
         return False
-
-    def get_responses(self, obj):
-        return obj.get_responses()
-    get_responses.short_description = 'Responses'
-
-    def get_recommendations(self, obj):
-        return obj.get_recommendations()
-    get_recommendations.short_description = 'Recommendations'

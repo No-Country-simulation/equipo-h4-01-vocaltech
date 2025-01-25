@@ -61,15 +61,20 @@ class SurveyResponse(models.Model):
                     response_text = answer
                 elif question.question_type in ['radio', 'checkbox', 'number', 'yes_no']:
                     if isinstance(answer, list):
-                        response_text = ", ".join([str(question.options[idx]['text']) for idx in answer if idx < len(question.options)])
+                        response_text = ", ".join(
+                            [str(question.options[idx]['text']) if idx < len(question.options) else "Índice fuera de rango" for idx in answer]
+                        )
                     else:
                         response_text = question.options[answer]['text'] if answer < len(question.options) else "Índice fuera de rango"
                 else:
                     response_text = str(answer)
-                formatted_responses.append(f"{question.text} \n {response_text} \n")
+                formatted_responses.append(f"#### {question.text}\n{response_text}\n")
             except Question.DoesNotExist:
-                formatted_responses.append(f"Pregunta ID {question_id} \n {answer} \n")
+                formatted_responses.append(f"#### Pregunta ID {question_id}\n{answer}\n")
         return "\n".join(formatted_responses)
 
     def get_recommendations(self):
-        return "\n".join(self.recommendations)
+        formatted_recommendations = []
+        for recommendation in self.recommendations:
+            formatted_recommendations.append(f"- {recommendation}")
+        return "\n".join(formatted_recommendations)

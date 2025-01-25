@@ -1,10 +1,40 @@
-from django.http import JsonResponse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
 from .models import Question, SurveyResponse
 import json
 
+
+@api_view(['GET'])
 def get_entrepreneur_survey(request):
+    """
+    Obtiene las preguntas de la encuesta para emprendedores.
+
+    Método HTTP:
+        GET
+
+    Respuesta JSON:
+        {
+            "success": True,
+            "questions": [
+                {
+                    "id": int,
+                    "text": str,
+                    "type": str,
+                    "required": bool,
+                    "options": list
+                },
+                ...
+            ]
+        }
+
+    Respuesta de Error:
+        {
+            "success": False,
+            "message": "Método no permitido"
+        }
+    """
     if request.method == 'GET':
-        # Obtener preguntas para emprendedores
         questions = Question.objects.filter(group__client_type='entrepreneur')
         data = []
         for question in questions:
@@ -13,13 +43,41 @@ def get_entrepreneur_survey(request):
                 'text': question.text,
                 'type': question.question_type,
                 'required': question.required,
-                'options': question.options  # Obtener las opciones del campo JSON
+                'options': question.options
             }
             data.append(question_data)
-        return JsonResponse({'success': True, 'questions': data})
-    return JsonResponse({'success': False, 'message': 'Método no permitido'}, status=405)
+        return Response({'success': True, 'questions': data}, status=status.HTTP_200_OK)
+    return Response({'success': False, 'message': 'Método no permitido'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
+
+@api_view(['POST'])
 def process_survey(request):
+    """
+    Procesa las respuestas de la encuesta y genera recomendaciones.
+
+    Método HTTP:
+        POST
+
+    Cuerpo de la Solicitud:
+        {
+            "answers": {
+                "question_id": respuesta,
+                ...
+            }
+        }
+
+    Respuesta JSON:
+        {
+            "success": True,
+            "recommendations": list
+        }
+
+    Respuesta de Error:
+        {
+            "success": False,
+            "message": "Formato JSON inválido."
+        }
+    """
     try:
         data = json.loads(request.body)
         answers = data.get('answers', {})
@@ -27,55 +85,32 @@ def process_survey(request):
 
         for question_id, selected_response in answers.items():
             try:
-                question = Question.objects.get(id=question_id)  # Buscar la pregunta por ID
-                options = question.options  # Obtener las opciones de la pregunta
-
-                if question.question_type in ['radio', 'number', 'yes_no']:
-                    # Convertir selected_response a entero
-                    selected_index = int(selected_response)
-
-                    if isinstance(options, list) and 0 <= selected_index < len(options):  # Verificar que 'options' es una lista y que el índice es válido
-                        selected_option = options[selected_index]
-                        value = selected_option.get('value', 0)  # Acceder al valor de la opción seleccionada
-
-                        # Lógica de recomendaciones basada en el texto de la pregunta y la valoración
-                        if "mvp" in question.text.lower() and value > 0:
-                            recommendations.append("Considera un servicio para construir tu MVP.")
-                        if "inversores" in question.text.lower() and value > 0:
-                            recommendations.append("Un taller para mejorar tu pitch a inversores sería ideal.")
-                        if "comunicación" in question.text.lower() and value > 0:
-                            recommendations.append("Podemos ayudarte con habilidades de comunicación para ventas.")
-
-                elif question.question_type == 'checkbox':
-                    # selected_response es una lista de índices
-                    if not isinstance(selected_response, list):
-                        selected_response = [selected_response]  # Asegurarse de que es una lista
-                    for selected_index in selected_response:
-                        selected_index = int(selected_index)
-                        if isinstance(options, list) and 0 <= selected_index < len(options):  # Verificar que 'options' es una lista y que el índice es válido
-                            selected_option = options[selected_index]
-                            value = selected_option.get('value', 0)  # Acceder al valor de la opción seleccionada
-
-                            # Lógica de recomendaciones basada en el texto de la pregunta y la valoración
-                            if "mvp" in question.text.lower() and value > 0:
-                                recommendations.append("Considera un servicio para construir tu MVP.")
-                            if "inversores" in question.text.lower() and value > 0:
-                                recommendations.append("Un taller para mejorar tu pitch a inversores sería ideal.")
-                            if "comunicación" in question.text.lower() and value > 0:
-                                recommendations.append("Podemos ayudarte con habilidades de comunicación para ventas.")
-
-                elif question.question_type == 'text':
-                    # Almacenar la respuesta de tipo texto sin procesarla
+                question = Question.objects.get(id=question_id)
+                if question.question_type == 'text':
                     response_text = selected_response
-                    # Aquí puedes agregar lógica para almacenar o manejar la respuesta de tipo texto si es necesario
+                elif question.question_type in ['radio', 'checkbox', 'number', 'yes_no']:
+                    if isinstance(selected_response, list):
+                        response_text = ", ".join(
+                            [str(question.options[idx]['text']) if idx < len(question.options) else "Índice fuera de rango" for idx in selected_response]
+                        )
+                    else:
+                        response_text = question.options[selected_response]['text'] if selected_response < len(question.options) else "Índice fuera de rango"
+                else:
+                    response_text = str(selected_response)
+
+                if "mvp" in question.text.lower() and response_text:
+                    recommendations.append("Considera un servicio para construir tu MVP.")
+                if "inversores" in question.text.lower() and response_text:
+                    recommendations.append("Un taller para mejorar tu pitch a inversores sería ideal.")
+                if "comunicación" in question.text.lower() and response_text:
+                    recommendations.append("Podemos ayudarte con habilidades de comunicación para ventas.")
 
             except Question.DoesNotExist:
-                continue  # Si la pregunta no existe, la ignoramos
+                continue
 
-        # Guardar las respuestas y recomendaciones en la base de datos
         SurveyResponse.objects.create(responses=answers, recommendations=recommendations)
 
-        return JsonResponse({"success": True, "recommendations": recommendations})
+        return Response({"success": True, "recommendations": recommendations}, status=status.HTTP_200_OK)
 
     except json.JSONDecodeError:
-        return JsonResponse({"success": False, "message": "Formato JSON inválido."}, status=400)
+        return Response({"success": False, "message": "Formato JSON inválido."}, status=status.HTTP_400_BAD_REQUEST)
