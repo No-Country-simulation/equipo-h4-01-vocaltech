@@ -33,3 +33,30 @@ class QuestionForm(forms.ModelForm):
         if commit:
             question.save()
         return question
+
+
+class SurveyResponseForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        questions = Question.objects.all()
+        for question in questions:
+            if question.question_type in ['radio', 'checkbox']:
+                choices = [(option['text'], option['text']) for option in question.options]
+                field = forms.MultipleChoiceField(
+                    choices=choices,
+                    widget=forms.CheckboxSelectMultiple if question.question_type == 'checkbox' else forms.RadioSelect,
+                    label=question.text,
+                    required=question.required,
+                )
+            elif question.question_type == 'text':
+                field = forms.CharField(label=question.text, required=question.required)
+            elif question.question_type == 'number':
+                field = forms.IntegerField(label=question.text, required=question.required)
+            elif question.question_type == 'yes_no':
+                field = forms.ChoiceField(
+                    choices=[('yes', 'Sí'), ('no', 'No')],
+                    widget=forms.RadioSelect,
+                    label=question.text,
+                    required=question.required,
+                )
+            self.fields[f'question_{question.id}'] = field
