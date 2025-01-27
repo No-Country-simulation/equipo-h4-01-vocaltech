@@ -1,0 +1,48 @@
+/* Estilo para los botones de navegación */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #F0F0F0 !important; /* Cambiar color de las flechas */
+  background-color: var(--deep-blue) !important; /* Fondo semitransparente */
+  border-radius: 50% !important; /* Convertir en círculos */
+  width: 45px !important;
+  height: 45px !important;
+  opacity: 0.6 !important; /* Opacidad al 60% */
+}
+
+/* Añadir un hover para que resalten */
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: var(--lavender) !important; /* Cambiar fondo al pasar el mouse */
+  color: #F0F0F0 !important; /* Cambiar el color del icono */
+}
+
+/* Ajustar el tamaño del icono */
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 20px !important;
+}
+
+.swiper {
+  margin: 10px 20px 10px 20px !important;
+  max-height: 768px !important;
+  max-width: 1366px !important;
+}
+
+.swiper-slide {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.swiper-slide img {  
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.swiper-pagination-bullet{
+  background-color: var(--deep-blue) !important; /* Fondo semitransparente */
+  }
+  .swiper-pagination{
+    background: transparent;
+}
