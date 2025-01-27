@@ -19,8 +19,8 @@ class Cita(models.Model):
         choices=EstadoCita.choices,
         default=EstadoCita.AGENDADA,
     )
-    cliente = models.ForeignKey(User, on_delete=models.CASCADE, related_name='citas')
-    especialista = models.ForeignKey(User, on_delete=models.CASCADE, related_name='citas_especialista')
+    lead = models.ForeignKey(User, on_delete=models.CASCADE, related_name='citas')
+    especialista = models.ForeignKey(User, on_delete=models.CASCADE, related_name='citas_asignadas')
 
     class Meta:
         db_table = 'citas'
