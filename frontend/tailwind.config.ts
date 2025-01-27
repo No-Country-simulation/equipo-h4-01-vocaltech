@@ -3,13 +3,18 @@ import type { Config } from "tailwindcss";
 export default {
   darkMode: ["class"],
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {
+    extend: { 
       colors: {
+        deepblue: 'var(--deep-blue)',
+        royalblue: 'var(--royal-blue)',
+        lavender: 'var(--lavender)',
+        aqua: 'var(--aqua)',
+        yellow: 'var(--yellow)',
+        lightpink: 'var(--light-pink)',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
