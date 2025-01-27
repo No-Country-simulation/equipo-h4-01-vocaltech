@@ -12,18 +12,19 @@
 
 @layer base {
   * {
-    @apply bg-inherit antialiased overflow-x-hidden;
+    @apply bg-inherit antialiased w-auto;
   }
 }
 @layer base {
   :root {
-    /* Paleta de colores proporcionada por los diseñadores */
+    /* Paleta de colores añadida por los diseñadores */
     --deep-blue: #040041; /* Azul oscuro intenso */
     --royal-blue: #1C198E; /* Azul real */
     --lavender: #ACA7F2; /* Lavanda */
     --aqua: #B7DCDA; /* Agua */
     --yellow: #FFEA62; /* Amarillo brillante */
     --light-pink: #FCF9FA; /* Rosa claro */
+    
 
     /* Colores generales */
     --background: 0 0% 100%; /* Fondo claro */
