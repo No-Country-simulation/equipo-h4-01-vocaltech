@@ -1,24 +1,17 @@
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect } from 'react'; 
 import { useRouter } from 'next/router';
 
-const IN_CONSTRUCTION_PAGE = '/inconstruction';
+const IN_CONSTRUCTION_PAGE = '/';
 
 const i18nConfig = {
   locales: ['en', 'es'] // Asegúrate de definir los locales soportados
-};
-
-const geistSans = {
-  variable: 'font-sans'
-};
-
-const geistMono = {
-  variable: 'font-mono'
 };
 
 export default function RootLayout(props: {
   children: ReactNode,
   params: { locale: string }
 }) {
+  const { locale } = props.params; // Extraer `locale` desde los parámetros
   const router = useRouter();
 
   useEffect(() => {
@@ -33,13 +26,10 @@ export default function RootLayout(props: {
   if (!i18nConfig.locales.includes(locale)) {
     return null;
   }
-  return (
-    <html lang= { locale } dir = { dir(locale) } >
-      <body
-        className={ `${geistSans.variable} ${geistMono.variable} antialiased` }
-      >
-    { children }
-    </body>
-    </html>
-);
-} 
+
+}
+
+function dir(locale: string): 'ltr' | 'rtl' {
+  // Suponiendo que solo `ar` es RTL
+  return locale === 'ar' ? 'rtl' : 'ltr';
+}
