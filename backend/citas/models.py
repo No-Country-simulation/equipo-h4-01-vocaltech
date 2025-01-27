@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from auth_service.models import User
 
 class Cita(models.Model):
     class EstadoCita(models.TextChoices):
@@ -18,6 +19,8 @@ class Cita(models.Model):
         choices=EstadoCita.choices,
         default=EstadoCita.AGENDADA,
     )
+    cliente = models.ForeignKey(User, on_delete=models.CASCADE, related_name='citas')
+    especialista = models.ForeignKey(User, on_delete=models.CASCADE, related_name='citas_especialista')
 
     class Meta:
         db_table = 'citas'
