@@ -1,9 +1,9 @@
 from django.db import models
 from abstracts.models import AbstractModel
 from catalogs.models.nationalities import Nationality
-from apps.catalogs.models.states import State
-from apps.catalogs.models.cities import City
-from apps.auth_services.models.users import User
+from catalogs.models.states import State
+from catalogs.models.cities import City
+from auth_service.models.users import User
 
 
 class LeadsProfile(AbstractModel):
