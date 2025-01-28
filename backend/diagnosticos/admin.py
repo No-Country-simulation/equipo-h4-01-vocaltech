@@ -10,7 +10,7 @@ class QuestionForm(forms.ModelForm):
 
     class Meta:
         model = Question
-        fields = ['group', 'text', 'question_type', 'required', 'services', 'options']
+        fields = ['group', 'text', 'question_type', 'services', 'options']
 
     def save(self, commit=True):
         question = super().save(commit=False)

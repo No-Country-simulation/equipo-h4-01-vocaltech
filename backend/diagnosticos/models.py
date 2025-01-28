@@ -1,8 +1,10 @@
 from django.db import models
-from auth_service.models import User
+from auth_service.models import User, Role
 
 class Service(models.Model):
     name = models.CharField(max_length=255)
+    description = models.TextField()
+    client_type = models.ManyToManyField(Role, related_name='services')  # Para asociar el servicio con roles específicos
 
     def __str__(self):
         return self.name
@@ -10,11 +12,7 @@ class Service(models.Model):
 
 class QuestionGroup(models.Model):
     name = models.CharField(max_length=255)
-    CLIENT_TYPES = [
-        ('entrepreneur', 'Emprendedores'),
-        ('business', 'Empresas'),
-    ]
-    client_type = models.CharField(max_length=20, choices=CLIENT_TYPES)
+    client_type = models.ForeignKey(Role, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.name} ({self.get_client_type_display()})"
@@ -28,20 +26,16 @@ class Question(models.Model):
         ('number', 'Número'),
         ('yes_no', 'Sí/No'),
     ]
-    group = models.ForeignKey('QuestionGroup', on_delete=models.CASCADE, related_name='questions')
-    text = models.CharField(max_length=255)
+    group = models.ForeignKey(QuestionGroup, on_delete=models.CASCADE, related_name='questions')
+    text = models.TextField(max_length=255)
     question_type = models.CharField(max_length=20, choices=QUESTION_TYPES)
-    required = models.BooleanField(default=True)
     services = models.ManyToManyField('Service', related_name='questions', blank=True)
-    
-    # Usamos JSONField para almacenar las opciones como una lista de diccionarios
     options = models.JSONField(default=list)
 
     def __str__(self):
         return self.text
 
     def get_options(self):
-        # Método para obtener las opciones en un formato legible
         return self.options
 
 
