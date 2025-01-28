@@ -1,8 +1,5 @@
-from auth_service.serializers.users import UserRegistrationSerializer, LoginSerializer
-from auth_service.serializers.leads_profile import LeadsProfileSerializer
+from .leads_profile import LeadsProfile
 
 __all__ = [
-    "UserRegistrationSerializer",
-    "LoginSerializer",
-    "LeadsProfileSerializer",
+    "LeadsProfile",
 ]

@@ -11,6 +11,7 @@ def update_leads_profile_from_user(sender, instance, **kwargs):
         if instance.pk:
             leads_profile = LeadsProfile.objects.get(user=instance)
             leads_profile.email = instance.email
+            leads_profile.role = instance.role
             leads_profile.save()
     except LeadsProfile.DoesNotExist:
         pass

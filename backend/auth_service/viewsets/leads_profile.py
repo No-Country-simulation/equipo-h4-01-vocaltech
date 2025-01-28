@@ -1,8 +1,9 @@
-from rest_framework import viewsets, mixins
+from rest_framework import viewsets, mixins, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from auth_service.serializers.leads_profile import LeadsProfileSerializer
 from auth_service.models.leads_profile import LeadsProfile
+from notifications.services import NotificationService
 
 
 class LeadsProfileViewSet(
@@ -32,5 +33,7 @@ class LeadsProfileViewSet(
             instance, data=request.data, partial=kwargs.get("partial", False)
         )
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        if serializer.save():
+            NotificationService.create_updated_leads_profile(self.request.user)
+
         return Response(serializer.data)
