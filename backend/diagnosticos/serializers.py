@@ -1,26 +1,47 @@
 from rest_framework import serializers
-from .models import Question
+from .models import LeadEmprendimiento
+from mutagen import File
+from mutagen.wave import WAVE
+from mutagen.mp3 import MP3
+from mutagen.flac import FLAC
+from mutagen.oggvorbis import OggVorbis
 
-def generate_dynamic_serializer(client_type):
-    class DynamicSerializer(serializers.Serializer):
-        pass
+class LeadEmprendimientoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LeadEmprendimiento
+        fields = '__all__'
 
-    questions = Question.objects.filter(group__client_type=client_type).prefetch_related('options')
-    for question in questions:
-        if question.question_type == 'text':
-            field = serializers.CharField(required=question.required)
-        elif question.question_type == 'radio':
-            choices = [(option.id, option.text) for option in question.options.all()]
-            field = serializers.ChoiceField(choices=choices, required=question.required)
-        elif question.question_type == 'checkbox':
-            choices = [(option.id, option.text) for option in question.options.all()]
-            field = serializers.ListField(
-                child=serializers.ChoiceField(choices=choices),
-                required=question.required
-            )
-        elif question.question_type == 'number':
-            field = serializers.IntegerField(required=question.required)
-
-        DynamicSerializer._declared_fields[f'question_{question.id}'] = field
-
-    return DynamicSerializer
+    def validate(self, data):
+        if data['empleados'] < 0:
+            raise serializers.ValidationError("El número de empleados no puede ser negativo")
+        if data['años'] < 0:
+            raise serializers.ValidationError("El número de años no puede ser negativo")
+        if data['nombre'] == "":
+            raise serializers.ValidationError("El nombre no puede estar vacío")
+        if data['ubicacion'] == "":
+            raise serializers.ValidationError("La ubicación no puede estar vacía")
+        if data['sector'] == "":
+            raise serializers.ValidationError("El sector no puede estar vacío")
+        if data['informacion'] == "":
+            raise serializers.ValidationError("La información no puede estar vacía")
+        
+        # Audio file validation
+        audio_file = data['audio']
+        try:
+            audio = File(audio_file)
+            if audio is None:
+                raise serializers.ValidationError("No se pudo procesar el archivo de audio.")
+        except Exception as e:
+            raise serializers.ValidationError(f"No se pudo procesar el archivo de audio: {str(e)}")
+        
+        # Verificar el tipo de archivo y obtener la duración
+        if isinstance(audio, (WAVE, MP3, FLAC, OggVorbis)):
+            duration = audio.info.length  # Duración en segundos
+        else:
+            raise serializers.ValidationError("Formato de archivo de audio no soportado.")
+        
+        # Validar duración
+        if duration < 30 or duration > 60:
+            raise serializers.ValidationError("La duración del audio debe estar entre 30 y 60 segundos.")
+        
+        return data

@@ -1,7 +1,11 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import viewsets, filters
 from rest_framework import status
-from .models import Question, SurveyResponse
+from utils.pagination import StandardResultsSetPagination
+from django_filters.rest_framework import DjangoFilterBackend
+from .models import Question, SurveyResponse, LeadEmprendimiento
+from .serializers import LeadEmprendimientoSerializer
 import json
 
 
@@ -114,3 +118,12 @@ def process_survey(request):
 
     except json.JSONDecodeError:
         return Response({"success": False, "message": "Formato JSON inválido."}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LeadEmprendimientoViewSet(viewsets.ModelViewSet):
+    queryset = LeadEmprendimiento.objects.all()
+    serializer_class = LeadEmprendimientoSerializer
+    pagination_class = StandardResultsSetPagination
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ['años', 'empleados']
+    search_fields = ['nombre', 'ubicacion', 'sector', 'informacion']

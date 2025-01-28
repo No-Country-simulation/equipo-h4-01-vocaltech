@@ -1,4 +1,5 @@
 from django.db import models
+from auth_service.models import User
 
 class Service(models.Model):
     name = models.CharField(max_length=255)
@@ -45,6 +46,7 @@ class Question(models.Model):
 
 
 class SurveyResponse(models.Model):
+    lead = models.ForeignKey(User, on_delete=models.CASCADE, related_name='survey_responses')
     responses = models.JSONField()
     recommendations = models.JSONField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -78,3 +80,16 @@ class SurveyResponse(models.Model):
         for recommendation in self.recommendations:
             formatted_recommendations.append(f"- {recommendation}")
         return "\n".join(formatted_recommendations)
+
+class LeadEmprendimiento(models.Model):
+    lead = models.ForeignKey(User, on_delete=models.CASCADE, related_name='leads_emprendimiento')
+    nombre = models.CharField(max_length=100)
+    ubicacion = models.CharField(max_length=100)
+    sector = models.CharField(max_length=100)
+    años = models.IntegerField()
+    empleados = models.IntegerField()
+    informacion = models.TextField()
+    audio = models.FileField(upload_to='user_audios/', blank=True, null=True)
+
+    def __str__(self):
+        return self.nombre
