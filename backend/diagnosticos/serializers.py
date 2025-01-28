@@ -49,6 +49,34 @@ class LeadEmprendimientoSerializer(serializers.ModelSerializer):
         return data
 
 
+class QuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = '__all__'
+
+    def validate(self, data):
+        question_type = data.get('question_type')
+        options = data.get('options', [])
+
+        if question_type in ['text', 'number'] and options:
+            raise serializers.ValidationError(f'Las preguntas de tipo {question_type} no pueden tener opciones.')
+        
+        if question_type in ['radio', 'checkbox']:
+            if not options:
+                raise serializers.ValidationError(f'Las preguntas de tipo {question_type} deben tener opciones.')
+            for option in options:
+                if 'text' not in option or 'value' not in option:
+                    raise serializers.ValidationError('Las opciones deben tener campos de texto y valor.')
+            if len(set(option['text'] for option in options)) != len(options):
+                raise serializers.ValidationError('Las opciones no pueden repetirse.')
+
+        return data
+    
+    def create(self, validated_data):
+        if validated_data['question_type'] == 'yes_no':
+            validated_data['options'] = [{'text': 'Sí', 'value': 1}, {'text': 'No', 'value': 0}]
+        return Question.objects.create(**validated_data)
+
 class EncuestaSerializer(serializers.Serializer):
     responses = serializers.JSONField()
 
@@ -98,7 +126,6 @@ class EncuestaSerializer(serializers.Serializer):
                         raise serializers.ValidationError(f'Las respuestas a la pregunta {q} no pueden ser negativas.')
                     if int(a) >= len(Question.objects.get(id=q).options):
                         raise serializers.ValidationError(f'Las respuestas a la pregunta {q} no son válidas.')
-        
         return data
 
 

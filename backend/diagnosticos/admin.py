@@ -3,14 +3,27 @@ from django import forms
 from markdown2 import markdown
 from django.utils.safestring import mark_safe
 from django.urls import path
-from .models import Question, Service, QuestionGroup, SurveyResponse
+from .models import Question, Service, QuestionGroup, SurveyResponse, LeadEmprendimiento
 
 class QuestionForm(forms.ModelForm):
     options_input = forms.CharField(widget=forms.Textarea, required=False, help_text="Ingrese las opciones separadas por salto de línea. Use ':' para separar la opción de su valoración.")
 
     class Meta:
         model = Question
-        fields = ['group', 'text', 'question_type', 'services', 'options']
+        fields = ['group', 'text', 'question_type', 'services', 'options', 'weight', 'category']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        question_type = cleaned_data.get('question_type')
+        options_input = cleaned_data.get('options_input')
+
+        if question_type in ['radio', 'checkbox', 'yes_no'] and not options_input:
+            raise forms.ValidationError('Las preguntas de tipo opción única, múltiples opciones o sí/no deben tener opciones.')
+
+        if question_type in ['text', 'number'] and options_input:
+            raise forms.ValidationError(f'Las preguntas de tipo {question_type} no pueden tener opciones.')
+
+        return cleaned_data
 
     def save(self, commit=True):
         question = super().save(commit=False)
@@ -18,66 +31,48 @@ class QuestionForm(forms.ModelForm):
 
         if options_input:
             options = []
-            for option_text in options_input.splitlines():
-                parts = option_text.split(':')
-                if len(parts) == 2:
-                    text = parts[0].strip()
-                    try:
-                        value = int(parts[1].strip())  # Valoración de la opción
-                    except ValueError:
-                        value = 0  # Si no se puede convertir a entero, usar 0
+            for line in options_input.splitlines():
+                if ':' in line:
+                    text, value = line.split(':', 1)
+                    options.append({'text': text.strip(), 'value': value.strip()})
                 else:
-                    text = option_text.strip()
-                    value = 0
-                options.append({'text': text, 'value': value})
+                    options.append({'text': line.strip(), 'value': line.strip()})
             question.options = options
 
         if commit:
             question.save()
+            self.save_m2m()
         return question
 
-@admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ['name', 'description']
+    search_fields = ['name', 'description']
+    list_filter = ['client_type']
 
-@admin.register(QuestionGroup)
 class QuestionGroupAdmin(admin.ModelAdmin):
-    list_display = ('name', 'client_type')
-    list_filter = ('client_type',)
+    list_display = ['name', 'client_type']
+    search_fields = ['name', 'client_type__name']
+    list_filter = ['client_type']
 
-@admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
     form = QuestionForm
-    list_display = ('text', 'group', 'question_type', 'required')
-    list_filter = ('group', 'question_type',)
-    search_fields = ('text',)
-    filter_horizontal = ('services',)
-    fields = ('group', 'text', 'question_type', 'required', 'services', 'options')
+    list_display = ['text', 'question_type', 'group', 'weight', 'category']
+    search_fields = ['text', 'group__name', 'category']
+    list_filter = ['question_type', 'group', 'category']
 
-@admin.register(SurveyResponse)
 class SurveyResponseAdmin(admin.ModelAdmin):
-    list_display = ('created_at',)
-    list_filter = ('created_at',)
-    search_fields = ('recommendations',)
-    date_hierarchy = 'created_at'
-    readonly_fields = ('formatted_responses', 'formatted_recommendations')
-    exclude = ('responses', 'recommendations')
+    list_display = ['lead', 'created_at']
+    search_fields = ['lead__username', 'lead__email']
+    list_filter = ['created_at']
+    readonly_fields = ['get_responses', 'get_recommendations']
 
-    def formatted_responses(self, obj):
-        '''
-        Renderiza las respuestas en Markdown.
-        '''
-        responses_md = obj.get_responses()
-        return mark_safe(markdown(responses_md))
-    formatted_responses.short_description = 'Respuestas'
+    def get_responses(self, obj):
+        return mark_safe(markdown(obj.get_responses()))
+    get_responses.short_description = 'Responses'
 
-    def formatted_recommendations(self, obj):
-        '''
-        Renderiza las recomendaciones en Markdown.
-        '''
-        recommendations_md = obj.get_recommendations()
-        return mark_safe(markdown(recommendations_md))
-    formatted_recommendations.short_description = 'Recomendaciones'
+    def get_recommendations(self, obj):
+        return mark_safe(markdown(obj.get_recommendations()))
+    get_recommendations.short_description = 'Recommendations'
 
     def has_add_permission(self, request, obj=None):
         return False
@@ -90,3 +85,14 @@ class SurveyResponseAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         # Disable delete
         return False
+
+class LeadEmprendimientoAdmin(admin.ModelAdmin):
+    list_display = ['nombre', 'ubicacion', 'sector', 'años', 'empleados']
+    search_fields = ['nombre', 'ubicacion', 'sector']
+    list_filter = ['sector', 'años', 'empleados']
+
+admin.site.register(Question, QuestionAdmin)
+admin.site.register(Service, ServiceAdmin)
+admin.site.register(QuestionGroup, QuestionGroupAdmin)
+admin.site.register(SurveyResponse, SurveyResponseAdmin)
+admin.site.register(LeadEmprendimiento, LeadEmprendimientoAdmin)

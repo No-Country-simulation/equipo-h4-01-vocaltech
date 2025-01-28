@@ -15,7 +15,7 @@ class QuestionGroup(models.Model):
     client_type = models.ForeignKey(Role, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.name} ({self.get_client_type_display()})"
+        return f"{self.name} ({self.client_type})"
 
 
 class Question(models.Model):
@@ -31,6 +31,8 @@ class Question(models.Model):
     question_type = models.CharField(max_length=20, choices=QUESTION_TYPES)
     services = models.ManyToManyField('Service', related_name='questions', blank=True)
     options = models.JSONField(default=list)
+    weight = models.FloatField(default=1.0)
+    category = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return self.text
