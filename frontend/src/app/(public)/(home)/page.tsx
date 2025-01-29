@@ -1,5 +1,5 @@
 import HomeImage from './components/HomeImage'
-import '@/app/[locale]/styles/globals.css'
+import '@/app/styles/globals.css'
 import InfoRectangle from './components/InfoRectangle'
 import Lineal from './components/Lineal'
 import Steps from './components/Steps'

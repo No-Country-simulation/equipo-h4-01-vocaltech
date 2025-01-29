@@ -8,14 +8,14 @@ export default function Lineal() {
             <div className="w-full h-full rounded-full overflow-hidden">
           {/* Imagen redonda con marco degradado */}
           <div
-            className="absolute left-[-20%] top-full transform -translate-y-1/2 w-[27rem] h-[27rem] z-10 rounded-full border-4 shadow-md"
+            className="absolute left-[-20%] top-2/3 transform -translate-y-1/2 w-[27rem] h-[27rem] z-10 rounded-full border-4 shadow-md"
             style={{
-              background: "linear-gradient(135deg, #1C198E, #B7DCDA)", // Marco degradado
-              padding: "4px", // Espacio entre el marco y la imagen
+              background: "linear-gradient(90deg, #070543, #b8ddda)", // Marco degradado
+              padding: "44px", // Espacio entre el marco y la imagen
             }}
           >
               <img
-                src="/img/mujer-notebook.png" // Cambia esto por la ruta de tu imagen
+                src="/img/mujer-notebook.png"
                 alt="Imagen redonda"
                 className="w-full h-full object-cover"
               />
