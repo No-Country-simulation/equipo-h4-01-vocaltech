@@ -5,14 +5,15 @@ import { TabLabel } from '../TabLabel/TabLabel';
 export const TabsNavigation = ({
   tabs,
   activeTab,
+  hidden,
   setActiveTab
 }: TabsNavigationProps) => (
-  <TabsList className="flex w-full pointer-events-none">
+  <TabsList className="flex justify-between w-full bg-transparent pointer-events-none">
     {tabs.map((tab, index) => (
       <TabsTrigger
         key={tab.id}
         value={tab.id}
-        className="data-[state=active]:bg-transparent"
+        className="data-[state=active]:bg-transparent flex-1 flex justify-center"
         disabled={tab.disabled}
         onClick={() => !tab.disabled && setActiveTab(index)}
       >
@@ -22,6 +23,7 @@ export const TabsNavigation = ({
           title={tab.title}
           disabled={tab.disabled}
           status={tab.status}
+          hidden={hidden}
         />
       </TabsTrigger>
     ))}

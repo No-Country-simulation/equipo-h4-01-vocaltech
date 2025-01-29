@@ -14,6 +14,7 @@ export type SavedTabState = {
 export interface TabsNavigationProps {
   tabs: TabConfig[];
   activeTab: number;
+  hidden?: boolean;
   setActiveTab: (index: number) => void;
 }
 
@@ -51,12 +52,17 @@ export type FormField = {
   conditional?: (values: any) => boolean;
 };
 
+export interface SecctionProps {
+  secctionTitle?: string;
+  questions: FormField[];
+}
+
 export type TabConfig = {
   id: string;
   title: string;
   icon?: string;
   color?: string;
-  fields: FormField[];
+  fields: SecctionProps[] | [];
   completed: boolean;
   disabled: boolean;
   status: 'valid' | 'invalid' | 'pending' | 'error' | 'disabled';
@@ -67,5 +73,6 @@ export interface TabLabelProps {
   color?: string;
   title: string;
   disabled: boolean;
+  hidden?: boolean;
   status: TabConfig['status'];
 }

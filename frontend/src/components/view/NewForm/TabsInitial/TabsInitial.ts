@@ -2,41 +2,60 @@ import { TabConfig } from '../TabType/TabType';
 
 export const initialTabs: TabConfig[] = [
   {
-    id: 'personal-info',
-    title: 'Información Personal',
+    id: 'Mi emprendimiento',
+    title: 'Mi emprendimiento',
     fields: [
       {
-        id: 'fullname',
-        label: 'Nombre Completo',
-        type: 'text',
-        validation: { required: true, minLength: 3 }
-      },
-      {
-        id: 'preferences',
-        label: 'Preferencias de Contacto',
-        type: 'checkbox',
-        options: [
-          { value: 'email', label: 'Email' },
-          { value: 'sms', label: 'SMS' },
-          { value: 'whatsapp', label: 'WhatsApp' }
-        ],
-        validation: { required: true }
-      },
-      {
-        id: '1',
-        label:
-          '¿Tenes una idea que querés transformar en un producto digital funcional?',
-        type: 'radio',
-        options: [
-          { value: '1', label: 'Si, tengo una idea que me gustaría validar.' },
-          { value: '2', label: 'No, pero quiero conocer de se trata.' },
+        questions: [
           {
-            value: '3',
-            label: 'Actualmente no, pero me interesa para un futuro.'
+            id: 'email',
+            label: 'Correo Electrónico',
+            type: 'text',
+            validation: { required: true }
           },
-          { value: '4', label: 'No, no es un proyecto que tenga en mente.' }
-        ],
-        validation: { required: true }
+          {
+            id: 'phone',
+            label: 'Número de Teléfono',
+            type: 'text',
+            validation: { required: true }
+          },
+          {
+            id: 'fullname',
+            label: 'Nombre Completo',
+            type: 'text',
+            validation: { required: true, minLength: 3 }
+          },
+          {
+            id: 'preferences',
+            label: 'Preferencias de Contacto',
+            type: 'checkbox',
+            options: [
+              { value: 'email', label: 'Email' },
+              { value: 'sms', label: 'SMS' },
+              { value: 'whatsapp', label: 'WhatsApp' }
+            ],
+            validation: { required: true }
+          },
+          {
+            id: '1',
+            label:
+              '¿Tenes una idea que querés transformar en un producto digital funcional?',
+            type: 'radio',
+            options: [
+              {
+                value: '1',
+                label: 'Si, tengo una idea que me gustaría validar.'
+              },
+              { value: '2', label: 'No, pero quiero conocer de se trata.' },
+              {
+                value: '3',
+                label: 'Actualmente no, pero me interesa para un futuro.'
+              },
+              { value: '4', label: 'No, no es un proyecto que tenga en mente.' }
+            ],
+            validation: { required: true }
+          }
+        ]
       }
     ],
     completed: false,
@@ -48,17 +67,70 @@ export const initialTabs: TabConfig[] = [
     title: 'Encuesta',
     fields: [
       {
-        id: 'satisfaction',
-        label: 'Nivel de Satisfacción',
-        type: 'rating',
-        validation: { required: true }
+        secctionTitle: 'Sección 1',
+        questions: [
+          {
+            id: 'satisfaction',
+            label: 'Nivel de Satisfacción',
+            type: 'rating',
+            validation: { required: true }
+          },
+          {
+            id: 'comments',
+            label: 'Comentarios Adicionales',
+            type: 'textarea',
+            placeholder: 'Escribe tus comentarios aquí...',
+            validation: { required: true }
+          }
+        ]
       },
       {
-        id: 'comments',
-        label: 'Comentarios Adicionales',
-        type: 'textarea',
-        placeholder: 'Escribe tus comentarios aquí...',
-        validation: { required: true }
+        secctionTitle: 'Sección 2',
+        questions: [
+          {
+            id: 'recommend',
+            label: '¿Recomendarías nuestros servicios?',
+            type: 'radio',
+            options: [
+              { value: 'yes', label: 'Sí' },
+              { value: 'no', label: 'No' }
+            ],
+            validation: { required: true }
+          },
+          {
+            id: 'reason',
+            label: '¿Por qué?',
+            type: 'text',
+            validation: { required: true }
+          }
+        ]
+      },
+      {
+        secctionTitle: 'Sección 3',
+        questions: [
+          {
+            id: 'improvements',
+            label: '¿Qué mejorarías de nuestros servicios?',
+            type: 'textarea',
+            placeholder: 'Escribe tus comentarios aquí...',
+            validation: { required: true }
+          }
+        ]
+      },
+      {
+        secctionTitle: 'Sección 4',
+        questions: [
+          {
+            id: 'contact',
+            label: '¿Te gustaría que te contactemos?',
+            type: 'checkbox',
+            options: [
+              { value: 'yes', label: 'Sí' },
+              { value: 'no', label: 'No' }
+            ],
+            validation: { required: true }
+          }
+        ]
       }
     ],
     completed: false,
@@ -70,16 +142,19 @@ export const initialTabs: TabConfig[] = [
     title: 'Confirmación',
     fields: [
       {
-        id: 'confirm',
-        label: 'Confirmar',
-        type: 'checkbox',
-        options: [
+        secctionTitle: 'Confirmación',
+        questions: [
           {
-            value: 'confirm',
-            label: 'Confirmo que la información es correcta.'
+            id: 'terms',
+            label: 'Acepto los términos y condiciones',
+            type: 'checkbox',
+            options: [
+              { value: 'yes', label: 'Sí' },
+              { value: 'no', label: 'No' }
+            ],
+            validation: { required: true }
           }
-        ],
-        validation: { required: true }
+        ]
       }
     ],
     completed: false,
@@ -91,10 +166,15 @@ export const initialTabs: TabConfig[] = [
     title: 'Éxito',
     fields: [
       {
-        id: 'success',
-        type: 'yesno',
-        label: '¡Gracias por completar el formulario!',
-        validation: { required: true }
+        secctionTitle: 'Éxito',
+        questions: [
+          {
+            id: 'success',
+            label: '¡Gracias por completar el formulario!',
+            type: 'yesno',
+            validation: { required: true }
+          }
+        ]
       }
     ],
     completed: false,

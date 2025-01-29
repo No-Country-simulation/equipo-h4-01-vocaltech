@@ -87,18 +87,6 @@ body {
   }
 }
 
-@layer components {
-  .disabled-tab {
-    @apply text-[#A9A6E4] cursor-not-allowed;
-  }
-  .valid-field {
-    @apply border-[#040041];
-  }
-  .invalid-field {
-    @apply border-[#F75F57];
-  }
-}
-
 /* En tu CSS global */
 .scrollbar-hide {
   -ms-overflow-style: none; /* IE and Edge */

@@ -1,3 +1,5 @@
+export * from './BreadcrumbNav/BreadcrumbNav';
+export * from './BreadcrumbNav2/BreadcrumbNav2';
 export * from './DialogConfirmation/DialogConfirmation';
 export * from './DialogContainer/DialogContainer';
 export * from './DialogSuccess/DialogSuccess';
@@ -6,6 +8,7 @@ export * from './FieldWithValidation/FieldWithValidation';
 export * from './FormNewContainer/FormNewContainer';
 export * from './FormTabs/FormTabs';
 export * from './PhonePrefixInput/PhonePrefixInput';
+export * from './ProgressCircles/ProgressCircles';
 export * from './TabLabel/TabLabel';
 export * from './TabType/TabType';
 export * from './TabsInitial/TabsInitial';

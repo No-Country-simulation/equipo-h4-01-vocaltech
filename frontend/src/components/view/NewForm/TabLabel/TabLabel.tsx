@@ -24,15 +24,17 @@ export const TabLabel = ({
   color,
   title,
   disabled,
-  status
+  status,
+  hidden
 }: TabLabelProps) => {
+  if (hidden) return null;
   const IconComponent = (LucideIcons as any)[icon || statusIcons[status]];
   const iconColor = disabled
     ? statusColors.disabled
     : color || statusColors[status];
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex justify-center items-center gap-3 w-full">
       {IconComponent && (
         <IconComponent
           className="w-5 h-5 shrink-0"
