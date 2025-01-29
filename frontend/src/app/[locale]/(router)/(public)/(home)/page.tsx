@@ -1,4 +1,4 @@
-import Slider from './components/SliderHome'
+import HomeImage from './components/HomeImage'
 import '@/app/[locale]/styles/globals.css'
 import InfoRectangle from './components/InfoRectangle'
 import Lineal from './components/Lineal'
@@ -8,7 +8,7 @@ import Experience from './components/Experience'
 export default function page() {
   return (
     <div>
-      <Slider />
+      <HomeImage />
       <InfoRectangle />
       <div className='flex'>
       <Lineal />
