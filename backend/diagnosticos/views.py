@@ -6,9 +6,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import Question, SurveyResponse, LeadEmprendimiento
 from .serializers import LeadEmprendimientoSerializer, QuestionSerializer, EncuestaSerializer
 from utils.recommendation import generar_recomendaciones_hibridas
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 
 class QuestionViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
     queryset = Question.objects.all().order_by('group', 'id')
     serializer_class = QuestionSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
@@ -16,6 +18,7 @@ class QuestionViewSet(viewsets.ModelViewSet):
 
 
 class LeadEmprendimientoViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
     queryset = LeadEmprendimiento.objects.all()
     serializer_class = LeadEmprendimientoSerializer
     pagination_class = StandardResultsSetPagination
@@ -25,6 +28,7 @@ class LeadEmprendimientoViewSet(viewsets.ModelViewSet):
 
 
 class RespuestaEncuesta(APIView):
+    permission_classes = [AllowAny]
     def get(self, request, id=None):
         if id:
             survey_response = SurveyResponse.objects.get(id=id)
