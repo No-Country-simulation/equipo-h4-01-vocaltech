@@ -7,7 +7,7 @@ import { Autoplay } from "swiper/modules";
 export default function Experience() {
   return (
     <div className="m-12">
-      <h2 className="text-aqua text-3xl font-semibold mb-8">
+      <h2 className="text-aqua text-3xl font-semibold mb-8 ml-6">
         Nuestra experiencia nos avala...
       </h2>
       <Swiper
