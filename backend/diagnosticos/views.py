@@ -9,9 +9,8 @@ from utils.recommendation import generar_recomendaciones_hibridas
 
 
 class QuestionViewSet(viewsets.ModelViewSet):
-    queryset = Question.objects.all()
+    queryset = Question.objects.all().order_by('group', 'id')
     serializer_class = QuestionSerializer
-    pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     search_fields = ['text', 'category']
 
@@ -27,7 +26,7 @@ class LeadEmprendimientoViewSet(viewsets.ModelViewSet):
 
 class RespuestaEncuesta(APIView):
     def get(self, request, id=None):
-        if id > 0:
+        if id:
             survey_response = SurveyResponse.objects.get(id=id)
             serializer = EncuestaSerializer(survey_response)
             return Response(serializer.data)
@@ -39,10 +38,14 @@ class RespuestaEncuesta(APIView):
     def post(self, request):
         serializer = EncuestaSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            recomendaciones = generar_recomendaciones_hibridas(serializer.instance)
-            serializer.instance.recommendations = recomendaciones
-            serializer.instance.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            # Crear la instancia de SurveyResponse con las recomendaciones
+            survey_response = serializer.save()
+            
+            # Serializar la instancia creada
+            response_serializer = EncuestaSerializer(survey_response)
+            
+            # Devolver la respuesta con los datos serializados
+            return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+        
+        # Devolver los errores de validación
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    

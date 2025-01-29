@@ -7,6 +7,7 @@ from mutagen.flac import FLAC
 from mutagen.oggvorbis import OggVorbis
 import json
 from auth_service.models import User
+from utils.recommendation import generar_recomendaciones_hibridas
 
 class LeadEmprendimientoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -57,11 +58,8 @@ class QuestionSerializer(serializers.ModelSerializer):
     def validate(self, data):
         question_type = data.get('question_type')
         options = data.get('options', [])
-
-        if question_type in ['text', 'number'] and options:
-            raise serializers.ValidationError(f'Las preguntas de tipo {question_type} no pueden tener opciones.')
         
-        if question_type in ['radio', 'checkbox']:
+        if question_type in ['radio', 'checkbox', 'number']:
             if not options:
                 raise serializers.ValidationError(f'Las preguntas de tipo {question_type} deben tener opciones.')
             for option in options:
@@ -69,77 +67,23 @@ class QuestionSerializer(serializers.ModelSerializer):
                     raise serializers.ValidationError('Las opciones deben tener campos de texto y valor.')
             if len(set(option['text'] for option in options)) != len(options):
                 raise serializers.ValidationError('Las opciones no pueden repetirse.')
-
+        
         return data
     
     def create(self, validated_data):
-        if validated_data['question_type'] == 'yes_no':
-            validated_data['options'] = [{'text': 'Sí', 'value': 1}, {'text': 'No', 'value': 0}]
         return Question.objects.create(**validated_data)
 
-class EncuestaSerializer(serializers.Serializer):
+
+class EncuestaSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())  
     responses = serializers.JSONField()
 
-    def validate(self, data):
-        payload = data['answers']
-        question = list(payload.keys())
-        answer = list(payload.values())
+    class Meta:
+        model = SurveyResponse
+        fields = ['user', 'responses', 'recommendations']
+        read_only_fields = ['recommendations']
 
-        if len(question) != len(answer):
-            raise serializers.ValidationError('El número de preguntas y respuestas no coincide.')
-        if len(question) == 0:
-            raise serializers.ValidationError('No se han proporcionado respuestas.')
-        if len(answer) == 0:
-            raise serializers.ValidationError('No se han proporcionado respuestas a las preguntas.')
-        
-        for q in question:
-            if not q.isnumeric():
-                raise serializers.ValidationError('Las preguntas deben ser números enteros.')
-            if int(q) < 0:
-                raise serializers.ValidationError('Las preguntas no pueden ser negativas.')
-            if Question.objects.filter(id=q).count() == 0:
-                raise serializers.ValidationError(f'La pregunta {q} no existe.')
-            if Question.objects.get(id=q).question_type == 'number':
-                if not answer[q].isnumeric():
-                    raise serializers.ValidationError(f'La respuesta a la pregunta {q} debe ser un número entero.')
-                if int(answer[q]) < 0:
-                    raise serializers.ValidationError(f'La respuesta a la pregunta {q} no puede ser negativa.')
-            if Question.objects.get(id=q).question_type == 'yes_no':
-                raise serializers.ValidationError(f'La pregunta {q} no puede ser de tipo Sí/No.')
-            if Question.objects.get(id=q).question_type == 'text':
-                if answer[q] == '':
-                    raise serializers.ValidationError(f'La respuesta a la pregunta {q} no puede estar vacía.')
-            if Question.objects.get(id=q).question_type == 'radio':
-                if not answer[q].isnumeric():
-                    raise serializers.ValidationError(f'La respuesta a la pregunta {q} debe ser un número entero.')
-                if int(answer[q]) < 0:
-                    raise serializers.ValidationError(f'La respuesta a la pregunta {q} no puede ser negativa.')
-                if int(answer[q]) >= len(Question.objects.get(id=q).options):
-                    raise serializers.ValidationError(f'La respuesta a la pregunta {q} no es válida.')
-            if Question.objects.get(id=q).question_type == 'checkbox':
-                if not isinstance(answer[q], list):
-                    raise serializers.ValidationError(f'La respuesta a la pregunta {q} debe ser una lista.')
-                for a in answer[q]:
-                    if not a.isnumeric():
-                        raise serializers.ValidationError(f'Las respuestas a la pregunta {q} deben ser números enteros.')
-                    if int(a) < 0:
-                        raise serializers.ValidationError(f'Las respuestas a la pregunta {q} no pueden ser negativas.')
-                    if int(a) >= len(Question.objects.get(id=q).options):
-                        raise serializers.ValidationError(f'Las respuestas a la pregunta {q} no son válidas.')
-        return data
-
-
-class EncuestaSerializer(serializers.Serializer):
-    user_id = serializers.IntegerField()
-    answers = serializers.JSONField()
-
-    def validate_user_id(self, value):
-        if not User.objects.filter(id=value).exists():
-            raise serializers.ValidationError('Usuario no encontrado.')
-        return value
-
-    def validate_answers(self, value):
-        # Obtener todas las preguntas relacionadas
+    def validate_responses(self, value):
         question_ids = value.keys()
         questions = {q.id: q for q in Question.objects.filter(id__in=question_ids)}
 
@@ -160,6 +104,21 @@ class EncuestaSerializer(serializers.Serializer):
 
         return value
 
+    def create(self, validated_data):
+        user = validated_data['user'] 
+        answers = validated_data['responses']
+
+        # Generar recomendaciones
+        recomendaciones = generar_recomendaciones_hibridas(answers)
+
+        # Crear la instancia de SurveyResponse con el objeto User
+        survey_response = SurveyResponse.objects.create(
+            user=user,  # ✅ Ahora pasamos el objeto `User` en lugar de su ID
+            responses=answers,
+            recommendations=recomendaciones
+        )
+        return survey_response
+
     def validate_response(self, question, response):
         validators = {
             'text': self.validate_text_response,
@@ -171,28 +130,38 @@ class EncuestaSerializer(serializers.Serializer):
         validator = validators.get(question.question_type)
         if validator:
             validator(question, response)
-        else:
-            raise serializers.ValidationError(f'Tipo de pregunta no soportado: {question.question_type}')
 
     def validate_text_response(self, question, response):
-        if not isinstance(response, str) or not response.strip():
-            raise serializers.ValidationError('La respuesta no puede estar vacía.')
+        if not isinstance(response, str) or response.strip() == "":
+            raise serializers.ValidationError(f"La respuesta a la pregunta {question.id} no puede estar vacía.")
 
     def validate_number_response(self, question, response):
-        if not isinstance(response, int) or response < 0:
-            raise serializers.ValidationError('La respuesta debe ser un número entero no negativo.')
+        try:
+            response = int(response)
+            if response < 0:
+                raise serializers.ValidationError(f"La respuesta a la pregunta {question.id} no puede ser negativa.")
+        except ValueError:
+            raise serializers.ValidationError(f"La respuesta a la pregunta {question.id} debe ser un número entero.")
 
     def validate_yes_no_response(self, question, response):
         if response not in [0, 1]:
-            raise serializers.ValidationError('La respuesta debe ser 0 (No) o 1 (Sí).')
+            raise serializers.ValidationError(f"La respuesta a la pregunta {question.id} debe ser 0 (No) o 1 (Sí).")
 
     def validate_radio_response(self, question, response):
-        if response not in [option['value'] for option in question.options]:
-            raise serializers.ValidationError('La respuesta no es válida para esta pregunta.')
+        try:
+            response = int(response)
+            if response < 0 or response >= len(question.options):
+                raise serializers.ValidationError(f"La respuesta a la pregunta {question.id} no es válida.")
+        except ValueError:
+            raise serializers.ValidationError(f"La respuesta a la pregunta {question.id} debe ser un número entero.")
 
     def validate_checkbox_response(self, question, response):
         if not isinstance(response, list):
-            raise serializers.ValidationError('La respuesta debe ser una lista.')
-        invalid = [r for r in response if r not in [option['value'] for option in question.options]]
-        if invalid:
-            raise serializers.ValidationError(f'Las opciones {invalid} no son válidas.')
+            raise serializers.ValidationError(f"La respuesta a la pregunta {question.id} debe ser una lista.")
+        for r in response:
+            try:
+                r = int(r)
+                if r < 0 or r >= len(question.options):
+                    raise serializers.ValidationError(f"Las respuestas a la pregunta {question.id} no son válidas.")
+            except ValueError:
+                raise serializers.ValidationError(f"Las respuestas a la pregunta {question.id} deben ser números enteros.")

@@ -42,9 +42,9 @@ class Question(models.Model):
 
 
 class SurveyResponse(models.Model):
-    lead = models.ForeignKey(User, on_delete=models.CASCADE, related_name='survey_responses')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='survey_responses')
     responses = models.JSONField()
-    recommendations = models.JSONField()
+    recommendations = models.JSONField(default=list)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

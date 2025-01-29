@@ -5,44 +5,12 @@ from django.utils.safestring import mark_safe
 from django.urls import path
 from .models import Question, Service, QuestionGroup, SurveyResponse, LeadEmprendimiento
 
-class QuestionForm(forms.ModelForm):
-    options_input = forms.CharField(widget=forms.Textarea, required=False, help_text="Ingrese las opciones separadas por salto de línea. Use ':' para separar la opción de su valoración.")
 
+class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
         fields = ['group', 'text', 'question_type', 'services', 'options', 'weight', 'category']
 
-    def clean(self):
-        cleaned_data = super().clean()
-        question_type = cleaned_data.get('question_type')
-        options_input = cleaned_data.get('options_input')
-
-        if question_type in ['radio', 'checkbox', 'yes_no'] and not options_input:
-            raise forms.ValidationError('Las preguntas de tipo opción única, múltiples opciones o sí/no deben tener opciones.')
-
-        if question_type in ['text', 'number'] and options_input:
-            raise forms.ValidationError(f'Las preguntas de tipo {question_type} no pueden tener opciones.')
-
-        return cleaned_data
-
-    def save(self, commit=True):
-        question = super().save(commit=False)
-        options_input = self.cleaned_data.get('options_input')
-
-        if options_input:
-            options = []
-            for line in options_input.splitlines():
-                if ':' in line:
-                    text, value = line.split(':', 1)
-                    options.append({'text': text.strip(), 'value': value.strip()})
-                else:
-                    options.append({'text': line.strip(), 'value': line.strip()})
-            question.options = options
-
-        if commit:
-            question.save()
-            self.save_m2m()
-        return question
 
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ['name', 'description']
@@ -61,8 +29,8 @@ class QuestionAdmin(admin.ModelAdmin):
     list_filter = ['question_type', 'group', 'category']
 
 class SurveyResponseAdmin(admin.ModelAdmin):
-    list_display = ['lead', 'created_at']
-    search_fields = ['lead__username', 'lead__email']
+    list_display = ['user_id', 'created_at']
+    search_fields = ['user_id__username', 'user_id__email']
     list_filter = ['created_at']
     readonly_fields = ['get_responses', 'get_recommendations']
 
