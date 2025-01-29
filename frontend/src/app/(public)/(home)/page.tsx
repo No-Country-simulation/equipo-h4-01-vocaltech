@@ -4,10 +4,12 @@ import InfoRectangle from './components/InfoRectangle'
 import Lineal from './components/Lineal'
 import Steps from './components/Steps'
 import Experience from './components/Experience'
+import AuthModal from './components/AuthModal'
 
 export default function page() {
   return (
     <div>
+      <AuthModal />
       <HomeImage />
       <InfoRectangle />
       <div className='flex'>
