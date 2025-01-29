@@ -2,6 +2,8 @@ import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import "./styles/globals.css";
 import AuthModal from "./(public)/(home)/components/AuthModal";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 export const metadata: Metadata = {
   title: "VocalTech",
@@ -17,7 +19,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="es" suppressHydrationWarning>
       <body>
+      <Navbar />
         {children}
+        <Footer />
         <AuthModal />
       </body>
     </html>
