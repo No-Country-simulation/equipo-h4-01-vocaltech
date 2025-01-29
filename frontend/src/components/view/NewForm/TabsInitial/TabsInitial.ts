@@ -8,52 +8,40 @@ export const initialTabs: TabConfig[] = [
       {
         questions: [
           {
-            id: 'email',
-            label: 'Correo Electrónico',
+            id: 'businessName',
+            label: 'Nombre del emprendimiento',
             type: 'text',
             validation: { required: true }
           },
           {
-            id: 'phone',
-            label: 'Número de Teléfono',
+            id: 'location',
+            label: 'Ubicación',
             type: 'text',
             validation: { required: true }
           },
           {
-            id: 'fullname',
-            label: 'Nombre Completo',
+            id: 'sector',
+            label: 'Sector al que pertenece',
             type: 'text',
-            validation: { required: true, minLength: 3 }
-          },
-          {
-            id: 'preferences',
-            label: 'Preferencias de Contacto',
-            type: 'checkbox',
-            options: [
-              { value: 'email', label: 'Email' },
-              { value: 'sms', label: 'SMS' },
-              { value: 'whatsapp', label: 'WhatsApp' }
-            ],
             validation: { required: true }
           },
           {
-            id: '1',
-            label:
-              '¿Tenes una idea que querés transformar en un producto digital funcional?',
-            type: 'radio',
-            options: [
-              {
-                value: '1',
-                label: 'Si, tengo una idea que me gustaría validar.'
-              },
-              { value: '2', label: 'No, pero quiero conocer de se trata.' },
-              {
-                value: '3',
-                label: 'Actualmente no, pero me interesa para un futuro.'
-              },
-              { value: '4', label: 'No, no es un proyecto que tenga en mente.' }
-            ],
+            id: 'yearsInMarket',
+            label: 'Años en el mercado',
+            type: 'number',
             validation: { required: true }
+          },
+          {
+            id: 'employeeCount',
+            label: 'Cantidad de empleados',
+            type: 'number',
+            validation: { required: true }
+          },
+          {
+            id: 'additionalInfo',
+            label: 'Contanos un poco más sobre el emprendimiento',
+            type: 'textarea',
+            validation: { required: true, maxLength: 1000 }
           }
         ]
       }

@@ -1,5 +1,5 @@
 import { InConstruction } from '@/components/view/Page';
-import '../../styles/globals.css';
+import '../../Styles/globals.css';
 import { LanguageChanger, ThemeChanger } from '@/components/view/ToggetConfig';
 
 function Construction() {

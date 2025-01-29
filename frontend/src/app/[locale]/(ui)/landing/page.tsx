@@ -1,5 +1,5 @@
 import { FormNewContainer } from '@/components/view/NewForm';
-import '../../styles/globals.css';
+import '../../Styles/globals.css';
 
 function landing() {
   return <FormNewContainer />;

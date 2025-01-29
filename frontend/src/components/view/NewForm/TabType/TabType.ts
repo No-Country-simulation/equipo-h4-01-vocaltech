@@ -20,6 +20,7 @@ export interface TabsNavigationProps {
 
 export type FieldType =
   | 'text'
+  | 'number'
   | 'textarea'
   | 'radio'
   | 'checkbox'

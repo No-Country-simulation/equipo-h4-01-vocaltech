@@ -9,6 +9,7 @@ import { DialogSuccess } from '../DialogSuccess/DialogSuccess';
 import { DialogConfirmation } from '../DialogConfirmation/DialogConfirmation';
 import { BreadcrumbNav } from '../BreadcrumbNav/BreadcrumbNav';
 import { ProgressCircles } from '../ProgressCircles/ProgressCircles';
+import { AudioRecorder } from '../AudioRecoder/AudioRecoder';
 
 export const FormTabs = () => {
   const { activeTab, tabs, setActiveTab, validateTab } =
@@ -219,6 +220,11 @@ export const FormTabs = () => {
                         ))}
                       </div>
                     ))}
+                  </div>
+                )}
+                {tabs[activeTab].title === 'Mi emprendimiento' && (
+                  <div className="border-t border-accent mt-8">
+                    <AudioRecorder />
                   </div>
                 )}
                 <div className="flex justify-between mt-8">

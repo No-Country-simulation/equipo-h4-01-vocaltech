@@ -16,9 +16,11 @@ const geistMono = {
 };
 
 export default function RootLayout(props: {
-  children: ReactNode,
-  params: { locale: string }
+  children: ReactNode;
+  params: { locale: string };
 }) {
+  const { children, params } = props;
+  const { locale } = params;
   const router = useRouter();
 
   useEffect(() => {
@@ -33,13 +35,20 @@ export default function RootLayout(props: {
   if (!i18nConfig.locales.includes(locale)) {
     return null;
   }
+
   return (
-    <html lang= { locale } dir = { dir(locale) } >
+    <html lang={locale} dir={dir(locale)}>
       <body
-        className={ `${geistSans.variable} ${geistMono.variable} antialiased` }
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-    { children }
-    </body>
+        {children}
+      </body>
     </html>
-);
-} 
+  );
+}
+
+function dir(locale: string): 'ltr' | 'rtl' {
+  // Define the direction based on the locale
+  const rtlLocales = ['ar', 'he']; // Add more RTL locales if needed
+  return rtlLocales.includes(locale) ? 'rtl' : 'ltr';
+}

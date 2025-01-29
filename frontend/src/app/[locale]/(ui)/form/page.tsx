@@ -1,5 +1,5 @@
 import { FormContainer } from '@/components/view/Form';
-import '../../styles/globals.css';
+import '../../Styles/globals.css';
 function Form() {
   return <FormContainer />;
 }

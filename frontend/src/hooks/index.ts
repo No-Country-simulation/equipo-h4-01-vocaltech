@@ -6,5 +6,6 @@ export * from './useInitailsName/useInitialsName';
 export * from './useIsMobile/useIsMobile';
 export * from './useTabNavigation/useTabNavigation';
 export * from './useTabsState/useTabsState';
+export * from './useToast/useToast';
 export * from './useUserName/useUserName';
 export * from './useValidateField/useValidateFiled';

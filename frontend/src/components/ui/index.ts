@@ -1,3 +1,4 @@
+export * from './alert';
 export * from './avatar';
 export * from './breadcrumb';
 export * from './button';
@@ -20,8 +21,9 @@ export * from './select';
 export * from './separator';
 export * from './sheet';
 export * from './skeleton';
-export * from './sonner';
 export * from './switch';
 export * from './tabs';
 export * from './textarea';
+export * from './toast';
+export * from './toaster';
 export * from './tooltip';

@@ -37,7 +37,15 @@ export const FieldRenderer = ({
           placeholder={field.placeholder}
         />
       );
-
+    case 'number':
+      return (
+        <Input
+          type="number"
+          value={value || ''}
+          onChange={e => handleChange(e.target.value)}
+          placeholder={field.placeholder}
+        />
+      );
     case 'textarea':
       return (
         <Textarea
