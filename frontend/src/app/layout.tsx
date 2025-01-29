@@ -1,0 +1,21 @@
+import type { ReactNode } from "react";
+import type { Metadata } from "next";
+import "./styles/globals.css";
+
+export const metadata: Metadata = {
+  title: "VocalTech",
+  description: "Transmití tus ideas, transformá con tu voz",
+  icons: {
+    icon: "/img/favicon.ico",
+    shortcut: "/img/favicon.ico",
+    apple: "/img/favicon.ico",
+  },
+};
+
+export default function RootLayout({ children }: { children: ReactNode }) {
+  return (
+    <html lang="es" suppressHydrationWarning>
+      <body>{children}</body>
+    </html>
+  );
+}
