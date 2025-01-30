@@ -3,6 +3,7 @@ from django.utils import timezone
 from rest_framework import serializers
 from .models import Cita
 from auth_service.models import User
+from utils.email import Email
 
 class CitaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -49,6 +50,14 @@ class CitaSerializer(serializers.ModelSerializer):
         return data
     
     def create(self, validated_data):
+        lead_email = validated_data['lead'].email
+        print(lead_email)
+        Email.send_email(
+            subject='Cita agendada',
+            template='email/notification.html',  # Asegúrate de que este sea el nombre correcto del template
+            context={'lead': validated_data['lead'], 'especialista': validated_data['especialista'], 'fecha': validated_data['fecha'], 'hora_inicio': validated_data['hora_inicio']},
+            to_email=lead_email,
+        )
         return Cita.objects.create(**validated_data)
     
     def update(self, instance, validated_data):

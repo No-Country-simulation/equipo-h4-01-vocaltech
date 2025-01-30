@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cita Agendada</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #B7DCDA;
+            color: #040041;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            background-color: #FCF9FA;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .header {
+            background-color: #1C198E;
+            color: #FCF9FA;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .content {
+            padding: 20px;
+            font-size: 16px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #F75F57;
+            color: #FCF9FA;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #50A5A1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">Cita Agendada</div>
+        <div class="content">
+            <p>Hola {{ lead.username }},</p>
+            <p>Tu cita con <strong>{{ especialista.username }}</strong> ha sido agendada para el <strong>{{ fecha }}</strong> a las <strong>{{ hora_inicio }}</strong>.</p>
+            <a href="{{ link_cita }}" class="button">Ver Detalles</a>
+        </div>
+        <div class="footer">
+            Gracias,<br>
+            El equipo de VocalTech
+        </div>
+    </div>
+</body>
+</html>
