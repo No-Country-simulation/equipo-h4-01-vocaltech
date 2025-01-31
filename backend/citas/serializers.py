@@ -2,6 +2,7 @@ from datetime import datetime, time
 from django.utils import timezone
 from rest_framework import serializers
 from .models import Cita
+from auth_service.models import User
 
 class CitaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,6 +18,8 @@ class CitaSerializer(serializers.ModelSerializer):
         hora_inicio = data.get('hora_inicio', None)
         hora_fin = data.get('hora_fin', None)
         estado = data.get('estado', None)
+        lead = data.get('lead', None)
+        especialista = data.get('especialista', None)
 
         if fecha and fecha < today:
             raise serializers.ValidationError('La fecha no puede ser anterior a la fecha actual')
@@ -34,6 +37,14 @@ class CitaSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('No se puede cancelar una cita que ya ha comenzado hoy')
         if 'motivo' in data and data['motivo'] == '':
             raise serializers.ValidationError('El motivo de la cita no puede estar vacío')
+        if not User.objects.filter(id=especialista.id).exists():
+            raise serializers.ValidationError('El especialista no existe')
+        if not User.objects.filter(id=lead.id).exists():
+            raise serializers.ValidationError('El lead no existe')
+        if lead == especialista:
+            raise serializers.ValidationError('El lead y el especialista no pueden ser la misma persona')
+        if Cita.objects.filter(lead=lead, fecha=fecha, hora_inicio=hora_inicio).exists():
+            raise serializers.ValidationError('Ya existe una cita agendada para el lead en la fecha y hora indicadas')
 
         return data
     
