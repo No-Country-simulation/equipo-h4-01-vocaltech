@@ -4,13 +4,7 @@ from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Cita
 from .serializers import CitaSerializer
-from rest_framework.pagination import PageNumberPagination
-
-
-class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 10
-    page_size_query_param = 'page_size'
-    max_page_size = 100
+from utils.pagination import StandardResultsSetPagination
 
 
 class CitaViewSet(viewsets.ModelViewSet):
