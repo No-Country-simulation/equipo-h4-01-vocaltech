@@ -8,7 +8,8 @@ import AuthModal from './components/AuthModal'
 import Link from 'next/link'
 import { ChevronDown } from 'lucide-react'
 
-export default function page() {
+export default async function page() {
+  await new Promise(resolve => setTimeout(resolve, 3500));
   return (
     <div>
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
