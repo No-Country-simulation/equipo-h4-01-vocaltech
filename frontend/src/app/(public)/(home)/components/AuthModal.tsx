@@ -91,8 +91,10 @@ export default function AuthModal() {
           <button
             type="submit"
             className="mt-4 w-full bg-lavender font-bold text-deepblue py-3 rounded-sm hover:bg-white"
-          >
+            onClick={closeModal}
+          ><Link href="/mis-datos">
             {isLogin ? "Iniciar sesión" : "Registrarme"}
+            </Link>
           </button>
         </form>
 
