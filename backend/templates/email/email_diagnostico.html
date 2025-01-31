@@ -1,0 +1,22 @@
+{% extends 'email/email_base.html' %}
+
+{% block content %}
+    <table align="center" width="600" style="background: #FFFFFF; border-radius: 12px; box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); text-align: center; border-collapse: collapse;">
+        <tr>
+            <td style="padding: 20px; text-align: center;">
+                <h2 style="color: #1C198E;">Resultados de tu diagnóstico</h2>
+                <p>Hola <strong>{{ user.username }}</strong>,</p>
+                <p>Hemos analizado tus respuestas y estas son nuestras recomendaciones para ti:</p>
+                
+                <ul style="text-align: left; padding-left: 20px;">
+                    {% for recommendation in recommendations %}
+                        <li>{{ recommendation }}</li>
+                    {% endfor %}
+                </ul>
+
+                <p>Si deseas más información sobre los servicios recomendados, no dudes en contactarnos.</p>
+                <p>¡Gracias por confiar en vocaltech!</p>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

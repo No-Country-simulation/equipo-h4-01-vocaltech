@@ -8,6 +8,7 @@ from mutagen.oggvorbis import OggVorbis
 import json
 from auth_service.models import User
 from utils.recommendation import generar_recomendaciones_hibridas
+from utils.email import Email
 
 class LeadEmprendimientoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -117,6 +118,7 @@ class EncuestaSerializer(serializers.ModelSerializer):
             responses=answers,
             recommendations=recomendaciones
         )
+        Email.enviar_email_diagnotico(user.id, recomendaciones)
         return survey_response
 
     def validate_response(self, question, response):
