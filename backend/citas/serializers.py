@@ -52,11 +52,11 @@ class CitaSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         lead_email = validated_data['lead'].email
         print(lead_email)
-        Email.send_email(
-            subject='Cita agendada',
-            template='email/notification.html',  # Asegúrate de que este sea el nombre correcto del template
-            context={'lead': validated_data['lead'], 'especialista': validated_data['especialista'], 'fecha': validated_data['fecha'], 'hora_inicio': validated_data['hora_inicio']},
-            to_email=lead_email,
+        Email.enviar_email_cita( # Asegúrate de que este sea el nombre correcto del template
+            validated_data['lead'],
+            validated_data['especialista'],
+            validated_data['fecha'],
+            validated_data['hora_inicio']
         )
         return Cita.objects.create(**validated_data)
     

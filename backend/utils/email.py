@@ -7,22 +7,43 @@ import smtplib
 
 class Email:
     @staticmethod
-    def send_email(subject, template, context, to_email):
-        try:
-            html_message = render_to_string(template, context)
-            plain_message = strip_tags(html_message)
-            from_email = settings.DEFAULT_FROM_EMAIL
-            send_mail(
-                subject,
-                plain_message,
-                from_email,
-                [to_email],
-                html_message=html_message,
-                fail_silently=False,
-            )
-        except BadHeaderError:
-            print("Invalid header found.")
-        except smtplib.SMTPException as e:
-            print(f"SMTP error occurred: {e}")
-        except Exception as e:
-            print(f"An error occurred: {e}")
+    def enviar_email_cita(lead, especialista, fecha, hora_inicio):
+        asunto = "Cita agendada"
+        contexto = {
+            'lead': lead,
+            'especialista': especialista,
+            'fecha': fecha,
+            'hora_inicio': hora_inicio
+        }
+    
+        mensaje_html = render_to_string("email/email_cita.html", contexto)
+        mensaje_texto = strip_tags(mensaje_html)  # Para clientes que no soportan HTML
+
+        send_mail(
+            asunto,
+            mensaje_texto,
+            settings.EMAIL_HOST_USER,
+            [lead.email],
+            html_message=mensaje_html
+        )
+
+    @staticmethod
+    def enviar_email_diagnotico(lead, especialista, fecha, hora_inicio):
+        asunto = "Diagnóstico de cita"
+        contexto = {
+            'lead': lead,
+            'especialista': especialista,
+            'fecha': fecha,
+            'hora_inicio': hora_inicio
+        }
+    
+        mensaje_html = render_to_string("email/email_diagnostico.html", contexto)
+        mensaje_texto = strip_tags(mensaje_html)
+
+        send_mail(
+            asunto,
+            mensaje_texto,
+            settings.EMAIL_HOST_USER,
+            [especialista.email],
+            html_message=mensaje_html
+        )
