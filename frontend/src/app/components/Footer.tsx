@@ -21,7 +21,7 @@ const Footer: React.FC = () => {
       <Link href="https://inesmonescazon.com.ar/"> 
         <Image 
           src="/img/nocountry.svg" 
-          alt="No Country" 
+          alt="Vos y tu Voz" 
           width={60} 
           height={60}  
         />
@@ -29,7 +29,7 @@ const Footer: React.FC = () => {
       <Link href="https://www.nocountry.tech/"> 
         <Image 
           src="/img/vosytuvoz.svg" 
-          alt="Vos y tu Voz" 
+          alt="No Country" 
           width={200} 
           height={200}  
         />
