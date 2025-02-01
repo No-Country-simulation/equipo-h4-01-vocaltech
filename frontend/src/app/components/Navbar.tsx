@@ -9,8 +9,8 @@ const Navbar: React.FC = () => {
   const { openModal } = useAuthModal();
 
   return (
-    <nav>
-      <div className="container mx-auto px-4 py-3 my-4 flex items-center justify-between">
+    <nav className='max-w-screen-xl mx-auto'>
+      <div className="container mx-auto py-3 my-4 flex items-center justify-between">
         <div className="space-x-4 flex items-center">
           {/* Logo */}
           <Link href="/"> 
@@ -39,7 +39,7 @@ const Navbar: React.FC = () => {
       </div>
 
       {/* Divider */}
-      <div className="border-t border-aqua w-11/12 mx-auto">
+      <div className="border-t-2 border-aqua w-full mx-auto px-4">
       </div>
     </nav>
   );
