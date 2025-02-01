@@ -2,7 +2,7 @@ import React from 'react';
 import { CalendarDays, CircleX } from 'lucide-react';
 
 interface ConfirmationCardProps {
-  selectedDate: string;
+  selectedDate: Date;
   selectedTime: string;
   onCancel: () => void;
   onReschedule: () => void;

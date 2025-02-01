@@ -4,7 +4,7 @@ import { SERVICES } from '../constants';
 
 interface ConfirmationProps {
   selectedServices: ServiceKey[];
-  selectedDate: string;
+  selectedDate: Date;
   selectedTime: string;
   onPrev: () => void;
   onConfirm: () => void;

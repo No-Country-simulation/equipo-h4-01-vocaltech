@@ -12,8 +12,8 @@ import { useRouter } from 'next/navigation';
 const StepsDate: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedServices, setSelectedServices] = useState<ServiceKey[]>([]);
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedTime, setSelectedTime] = useState<TimeSlot>('');
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedTime, setSelectedTime] = useState<TimeSlot>('09:00');
   const [isConfirmed, setIsConfirmed] = useState(false);
   const router = useRouter();
 
@@ -34,8 +34,8 @@ const StepsDate: React.FC = () => {
     setIsConfirmed(false);
     setCurrentStep(1);
     setSelectedServices([]);
-    setSelectedDate('');
-    setSelectedTime('');
+    setSelectedDate(new Date());
+    setSelectedTime('09:00');
   };
 
   const handleReschedule = () => {
