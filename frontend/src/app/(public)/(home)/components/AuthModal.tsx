@@ -27,18 +27,28 @@ export default function AuthModal() {
   const { openModal } = useAuthModal();
 
   return (
-    <div className={`fixed inset-0 bg-deepblue opacity-80 flex items-center justify-center z-50 ${!isOpen && "hidden"}`}>
-      <div className="p-8 w-96 text-start relative text-white">
+    <div className={`fixed overflow-auto inset-0 bg-deepblue bg-opacity-60 flex items-center justify-center z-50 ${!isOpen && "hidden"}`}>
+      <div className="p-8 w-96 text-start relative text-white top-14">
         <h2 className="text-2xl font-bold mb-4 text-center text-white">
           {isLogin ? "Iniciar sesión" : "Registrarse"}
         </h2>
         <form>
           {!isLogin && (
             <>
-              <label htmlFor="name">Nombre/s y apellido/s</label>
+              <label htmlFor="name">Nombre/s</label>
               <input
                 type="text"
-                placeholder="Juan Perez"
+                placeholder="Ej. Juan"
+                className="bg-white text-black mb-6 w-full py-2 px-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </>
+          )}
+          {!isLogin && (
+            <>
+              <label htmlFor="name">Apellido/s</label>
+              <input
+                type="text"
+                placeholder="Ej. Perez"
                 className="bg-white text-black mb-6 w-full py-2 px-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </>
