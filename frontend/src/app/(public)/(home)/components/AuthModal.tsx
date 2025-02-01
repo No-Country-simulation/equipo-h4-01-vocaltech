@@ -2,10 +2,13 @@
 import { useState, useEffect } from "react";
 import { useAuthModal } from "@/store/useAuthModal";
 import Link from "next/link";
+import { Eye, EyeClosed } from "lucide-react";
 
 export default function AuthModal() {
   const { isOpen, isLogin, closeModal } = useAuthModal();
   const [isCompany, setIsCompany] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar contraseña
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // Estado para mostrar/ocultar confirmación de contraseña
 
   useEffect(() => {
     // Solo abrir el modal si no está previamente cerrado
@@ -20,7 +23,8 @@ export default function AuthModal() {
   const handleToggle = () => {
     setIsCompany((prev) => !prev);
   };
-    const { openModal } = useAuthModal();
+
+  const { openModal } = useAuthModal();
 
   return (
     <div className={`fixed inset-0 bg-deepblue opacity-80 flex items-center justify-center z-50 ${!isOpen && "hidden"}`}>
@@ -29,16 +33,16 @@ export default function AuthModal() {
           {isLogin ? "Iniciar sesión" : "Registrarse"}
         </h2>
         <form>
-        {!isLogin && (
-          <>
-          <label htmlFor="name">Nombre/s y apellido/s</label>
-          <input
-            type="text"
-            placeholder="Juan Perez"
-            className="bg-white text-black mb-6 w-full py-2 px-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          </>
-        )}
+          {!isLogin && (
+            <>
+              <label htmlFor="name">Nombre/s y apellido/s</label>
+              <input
+                type="text"
+                placeholder="Juan Perez"
+                className="bg-white text-black mb-6 w-full py-2 px-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </>
+          )}
           <label htmlFor="email">Email</label>
           <input
             type="email"
@@ -46,24 +50,43 @@ export default function AuthModal() {
             className="bg-white text-black mb-6 w-full py-2 px-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <label htmlFor="password">Contraseña</label>
-          <input
-            type="password"
-            placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
-            className={`bg-white text-black ${!isLogin && "mb-6"} w-full py-2 px-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
-          />
-        {isLogin && (
-          <p>
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"} // Cambia el tipo de entrada
+              placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
+              className="bg-white text-black mb-6 w-full py-2 px-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+<button
+  type="button"
+  onClick={() => setShowPassword(!showPassword)} // Alternar visibilidad
+  className="absolute top-3 right-3 flex items-center text-sm leading-5 text-black"
+>
+  {showPassword ? <Eye /> : <EyeClosed />}
+</button>
+
+          </div>
+          {isLogin && (
+            <p>
               ¿Olvidaste tu contraseña?
-          </p>
-        )}
+            </p>
+          )}
           {!isLogin && (
             <>
               <label htmlFor="confirm-password">Repetir contraseña</label>
-              <input
-                type="password"
-                placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
-                className="bg-white text-black mb-6 w-full py-2 px-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+              <div className="relative">
+                <input
+                  type={showConfirmPassword ? "text" : "password"} // Cambia el tipo de entrada
+                  placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
+                  className="bg-white text-black mb-6 w-full py-2 px-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+<button
+  type="button"
+  onClick={() => setShowConfirmPassword(!showConfirmPassword)} // Alternar visibilidad
+  className="absolute top-3 right-3 flex items-center text-sm leading-5 text-black"
+>
+  {showConfirmPassword ? <Eye /> : <EyeClosed />}
+</button>
+              </div>
             </>
           )}
 
@@ -78,9 +101,8 @@ export default function AuthModal() {
                   className={`relative inline-block w-12 h-6 transition duration-200 ease-in-out ${isCompany ? "bg-lavender" : "bg-aqua"} rounded-full cursor-pointer`}
                 >
                   <span
-                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 ease-in-out ${
-                      isCompany ? "translate-x-6" : ""
-                    }`}
+                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 ease-in-out ${isCompany ? "translate-x-6" : ""
+                      }`}
                   ></span>
                 </div>
                 <span className="text-sm text-white">Empresa</span>
@@ -92,8 +114,9 @@ export default function AuthModal() {
             type="submit"
             className="mt-4 w-full bg-lavender font-bold text-deepblue py-3 rounded-sm hover:bg-white"
             onClick={closeModal}
-          ><Link href="/mis-datos">
-            {isLogin ? "Iniciar sesión" : "Registrarme"}
+          >
+            <Link href="/mis-datos">
+              {isLogin ? "Iniciar sesión" : "Registrarme"}
             </Link>
           </button>
         </form>
@@ -101,20 +124,18 @@ export default function AuthModal() {
         {/* Link para iniciar sesión */}
         {!isLogin && (
           <div className="mt-4 text-center">
-            <button 
-            onClick={() => openModal(true)}>
+            <button onClick={() => openModal(true)}>
               ¿Ya tienes una cuenta? <b>Iniciar sesión</b>
-              </button>
+            </button>
           </div>
         )}
 
         {/* Link para registrarse */}
         {isLogin && (
           <div className="mt-4 text-center">
-            <button 
-            onClick={() => openModal(false)}>
+            <button onClick={() => openModal(false)}>
               ¿No tienes una cuenta? <b>Regístrate</b>
-              </button>
+            </button>
           </div>
         )}
       </div>
