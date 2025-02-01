@@ -64,22 +64,17 @@ export default function AuthModal() {
             <input
               type={showPassword ? "text" : "password"} // Cambia el tipo de entrada
               placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
-              className="bg-white text-black mb-6 w-full py-2 px-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`bg-white text-black ${!isLogin && "mb-6"} w-full py-2 px-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
             />
-<button
-  type="button"
-  onClick={() => setShowPassword(!showPassword)} // Alternar visibilidad
-  className="absolute top-3 right-3 flex items-center text-sm leading-5 text-black"
->
-  {showPassword ? <Eye /> : <EyeClosed />}
-</button>
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)} // Alternar visibilidad
+              className="absolute top-3 right-3 flex items-center text-sm leading-5 text-black"
+            >
+              {showPassword ? <Eye /> : <EyeClosed />}
+            </button>
 
           </div>
-          {isLogin && (
-            <p>
-              ¿Olvidaste tu contraseña?
-            </p>
-          )}
           {!isLogin && (
             <>
               <label htmlFor="confirm-password">Repetir contraseña</label>
@@ -89,13 +84,13 @@ export default function AuthModal() {
                   placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
                   className="bg-white text-black mb-6 w-full py-2 px-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
-<button
-  type="button"
-  onClick={() => setShowConfirmPassword(!showConfirmPassword)} // Alternar visibilidad
-  className="absolute top-3 right-3 flex items-center text-sm leading-5 text-black"
->
-  {showConfirmPassword ? <Eye /> : <EyeClosed />}
-</button>
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)} // Alternar visibilidad
+                  className="absolute top-3 right-3 flex items-center text-sm leading-5 text-black"
+                >
+                  {showConfirmPassword ? <Eye /> : <EyeClosed />}
+                </button>
               </div>
             </>
           )}
@@ -131,9 +126,17 @@ export default function AuthModal() {
           </button>
         </form>
 
+
+        {isLogin && (
+              <Link href="#">
+              <p className="text-center m-3">
+                ¿Olvidaste tu contraseña?
+              </p>
+            </Link>
+            )}
         {/* Link para iniciar sesión */}
         {!isLogin && (
-          <div className="mt-4 text-center">
+          <div className="text-center m-2">
             <button onClick={() => openModal(true)}>
               ¿Ya tienes una cuenta? <b>Iniciar sesión</b>
             </button>
