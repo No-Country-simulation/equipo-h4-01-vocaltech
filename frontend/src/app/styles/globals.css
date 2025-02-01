@@ -127,7 +127,7 @@
   }
 
   .card-container {
-    @apply flex flex-col w-full items-center p-10 bg-white border-2 border-aqua rounded-lg shadow-lg;
+    @apply flex flex-col items-center p-10 bg-white border-2 border-aqua rounded-lg shadow-lg;
   }
 
   .heading-primary {
