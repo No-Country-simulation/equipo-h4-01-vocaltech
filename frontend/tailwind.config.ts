@@ -8,11 +8,15 @@ export default {
   ],
   theme: {
     extend: { 
+      fontFamily: {
+        sans: ["Mulish", "sans-serif"],
+      },
       colors: {
         deepblue: 'var(--deep-blue)',
         royalblue: 'var(--royal-blue)',
         lavender: 'var(--lavender)',
         aqua: 'var(--aqua)',
+        darkgreen: 'var(--dark-green)',
         yellow: 'var(--yellow)',
         lightpink: 'var(--light-pink)',
         background: 'hsl(var(--background))',
@@ -69,7 +73,7 @@ export default {
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)'
+        tablet: 'calc(var(--radius) - 4px)'
       }
     }
   },
