@@ -8,6 +8,7 @@ from .models import LeadEmprendimiento, Question, SurveyResponse, AnswerOption
 from .serializers import EncuestaSerializer, LeadEmprendimientoSerializer, QuestionSerializer
 from utils.pagination import StandardResultsSetPagination
 from dal_select2.views import Select2QuerySetView
+from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
 
