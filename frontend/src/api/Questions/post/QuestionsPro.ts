@@ -12,24 +12,7 @@ export const postQuestions = async (questions: any) => {
     const response = await axios.post<ResponseData>(
       `${API_URL_PROD}/${QUEST_PRO}/`,
       {
-        user: 1,
-        responses: {
-          '1': 'Quiero mejorar mi dicción y proyección de voz.',
-          '2': 1,
-          '3': 4,
-          '4': 3,
-          '5': 15,
-          '6': 18,
-          '7': 21,
-          '8': 2,
-          '9': 3,
-          '10': 5,
-          '11': 37,
-          '12': 41,
-          '13': 45,
-          '14': 47,
-          '15': 50
-        }
+        ...questionAdatper
       },
       {
         headers: {
