@@ -21,7 +21,6 @@ class LeadEmprendimientoViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
     queryset = LeadEmprendimiento.objects.all()
     serializer_class = LeadEmprendimientoSerializer
-    pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['años', 'empleados']
     search_fields = ['nombre', 'ubicacion', 'sector', 'informacion']
