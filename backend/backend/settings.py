@@ -82,7 +82,7 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
 }
 
-CSRF_TRUSTED_ORIGINS = ["https://equipo-h4-01-vocaltech.onrender.com", "http://localhost:8000"]
+CSRF_TRUSTED_ORIGINS = ["https://equipo-h4-01-vocaltech.onrender.com", "https://equipo-h4-01-vocaltech.vercel.app/", "http://localhost:8000", "http://localhost:3000"]
 
 ASGI_APPLICATION = "backend.asgi.application"
 
