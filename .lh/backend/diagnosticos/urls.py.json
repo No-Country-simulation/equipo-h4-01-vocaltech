@@ -1,0 +1,22 @@
+{
+    "sourceFile": "backend/diagnosticos/urls.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1738198075596,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1738198081679,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,9 +4,9 @@\n from django.conf.urls.static import static\r\n from django.conf import settings\r\n \r\n router = DefaultRouter()\r\n-router.register(r'lead-busies', LeadEmprendimientoViewSet)\r\n+router.register(r'lead-business', LeadEmprendimientoViewSet)\r\n router.register(r'questions', QuestionViewSet)\r\n \r\n urlpatterns = [\r\n     path('encuestas/procesar', RespuestaEncuesta.as_view(), name='process_entrepreneur_survey'),\r\n"
+                }
+            ],
+            "date": 1738198075596,
+            "name": "Commit-0",
+            "content": "from django.urls import path, include\r\nfrom rest_framework.routers import DefaultRouter\r\nfrom .views import LeadEmprendimientoViewSet, QuestionViewSet, RespuestaEncuesta\r\nfrom django.conf.urls.static import static\r\nfrom django.conf import settings\r\n\r\nrouter = DefaultRouter()\r\nrouter.register(r'lead-busies', LeadEmprendimientoViewSet)\r\nrouter.register(r'questions', QuestionViewSet)\r\n\r\nurlpatterns = [\r\n    path('encuestas/procesar', RespuestaEncuesta.as_view(), name='process_entrepreneur_survey'),\r\n    path('', include(router.urls)),\r\n] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\r\n"
+        }
+    ]
+}

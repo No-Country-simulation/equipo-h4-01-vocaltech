@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 router = DefaultRouter()
-router.register(r'lead-bussines', LeadEmprendimientoViewSet)
+router.register(r'lead-business', LeadEmprendimientoViewSet)
 router.register(r'questions', QuestionViewSet)
 
 urlpatterns = [
