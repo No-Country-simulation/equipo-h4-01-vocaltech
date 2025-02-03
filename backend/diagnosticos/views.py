@@ -8,6 +8,8 @@ from .models import LeadEmprendimiento, Question, SurveyResponse, AnswerOption
 from .serializers import EncuestaSerializer, LeadEmprendimientoSerializer, QuestionSerializer
 from utils.pagination import StandardResultsSetPagination
 from dal_select2.views import Select2QuerySetView
+
+# 🔥 IMPORTACIÓN CORRECTA
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
@@ -18,7 +20,6 @@ class QuestionViewSet(viewsets.ModelViewSet):
     serializer_class = QuestionSerializer
 
 
-
 class LeadEmprendimientoViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
     queryset = LeadEmprendimiento.objects.all()
@@ -27,7 +28,8 @@ class LeadEmprendimientoViewSet(viewsets.ModelViewSet):
     filterset_fields = ['años', 'empleados']
     search_fields = ['nombre', 'ubicacion', 'sector', 'informacion']
 
-@method_decorator(csrf_exempt, name='dispatch')  # Aplica csrf_exempt correctamente
+
+@method_decorator(csrf_exempt, name='dispatch')  # ✅ Aplica csrf_exempt correctamente
 class RespuestaEncuesta(APIView):
     permission_classes = [AllowAny]
 
@@ -41,18 +43,11 @@ class RespuestaEncuesta(APIView):
             serializer = EncuestaSerializer(survey_responses, many=True)
             return Response(serializer.data)
 
-
     def post(self, request):
         serializer = EncuestaSerializer(data=request.data)
         if serializer.is_valid():
-            # Crear la instancia de SurveyResponse con las recomendaciones
             survey_response = serializer.save()
-            
-            # Serializar la instancia creada
             response_serializer = EncuestaSerializer(survey_response)
-            
-            # Devolver la respuesta con los datos serializados
             return Response(response_serializer.data, status=status.HTTP_201_CREATED)
-        
-        # Devolver los errores de validación
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
