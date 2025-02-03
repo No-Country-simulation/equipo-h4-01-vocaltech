@@ -26,10 +26,10 @@ class LeadEmprendimientoViewSet(viewsets.ModelViewSet):
     filterset_fields = ['años', 'empleados']
     search_fields = ['nombre', 'ubicacion', 'sector', 'informacion']
 
-
+@method_decorator(csrf_exempt, name='dispatch')  # Aplica csrf_exempt correctamente
 class RespuestaEncuesta(APIView):
     permission_classes = [AllowAny]
-    @csrf_exempt
+
     def get(self, request, id=None):
         if id:
             survey_response = SurveyResponse.objects.get(id=id)
@@ -40,7 +40,7 @@ class RespuestaEncuesta(APIView):
             serializer = EncuestaSerializer(survey_responses, many=True)
             return Response(serializer.data)
 
-    @csrf_exempt
+
     def post(self, request):
         serializer = EncuestaSerializer(data=request.data)
         if serializer.is_valid():
