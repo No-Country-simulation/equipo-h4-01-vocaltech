@@ -38,14 +38,16 @@ export type FieldValidation = {
 };
 
 export type FieldOption = {
-  value: string;
+  id: number;
+  question: number;
   text: string;
 };
 
 export type FormField = {
   id: string;
   text: string;
-  type: FieldType;
+  group: string;
+  question_type: string;
   options: FieldOption[];
   required?: boolean;
   placeholder?: string;
@@ -63,7 +65,7 @@ export type TabConfig = {
   title: string;
   icon?: string;
   color?: string;
-  fields: SectionProps[] | [];
+  fields: SectionProps[];
   completed: boolean;
   disabled: boolean;
   status: 'valid' | 'invalid' | 'pending' | 'error' | 'disabled';

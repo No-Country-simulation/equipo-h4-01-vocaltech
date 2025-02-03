@@ -4,10 +4,10 @@ import { useFieldStyles } from '@/hooks';
 
 export const FieldWithValidation = ({
   placeholder,
-  type = 'text'
+  question_type
 }: {
   placeholder: string;
-  type?: string;
+  question_type?: string;
 }) => {
   const { value, borderColor, onChange } = useFieldStyles('');
 

@@ -4,5 +4,4 @@ export * from './FormTabs/FormTabs';
 export * from './PhonePrefixInput/PhonePrefixInput';
 export * from './TabLabel/TabLabel';
 export * from './TabType/TabType';
-export * from './TabsInitial/TabsInitial';
 export * from './TabsNavigation/TabsNavigation';

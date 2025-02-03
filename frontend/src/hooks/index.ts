@@ -3,6 +3,7 @@ export * from './useConfetti/useConfetti';
 export * from './useFieldStyles/useFieldStyles';
 export * from './useFormSubmission/useFormSubmission';
 export * from './useInitailsName/useInitialsName';
+export * from './useInitialTabs/useInitialTabs';
 export * from './useIsMobile/useIsMobile';
 export * from './useLoadData/useLoadData';
 export * from './useTabNavigation/useTabNavigation';

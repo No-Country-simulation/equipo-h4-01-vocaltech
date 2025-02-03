@@ -2,13 +2,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { Button, Tabs, TabsContent, Label, Separator } from '@/components/ui';
 import { TabsNavigation } from '../TabsNavigation/TabsNavigation';
-import { initialTabs } from '../TabsInitial/TabsInitial';
-import {
-  useTabsState,
-  useFormSubmission,
-  useValidateField,
-  useLoadData
-} from '@/hooks';
+import { useTabsState, useFormSubmission, useValidateField } from '@/hooks';
 import { BreadcrumbNav, ProgressCircles } from '../../Nav';
 import {
   AudioRecorder,
@@ -19,8 +13,7 @@ import {
 import { FormField, SectionProps } from '../TabType/TabType';
 
 export const FormTabs = () => {
-  const { activeTab, tabs, setActiveTab, validateTab } =
-    useTabsState(initialTabs);
+  const { activeTab, tabs = [], setActiveTab, validateTab } = useTabsState();
   const [formData, setFormData] = useState<Record<string, any>>({});
   const [activeSection, setActiveSection] = useState(0);
   const [validSections, setValidSections] = useState<boolean[]>([]);
@@ -42,7 +35,7 @@ export const FormTabs = () => {
 
       // Validación en tiempo real
       const currentTab = tabs[activeTab];
-      const isValid = currentTab.fields.every((field: any) =>
+      const isValid = currentTab?.fields?.every((field: any) =>
         field.questions.every((question: any) =>
           useValidateField(question, newData[question.id])
         )
@@ -51,8 +44,8 @@ export const FormTabs = () => {
       validateTab(activeTab, isValid);
 
       // Validación de sección
-      const currentSection = tabs[activeTab].fields[activeSection];
-      const isSectionValid = currentSection.questions.every((question: any) =>
+      const currentSection = tabs[activeTab]?.fields?.[activeSection];
+      const isSectionValid = currentSection?.questions?.every((question: any) =>
         useValidateField(question, newData[question.id])
       );
 
@@ -88,11 +81,11 @@ export const FormTabs = () => {
       if (direction === 'prev' && activeSection > 0) {
         handleSection(directionValue);
       } else if (direction === 'prev' && activeTab > 0) {
-        setActiveSection(tabs[activeTab - 1].fields.length - 1);
+        setActiveSection(tabs[activeTab - 1]?.fields?.length - 1 || 0);
         handleTab(directionValue);
       } else if (
         direction === 'next' &&
-        activeSection < tabs[activeTab].fields.length - 1
+        activeSection < (tabs[activeTab]?.fields?.length || 0) - 1
       ) {
         handleSection(directionValue);
       } else if (direction === 'next' && activeTab < tabs.length - 1) {
@@ -126,41 +119,43 @@ export const FormTabs = () => {
   );
 
   const isLastStep = useMemo(() => {
-    const totalSteps = tabs.reduce((acc, tab) => acc + tab.fields.length, 0);
+    const totalSteps = tabs.reduce(
+      (acc, tab) => acc + (tab.fields?.length || 0),
+      0
+    );
     const currentStep =
       tabs
         .slice(0, activeTab)
-        .reduce((acc, tab) => acc + tab.fields.length, 0) +
+        .reduce((acc, tab) => acc + (tab.fields?.length || 0), 0) +
       activeSection +
       1;
     return currentStep === totalSteps;
   }, [tabs, activeTab, activeSection]);
 
   const isSectionComplete = useMemo(() => {
-    const currentSection = tabs[activeTab].fields[activeSection];
-    return currentSection.questions.every(
+    const currentSection = tabs[activeTab]?.fields?.[activeSection];
+    return currentSection?.questions?.every(
       (question: any) =>
         formData[question.id] !== undefined && formData[question.id] !== ''
     );
   }, [tabs, activeTab, activeSection, formData]);
 
-  const Data = useLoadData();
-  console.log('Question', Data);
-
   return (
     <>
       <BreadcrumbNav
-        tabTitle={`${tabs[activeTab].title} 
+        tabTitle={`${tabs[activeTab]?.title || ''} 
            ${
-             tabs[activeTab].fields.length > 1 &&
-             activeSection < tabs[activeTab].fields.length
-               ? ` ${activeSection + 1} de ${tabs[activeTab].fields.length}`
+             tabs[activeTab]?.fields?.length > 1 &&
+             activeSection < tabs[activeTab]?.fields?.length
+               ? ` ${activeSection + 1} de ${tabs[activeTab]?.fields?.length}`
                : ''
            }`}
-        sectionTitle={tabs[activeTab].fields[activeSection]?.sectionTitle || ''}
+        sectionTitle={
+          tabs[activeTab]?.fields?.[activeSection]?.sectionTitle || ''
+        }
       />
       <div className="border-2 border-accent borber-opacity-20 rounded-xl p-6 m-4 lg:p-8 lg:m-8 overflow-hidden">
-        <Tabs value={tabs[activeTab].id}>
+        <Tabs value={tabs[activeTab]?.id || ''}>
           <TabsNavigation
             tabs={tabs}
             activeTab={activeTab}
@@ -176,12 +171,12 @@ export const FormTabs = () => {
               <div className="space-y-4 p-4">
                 <div className="flex justify-between item-center">
                   <h2 className="text-xl font-semibold ">
-                    {tabs[activeTab].fields[activeSection]?.sectionTitle ||
+                    {tabs[activeTab]?.fields?.[activeSection]?.sectionTitle ||
                       tab.title}
                   </h2>
                   {tab.title === 'Cuestionario' && (
                     <ProgressCircles
-                      totalSteps={tab.fields.length}
+                      totalSteps={tab.fields?.length || 0}
                       currentStep={activeSection + 1}
                     />
                   )}
@@ -192,19 +187,23 @@ export const FormTabs = () => {
                 </p>
                 {tab.title === 'Cuestionario' ? (
                   <div>
-                    <Tabs value={tab.fields[activeSection].sectionTitle || ''}>
+                    <Tabs
+                      value={tab.fields?.[activeSection]?.sectionTitle || ''}
+                    >
                       <TabsNavigation
-                        tabs={tab.fields.map(
-                          (field: SectionProps, index: number) => ({
-                            ...field,
-                            id: index.toString(),
-                            title: field.sectionTitle || ''
-                          })
-                        )}
+                        tabs={
+                          tab.fields?.map(
+                            (field: SectionProps, index: number) => ({
+                              ...field,
+                              id: index.toString(),
+                              title: field.sectionTitle || ''
+                            })
+                          ) || []
+                        }
                         activeTab={activeSection}
                         setActiveTab={setActiveSection}
                       />
-                      {tab.fields.map((field: SectionProps, idx: number) => (
+                      {tab.fields?.map((field: SectionProps, idx: number) => (
                         <TabsContent
                           key={idx}
                           value={field.sectionTitle || ''}
@@ -232,7 +231,7 @@ export const FormTabs = () => {
                   </div>
                 ) : (
                   <div className="space-y-6">
-                    {tab.fields.map((field: any, fieldIndex: number) => (
+                    {tab.fields?.map((field: any, fieldIndex: number) => (
                       <div key={fieldIndex} className="space-y-2">
                         {field.questions.map((question: FormField) => (
                           <div key={question.id} className="space-y-2">
@@ -250,7 +249,7 @@ export const FormTabs = () => {
                     ))}
                   </div>
                 )}
-                {tabs[activeTab].title === 'Mi emprendimiento' && (
+                {tabs[activeTab]?.title === 'Mi emprendimiento' && (
                   <div className="border-t border-accent mt-8">
                     <AudioRecorder />
                     <p className="text-sm text-muted-foreground text-center">
@@ -266,9 +265,9 @@ export const FormTabs = () => {
                       variant="outline"
                       onClick={() => handleNavigation('prev')}
                       disabled={
-                        tabs[activeTab].title === 'Encuesta'
+                        tabs[activeTab]?.title === 'Encuesta'
                           ? !validSections[activeSection] || isSubmitting
-                          : !tabs[activeTab].completed || isSubmitting
+                          : !tabs[activeTab]?.completed || isSubmitting
                       }
                     >
                       Anterior
@@ -279,11 +278,11 @@ export const FormTabs = () => {
                       <Button
                         onClick={() => handleNavigation('next')}
                         disabled={
-                          tabs[activeTab].title === 'Cuestionario'
+                          tabs[activeTab]?.title === 'Cuestionario'
                             ? !validSections[activeSection] ||
                               !isSectionComplete ||
                               isSubmitting
-                            : !tabs[activeTab].completed || isSubmitting
+                            : !tabs[activeTab]?.completed || isSubmitting
                         }
                       >
                         Siguiente

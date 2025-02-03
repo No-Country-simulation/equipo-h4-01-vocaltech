@@ -5,3 +5,4 @@ export * from './Questions/Get/Questions';
 export * from './Root/root';
 //export * from './LeadBusiness';
 //export * from './PersonalData';
+export * from './AdapterQuestions/AdapterQuestion';
