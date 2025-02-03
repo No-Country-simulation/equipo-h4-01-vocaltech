@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    container_name: vocaltech-database
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: vocaltech_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - mynetwork
+
+  web:
+    build: .
+    container_name: backend-vocaltech
+    depends_on:
+      - db
+    command: >
+      sh -c "
+      until nc -z -v -w30 db 5432;
+      do echo 'Waiting for PostgreSQL...'; sleep 5; done;
+      python manage.py makemigrations; 
+      python manage.py migrate;
+      python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgres://postgres:root@db:5432/vocaltech_db
+    networks:
+      - mynetwork
+
+volumes:
+  postgres_data:
+
+networks:
+  mynetwork:
+    driver: bridge

@@ -31,6 +31,9 @@ DEBUG = not os.environ.get('PROD', False)
 
 ALLOWED_HOSTS = []
 
+CORS_ALLOWED_ORIGINS = ['*']
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -130,24 +133,19 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-if not os.environ.get('PROD', False):
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+AUTH_USER_MODEL = 'auth_service.User'
+
+
+DATABASES = {
+    'default': env.db('DATABASE_URL', default='postgres://postgres:root@db:5432/vocaltech_db')
+}
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'vocaltech_db',
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': env('DB_NAME'),
-            'USER': env('DB_USER'),
-            'PASSWORD': env('DB_PASSWORD'),
-            'HOST': env('DB_HOST'),
-            'PORT': env('DB_PORT'),
-        }
-    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -181,10 +179,36 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Configuración de correo para MailHog en entorno de desarrollo
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'localhost'
+# EMAIL_PORT = 1025
+# EMAIL_USE_TLS = False
+# EMAIL_USE_SSL = False
+# DEFAULT_FROM_EMAIL = 'no-reply@example.com'
+
+
+#Gmail SMTP (solo en produccion)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER = 'leanmsan@gmail.com'
+EMAIL_HOST_PASSWORD = 'kqdz zobj gjsq wsvj'
+
+
+# Looking to send emails in production? Check out our Email API/SMTP product!
+# EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+# EMAIL_HOST_USER = '8f0c828b38649a'
+# EMAIL_HOST_PASSWORD = '0a919db8128a72'
+# EMAIL_PORT = '2525'

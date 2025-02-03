@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Notificación{% endblock %}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;600;700&display=swap');
+
+        body, table, td {
+            font-family: 'Mulish', sans-serif;
+        }
+    </style>
+</head>
+<body style="font-family: 'Mulish', sans-serif; background-color: #F4F4FC; color: #040041; margin: 0; padding: 20px;">
+
+    <!-- Contenedor principal -->
+    <table align="center" width="600" style="background: #FFFFFF; border-radius: 12px; box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); text-align: center">
+        <tr>
+            <td style="padding: 20px;">
+                <!-- Logo -->
+                <img src="https://drive.google.com/uc?export=view&id=1BSuvtLq-yMFa5y61BnsJASWPgpczUIju" alt="vocaltech" width="300" style="margin-bottom: 10px;">
+                <!-- Contenido específico del email -->
+                {% block content %}
+                {% endblock %}
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding-top: 20px; padding-bottom: 20px; font-size: 14px; color: #ACA7F2;">
+                Gracias, <br>
+                <span style="font-weight: bold; color: #1C198E;">El equipo de vocaltech</span>
+            </td>
+        </tr>
+
+        <!-- Footer -->
+        <!-- <tr>
+            <td style="background: #040041; padding: 20px; border-radius: 0 0 12px 12px;">
+                <table width="100%" style="border-collapse: collapse;">
+                    <tr>
+                        <td align="left">
+                            <img src="https://drive.google.com/uc?id=1BoRixnGtOxbe6kNUDLBIZxgtN82n_JXF" alt="VocalTech" width="120">
+                        </td>
+                        <td align="center">
+                            <img src="https://drive.google.com/uc?id=1XI_rUwojE_5D0bHSe-qFGBVk-VLtQLdI" alt="VOS y tu VOZ" width="60">
+                        </td>
+                        <td align="right">
+                            <img src="https://drive.google.com/uc?id=1O34ix0RPGREQ6Z2UJh-LSWNyCBsMonPj" alt="NoCountry" width="120">
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table> -->
+</body>
+</html>
