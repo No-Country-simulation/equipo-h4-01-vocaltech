@@ -83,7 +83,10 @@ ALLOWED_HOSTS = ["*"]
 
 CSRF_TRUSTED_ORIGINS = ["https://equipo-h4-01-vocaltech.onrender.com", "https://equipo-h4-01-vocaltech.vercel.app/", "http://localhost:8000", "http://localhost:3000"]
 
-CORS_ALLOWED_ORIGINS = ['*']
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "https://equipo-h4-01-vocaltech.vercel.app/"
+]
 
 CORS_ALLOW_CREDENTIALS = False
 
