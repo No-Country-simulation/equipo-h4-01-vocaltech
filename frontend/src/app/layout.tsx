@@ -18,9 +18,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <body>
-      <Navbar />
-        {children}
+      <body className="max-w-screen-fourK mx-auto">
+        <Navbar />
+        <main>
+          {children}
+        </main>
         <Footer />
         <AuthModal />
       </body>

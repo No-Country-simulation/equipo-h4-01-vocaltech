@@ -64,7 +64,7 @@ export default function AuthModal() {
             <input
               type={showPassword ? "text" : "password"} // Cambia el tipo de entrada
               placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
-            className={`bg-white text-black ${!isLogin && "mb-6"} w-full py-2 px-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
+            className={`bg-white text-black pr-10 ${!isLogin && "mb-6"} w-full py-2 px-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500`}
             />
             <button
               type="button"
@@ -82,7 +82,7 @@ export default function AuthModal() {
                 <input
                   type={showConfirmPassword ? "text" : "password"} // Cambia el tipo de entrada
                   placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
-                  className="bg-white text-black mb-6 w-full py-2 px-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="bg-white text-black pr-10 mb-6 w-full py-2 px-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <button
                   type="button"

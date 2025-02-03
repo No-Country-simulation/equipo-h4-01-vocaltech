@@ -7,6 +7,18 @@ export default {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+      screens: {
+        mobileS: "320px",
+        mobileM: "375px",
+        mobileL: "425px",
+        tablet: "768px",
+        laptop: "1024px",
+        laptopM: "1280px", // Para pantallas de 13"
+        laptopL: "1440px",
+        laptopXL: "1600px",
+        fullHD: "1920px", // Full HD (1080p)
+        fourK: "2560px", // 4K
+      },
     extend: { 
       fontFamily: {
         sans: ["Mulish", "sans-serif"],
