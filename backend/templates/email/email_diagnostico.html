@@ -7,15 +7,20 @@
                 <h2 style="color: #1C198E;">Resultados de tu diagnóstico</h2>
                 <p>Hola <strong>{{ user.username }}</strong>,</p>
                 <p>Hemos analizado tus respuestas y estas son nuestras recomendaciones para ti:</p>
-                
-                <ul style="text-align: left; padding-left: 20px;">
-                    {% for recommendation in recommendations %}
-                        <li>{{ recommendation }}</li>
-                    {% endfor %}
-                </ul>
+
+                {% for question_id, recommendations_list in recommendations.items %}
+                    <div style="margin-bottom: 15px; text-align: left;">
+                        <strong>🟢 Recomendación basada en tu respuesta:</strong>
+                        <ul style="padding-left: 20px;">
+                            {% for recommendation in recommendations_list %}
+                                <li>{{ recommendation | linebreaks }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
 
                 <p>Si deseas más información sobre los servicios recomendados, no dudes en contactarnos.</p>
-                <p>¡Gracias por confiar en vocaltech!</p>
+                <p>¡Gracias por confiar en VocalTech!</p>
             </td>
         </tr>
     </table>
