@@ -8,6 +8,7 @@ from .models import LeadEmprendimiento, Question, SurveyResponse, AnswerOption
 from .serializers import EncuestaSerializer, LeadEmprendimientoSerializer, QuestionSerializer
 from utils.pagination import StandardResultsSetPagination
 from dal_select2.views import Select2QuerySetView
+from django.views.decorators.csrf import csrf_exempt
 
 
 class QuestionViewSet(viewsets.ModelViewSet):
@@ -25,7 +26,7 @@ class LeadEmprendimientoViewSet(viewsets.ModelViewSet):
     filterset_fields = ['años', 'empleados']
     search_fields = ['nombre', 'ubicacion', 'sector', 'informacion']
 
-
+@csrf_exempt
 class RespuestaEncuesta(APIView):
     permission_classes = [AllowAny]
     def get(self, request, id=None):
