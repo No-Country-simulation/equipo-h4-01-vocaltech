@@ -100,9 +100,11 @@ export const FormTabs = () => {
   const handleSubmit = useCallback(async () => {
     try {
       // Lógica de envío aquí
-      console.log('Submitting:', formData);
+      console.debug('Submitting:', formData);
       const response = await postQuestions(formData);
-      console.log('Response:', response);
+
+      console.debug('Response:', response);
+      localStorage.setItem('respose', JSON.stringify(response));
       await handleConfirm(formData);
     } catch (error) {
       console.error('Submission error:', error);
@@ -263,7 +265,7 @@ export const FormTabs = () => {
                   </div>
                 )}
                 <div className="flex justify-between mt-8">
-                  {activeTab > 0 && (
+                  {activeTab >= 0 && (
                     <Button
                       variant="outline"
                       onClick={() => handleNavigation('prev')}

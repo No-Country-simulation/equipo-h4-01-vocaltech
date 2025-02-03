@@ -8,7 +8,7 @@ import {
 export const postQuestions = async (questions: any) => {
   try {
     const questionAdatper = AdapterResponse(1, questions);
-    console.log('pilas', JSON.stringify(questionAdatper, null, 2));
+    console.debug('pilas', JSON.stringify(questionAdatper, null, 2));
     const response = await axios.post<ResponseData>(
       `${API_URL_PROD}/${QUEST_PRO}/`,
       {
