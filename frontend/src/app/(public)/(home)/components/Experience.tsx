@@ -1,4 +1,5 @@
-"use client"
+"use client";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "../swiper.css";
@@ -6,22 +7,23 @@ import { Autoplay } from "swiper/modules";
 
 export default function Experience() {
   return (
-    <div className="m-12">
-      <h2 className="text-aqua text-3xl font-semibold mb-8">
+    <div className="my-12">
+      <h2 className="text-aqua text-3xl font-semibold mb-8 ml-6">
         Nuestra experiencia nos avala...
       </h2>
       <Swiper
         modules={[Autoplay]}
         autoplay={{ delay: 4000 }}
-        spaceBetween={30}
-        slidesPerView={2}
-        className="w-full"
+        spaceBetween={30} // Espacio entre los slides
+        slidesPerView={3} // Aumentar para mostrar más de un slide al mismo tiempo
+        centeredSlides={true} // Centra el slide actual
+        loop={true} // Habilita el bucle
       >
         {/* Testimonio 1 */}
         <SwiperSlide>
-          <div className="w-[full] p-6 border-4 border-solid border-aqua rounded-lg flex items-center space-x-6">
+          <div className="w-full p-6 border-4 border-solid border-aqua rounded-lg flex items-center space-x-6">
             {/* Contenido */}
-            <div>
+            <div className="flex-1">
               <p className="text-lg font-semibold text-black mb-2">
                 Julia Beltran
               </p>
@@ -31,8 +33,8 @@ export default function Experience() {
                 del equipo te hace sentir que estás trabajando con amigos :)”
               </p>
             </div>
-                        {/* Imagen redonda */}
-                        <div className="flex-shrink-0">
+            {/* Imagen redonda */}
+            <div className="flex-shrink-0">
               <div className="w-24 h-24 rounded-full overflow-hidden">
                 <img
                   src="/img/testimonial-1.jpeg"
@@ -48,7 +50,7 @@ export default function Experience() {
         <SwiperSlide>
           <div className="w-full p-6 border-4 border-solid border-aqua rounded-lg flex items-center space-x-6">
             {/* Contenido */}
-            <div>
+            <div className="flex-1">
               <p className="text-lg font-semibold text-black mb-2">
                 Carlos Mendoza
               </p>
@@ -70,11 +72,12 @@ export default function Experience() {
             </div>
           </div>
         </SwiperSlide>
+
         {/* Testimonio 3 */}
         <SwiperSlide>
           <div className="w-full p-6 border-4 border-solid border-aqua rounded-lg flex items-center space-x-6">
             {/* Contenido */}
-            <div>
+            <div className="flex-1">
               <p className="text-lg font-semibold text-black mb-2">
                 Carlos Mendoza
               </p>

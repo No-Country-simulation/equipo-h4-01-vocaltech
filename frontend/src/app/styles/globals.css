@@ -108,3 +108,29 @@
     --sidebar-ring: 217.2 91.2% 59.8%; /* Resaltado del sidebar */
   }
 }
+
+@layer components{
+  .btn-primary {
+    @apply px-12 py-2 bg-lavender text-deepblue font-semibold text-lg rounded-sm hover:bg-aqua border-2 disabled:opacity-50 disabled:hover:bg-lavender;
+  }
+
+  .btn-secondary {
+    @apply px-12 py-2 bg-gray-200 text-deepblue font-semibold text-lg rounded-sm hover:bg-gray-300 border-2;
+  }
+
+  .btn-confirm {
+    @apply px-12 py-2 bg-green-500 text-white font-semibold text-lg rounded-sm hover:bg-green-600 border-2;
+  }
+
+  .btn-action {
+    @apply flex items-center gap-2 border border-aqua px-4 py-2 rounded-md text-deepblue hover:bg-aqua;
+  }
+
+  .card-container {
+    @apply flex flex-col items-center p-10 bg-white border-2 border-aqua rounded-lg shadow-lg;
+  }
+
+  .heading-primary {
+    @apply font-bold text-3xl text-deepblue mb-6 text-center;
+  }
+}
