@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+.circle-number {
+    @apply absolute text-4xl/8 tablet:-left-[7.8rem] laptop:-left-[10.7rem] laptopL:-left-[14.6rem] laptopXL:-left-[10.5rem] fullHD:-left-[9rem] font-bold top-28 flex justify-center items-center bg-deepblue text-white rounded-full w-20 h-20 z-10
+}}

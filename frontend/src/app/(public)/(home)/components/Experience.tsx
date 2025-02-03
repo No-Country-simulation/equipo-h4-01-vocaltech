@@ -7,27 +7,27 @@ import { Autoplay } from "swiper/modules";
 
 export default function Experience() {
   return (
-    <div className="my-12">
-      <h2 className="text-aqua text-3xl font-semibold mb-8 ml-6">
+    <div className="laptop:mt-20 laptop:mb-28 laptopL:mt-40 laptopL:mb-28 tablet:mt-28 tablet:mb-28">
+      <h2 className="text-darkgreen text-6xl/[90%] font-semibold mb-8 ml-12 laptopL:w-5/12 laptop:w-7/12 tablet:w-9/12 fullHD:w-full">
         Nuestra experiencia nos avala...
       </h2>
       <Swiper
         modules={[Autoplay]}
         autoplay={{ delay: 4000 }}
-        spaceBetween={30} // Espacio entre los slides
+        spaceBetween={10} // Espacio entre los slides
         slidesPerView={3} // Aumentar para mostrar más de un slide al mismo tiempo
         centeredSlides={true} // Centra el slide actual
         loop={true} // Habilita el bucle
       >
         {/* Testimonio 1 */}
         <SwiperSlide>
-          <div className="w-full p-6 border-4 border-solid border-aqua rounded-lg flex items-center space-x-6">
+          <div className="w-full flex items-center space-x-6">
             {/* Contenido */}
             <div className="flex-1">
-              <p className="text-lg font-semibold text-black mb-2">
+              <p className="text-3xl/10 font-bold text-black mb-2">
                 Julia Beltran
               </p>
-              <p className="text-sm text-black leading-relaxed">
+              <p className="text-xl/8 text-black leading-relaxed">
                 “Conocí a VocalTech de la mano de un colega, hace años que
                 venimos trabajando juntos en diferentes proyectos. La calidez
                 del equipo te hace sentir que estás trabajando con amigos :)”
@@ -35,26 +35,25 @@ export default function Experience() {
             </div>
             {/* Imagen redonda */}
             <div className="flex-shrink-0">
-              <div className="w-24 h-24 rounded-full overflow-hidden">
+              
                 <img
                   src="/img/testimonial-1.jpeg"
                   alt="Testimonial 1"
-                  className="w-full h-full object-cover"
+                  
                 />
               </div>
             </div>
-          </div>
         </SwiperSlide>
 
         {/* Testimonio 2 */}
         <SwiperSlide>
-          <div className="w-full p-6 border-4 border-solid border-aqua rounded-lg flex items-center space-x-6">
+          <div className="w-full flex items-center space-x-6">
             {/* Contenido */}
             <div className="flex-1">
-              <p className="text-lg font-semibold text-black mb-2">
+              <p className="text-3xl/10 font-bold text-black mb-2">
                 Carlos Mendoza
               </p>
-              <p className="text-sm text-black leading-relaxed">
+              <p className="text-xl/8 text-black leading-relaxed">
                 “Trabajar con VocalTech fue una experiencia increíble. Desde el
                 principio, sentí confianza y profesionalismo por parte del
                 equipo. ¡Muy recomendados!”
@@ -62,41 +61,35 @@ export default function Experience() {
             </div>
             {/* Imagen redonda */}
             <div className="flex-shrink-0">
-              <div className="w-24 h-24 rounded-full overflow-hidden">
+              
                 <img
                   src="/img/testimonial-2.jpeg"
                   alt="Testimonial 2"
-                  className="w-full h-full object-cover"
+                  
                 />
               </div>
-            </div>
           </div>
         </SwiperSlide>
 
         {/* Testimonio 3 */}
         <SwiperSlide>
-          <div className="w-full p-6 border-4 border-solid border-aqua rounded-lg flex items-center space-x-6">
+          <div className="flex items-center space-x-6">
             {/* Contenido */}
             <div className="flex-1">
-              <p className="text-lg font-semibold text-black mb-2">
+              <p className="text-3xl/10 font-bold text-black mb-2">
                 Carlos Mendoza
               </p>
-              <p className="text-sm text-black leading-relaxed">
+              <p className="text-xl/8 text-black leading-relaxed">
                 “Trabajar con VocalTech fue una experiencia increíble. Desde el
                 principio, sentí confianza y profesionalismo por parte del
                 equipo. ¡Muy recomendados!”
               </p>
             </div>
-            {/* Imagen redonda */}
-            <div className="flex-shrink-0">
-              <div className="w-24 h-24 rounded-full overflow-hidden">
                 <img
                   src="/img/testimonial-2.jpeg"
                   alt="Testimonial 3"
-                  className="w-full h-full object-cover"
+                  
                 />
-              </div>
-            </div>
           </div>
         </SwiperSlide>
         {/* Agrega más testimonios aquí */}

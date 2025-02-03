@@ -1,5 +1,6 @@
 import HomeImage from './components/HomeImage'
 import '@/app/styles/globals.css'
+import './styles.css'
 import InfoRectangle from './components/InfoRectangle'
 import Lineal from './components/Lineal'
 import Steps from './components/Steps'
@@ -12,20 +13,20 @@ export default async function page() {
   await new Promise(resolve => setTimeout(resolve, 3500));
   return (
 <div>
-  <div className="container max-w-screen-xl mx-auto py-3 flex items-center">
+  <div className="w-11/12 max-w-screen-xl mx-auto py-6 flex items-center">
     {/* Home with Icon */}
-    <p className="flex items-center text-deepblue text-sm font-semibold">
+    <p className="text-sm mobileL:text-sm tablet:text-lg laptop:text-xl laptopL:text-2xl/6 flex items-center text-deepblue font-bold">
       <ChevronDown className="mr-2" /> Home
     </p>
     {/* Buttons */}
     <div className="ml-auto flex space-x-4">
       <Link href="/empresas">
-        <button className="bg-lavender text-deepblue text-sm font-semibold leading-4 py-2 px-7 rounded-md hover:bg-white border-lavender border-2">
+        <button className="btn-primary">
           Soy una empresa
         </button>
       </Link>
       <Link href="/emprendedores">
-        <button className="bg-lavender text-deepblue text-sm font-semibold leading-4 py-2 px-7 rounded-md hover:bg-white border-lavender border-2">
+        <button className="btn-primary">
           Soy un emprendedor
         </button>
       </Link>
@@ -34,7 +35,7 @@ export default async function page() {
   <AuthModal />
   <HomeImage />
   <InfoRectangle />
-  <div className='flex'>
+  <div className="flex">
     <Lineal />
     <Steps />
   </div>

@@ -7,12 +7,28 @@ export default {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+      screens: {
+        mobileS: "320px",
+        mobileM: "375px",
+        mobileL: "425px",
+        tablet: "768px",
+        laptop: "1024px",
+        laptopM: "1280px", // Para pantallas de 13"
+        laptopL: "1440px",
+        laptopXL: "1600px",
+        fullHD: "1920px", // Full HD (1080p)
+        fourK: "2560px", // 4K
+      },
     extend: { 
+      fontFamily: {
+        sans: ["Mulish", "sans-serif"],
+      },
       colors: {
         deepblue: 'var(--deep-blue)',
         royalblue: 'var(--royal-blue)',
         lavender: 'var(--lavender)',
         aqua: 'var(--aqua)',
+        darkgreen: 'var(--dark-green)',
         yellow: 'var(--yellow)',
         lightpink: 'var(--light-pink)',
         background: 'hsl(var(--background))',
@@ -69,7 +85,7 @@ export default {
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)'
+        tablet: 'calc(var(--radius) - 4px)'
       }
     }
   },

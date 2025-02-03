@@ -5,14 +5,14 @@ import React from 'react';
 const Footer: React.FC = () => {
   return (
 <footer className="bg-deepblue text-white py-4">
-  <div className="container mx-auto px-4 py-1 my-2 flex items-center justify-between">
+  <div className="container h-40 mx-auto px-4 py-1 my-2 flex items-center justify-between">
     {/* Vocaltech Logo */}
     <Link href="/"> 
       <Image 
         src="/img/vocaltech-logo-white.svg" 
         alt="Vocaltech" 
-        width={200} 
-        height={200}  
+        width={275} 
+        height={38}  
       />
     </Link>
 
@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
         <Image 
           src="/img/nocountry.svg" 
           alt="Vos y tu Voz" 
-          width={60} 
+          width={83} 
           height={60}  
         />
       </Link>
@@ -30,8 +30,8 @@ const Footer: React.FC = () => {
         <Image 
           src="/img/vosytuvoz.svg" 
           alt="No Country" 
-          width={200} 
-          height={200}  
+          width={174} 
+          height={23}  
         />
       </Link>
     </div>
