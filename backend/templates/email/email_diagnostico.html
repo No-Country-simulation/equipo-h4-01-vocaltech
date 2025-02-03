@@ -5,7 +5,7 @@
         <tr>
             <td style="padding: 20px; text-align: center;">
                 <h2 style="color: #1C198E;">Resultados de tu diagnóstico</h2>
-                <p>Hola <strong>{{ user.username }}</strong>,</p>
+                <p>Hola <strong>{{ user.first_name }}</strong>,</p>
                 <p>Hemos analizado tus respuestas y estas son nuestras recomendaciones para ti:</p>
 
                 {% for question_id, recommendations_list in recommendations.items %}
