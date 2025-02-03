@@ -95,6 +95,7 @@ ASGI_APPLICATION = "backend.asgi.application"
 DAPHNE_SERVE_STATIC = True
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware", 
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
