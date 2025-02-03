@@ -1,4 +1,4 @@
-import { TabConfig } from '@/components/view/NewForm';
+import { TabConfig } from '@/components/view/Formulario';
 import { useState, useEffect, useCallback, useRef } from 'react';
 
 const STORAGE_KEY = 'tabState_v1';

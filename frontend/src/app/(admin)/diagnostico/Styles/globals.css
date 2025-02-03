@@ -78,15 +78,6 @@ body {
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
 /* En tu CSS global */
 .scrollbar-hide {
   -ms-overflow-style: none; /* IE and Edge */

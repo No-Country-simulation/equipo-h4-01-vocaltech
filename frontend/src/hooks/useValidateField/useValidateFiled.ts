@@ -1,4 +1,4 @@
-import { FormField } from '@/components/view/NewForm';
+import { FormField } from '@/components/view/Formulario';
 
 export const useValidateField = (field: FormField, value: any): boolean => {
   if (field.validation?.required) {

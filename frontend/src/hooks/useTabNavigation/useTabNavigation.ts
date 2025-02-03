@@ -1,4 +1,4 @@
-import { TabConfig } from '@/components/view/NewForm';
+import { TabConfig } from '@/components/view/Cuestionario';
 import { Dispatch, SetStateAction, useCallback } from 'react';
 
 export const useTabNavigation = (

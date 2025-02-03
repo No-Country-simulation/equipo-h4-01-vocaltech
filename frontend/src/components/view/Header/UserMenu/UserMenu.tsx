@@ -7,7 +7,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui';
@@ -30,7 +29,6 @@ export const UserMenu = () => {
         <DropdownMenuContent align="end">
           <DropdownMenuSeparator />
           <DropdownMenuItem>Perfil</DropdownMenuItem>
-          <DropdownMenuItem>Configuración</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>Cerrar sesión</DropdownMenuItem>
         </DropdownMenuContent>

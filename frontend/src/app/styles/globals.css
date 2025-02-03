@@ -5,7 +5,7 @@
 
 @layer base {
   @font-face {
-    font-family: "Mulish", serif;
+    font-family: 'Mulish', serif;
     src: url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');
   }
 }
@@ -15,16 +15,16 @@
     @apply bg-inherit antialiased;
   }
 }
+
 @layer base {
   :root {
     /* Paleta de colores añadida por los diseñadores */
     --deep-blue: #040041; /* Azul oscuro intenso */
-    --royal-blue: #1C198E; /* Azul real */
-    --lavender: #ACA7F2; /* Lavanda */
-    --aqua: #B7DCDA; /* Agua */
-    --yellow: #FFEA62; /* Amarillo brillante */
-    --light-pink: #FCF9FA; /* Rosa claro */
-    
+    --royal-blue: #1c198e; /* Azul real */
+    --lavender: #aca7f2; /* Lavanda */
+    --aqua: #b7dcda; /* Agua */
+    --yellow: #ffea62; /* Amarillo brillante */
+    --light-pink: #fcf9fa; /* Rosa claro */
 
     /* Colores generales */
     --background: 0 0% 100%; /* Fondo claro */

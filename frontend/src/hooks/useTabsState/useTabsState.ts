@@ -1,5 +1,5 @@
 'use client';
-import { TabConfig } from '@/components/view/NewForm';
+import { TabConfig } from '@/components/view/Cuestionario';
 import { useState, useCallback } from 'react';
 
 export const useTabsState = (initialTabs: TabConfig[]) => {
