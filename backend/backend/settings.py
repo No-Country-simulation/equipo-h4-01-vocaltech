@@ -29,10 +29,6 @@ SECRET_KEY = "django-insecure-k9gw($iaq*hvj(1h^%m#3ni@%2ox5a(8fftsxmn5rpkhwzmst4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not os.environ.get("PROD", False)
 
-ALLOWED_HOSTS = ["*"]
-
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "https://equipo-h4-01-vocaltech.vercel.app/"]
-
 
 # Application definition
 
@@ -82,7 +78,14 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
 }
 
+ALLOWED_HOSTS = ["*"]
+
 CSRF_TRUSTED_ORIGINS = ["https://equipo-h4-01-vocaltech.onrender.com", "https://equipo-h4-01-vocaltech.vercel.app/", "http://localhost:8000", "http://localhost:3000"]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Permite el frontend local
+    "https://equipo-h4-01-vocaltech.onrender.com",  # Permite el dominio en producción
+]
 
 CORS_ALLOW_CREDENTIALS = False
 
