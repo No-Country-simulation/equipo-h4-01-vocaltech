@@ -3,7 +3,7 @@ import { API_URL_PROD, QUEST_PRE } from '@/api/Root/root';
 import {
   adaptadorQuestions,
   InputQuestion
-} from '@/api/AdapterQuestions/AdapterQuestion';
+} from '../AdapterQuestions/AdapterQuestion';
 
 export const getQuestions = async () => {
   try {

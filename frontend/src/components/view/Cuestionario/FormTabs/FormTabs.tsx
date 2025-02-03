@@ -11,6 +11,7 @@ import {
   FieldRenderer
 } from '../../Common';
 import { FormField, SectionProps } from '../TabType/TabType';
+import { postQuestions } from '@/api/Questions/post/QuestionsPro';
 
 export const FormTabs = () => {
   const { activeTab, tabs = [], setActiveTab, validateTab } = useTabsState();
@@ -100,6 +101,8 @@ export const FormTabs = () => {
     try {
       // Lógica de envío aquí
       console.log('Submitting:', formData);
+      const response = await postQuestions(formData);
+      console.log('Response:', response);
       await handleConfirm(formData);
     } catch (error) {
       console.error('Submission error:', error);

@@ -37,7 +37,7 @@ export const FieldRenderer = ({
           placeholder={field.placeholder}
         />
       );
-    case 'number':
+    case 'number2':
       return (
         <Input
           type="number"
@@ -54,6 +54,7 @@ export const FieldRenderer = ({
           placeholder={field.placeholder}
         />
       );
+
     case 'radio':
       return (
         <RadioGroup value={value} onValueChange={handleChange}>
@@ -68,6 +69,7 @@ export const FieldRenderer = ({
           ))}
         </RadioGroup>
       );
+
     case 'checkbox':
       return (
         <div className="flex flex-col gap-2">
@@ -88,6 +90,7 @@ export const FieldRenderer = ({
           ))}
         </div>
       );
+
     case 'select':
       return (
         <Select value={value} onValueChange={handleChange}>
@@ -103,50 +106,40 @@ export const FieldRenderer = ({
           </SelectContent>
         </Select>
       );
+
     case 'yes_no':
       return (
         <div className="flex gap-4">
           <Button
             variant={value === 'yes' ? 'default' : 'outline'}
-            onClick={() => handleChange('yes')}
+            onClick={() => handleChange('1')}
           >
             Sí
           </Button>
           <Button
             variant={value === 'no' ? 'default' : 'outline'}
-            onClick={() => handleChange('no')}
+            onClick={() => handleChange('2')}
           >
             No
           </Button>
         </div>
       );
-    case 'rating':
+
+    case 'number':
       return (
-        <div className="space-y-4">
+        <RadioGroup value={value} onValueChange={handleChange}>
           {field.options?.map(option => (
-            <div key={option.id} className="space-y-2">
-              <Label className="font-semibold text-lg">{option.text}</Label>
-              <RadioGroup
-                value={value[option.id]}
-                onValueChange={val =>
-                  handleChange({ ...value, [option.id]: val })
-                }
-                className="flex space-x-4"
-              >
-                {[1, 2, 3, 4, 5].map(rating => (
-                  <div key={rating} className="flex flex-col items-center">
-                    <RadioGroupItem
-                      value={rating.toString()}
-                      id={`${option.id}-${rating}`}
-                    />
-                    <Label htmlFor={`${option.id}-${rating}`}>{rating}</Label>
-                  </div>
-                ))}
-              </RadioGroup>
+            <div key={option.id} className="flex items-center space-x-2">
+              <RadioGroupItem
+                value={option.id.toString()}
+                id={option.id.toString()}
+              />
+              <Label htmlFor={option.id.toString()}>{option.text}</Label>
             </div>
           ))}
-        </div>
+        </RadioGroup>
       );
+
     default:
       return <div>Tipo de campo no soportado</div>;
   }
