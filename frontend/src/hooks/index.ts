@@ -4,6 +4,7 @@ export * from './useFieldStyles/useFieldStyles';
 export * from './useFormSubmission/useFormSubmission';
 export * from './useInitailsName/useInitialsName';
 export * from './useIsMobile/useIsMobile';
+export * from './useLoadData/useLoadData';
 export * from './useTabNavigation/useTabNavigation';
 export * from './useTabsState/useTabsState';
 export * from './useToast/useToast';

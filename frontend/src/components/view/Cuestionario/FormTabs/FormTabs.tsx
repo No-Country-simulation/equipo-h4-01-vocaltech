@@ -1,9 +1,14 @@
 'use client';
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { Button, Tabs, TabsContent, Label, Separator } from '@/components/ui';
 import { TabsNavigation } from '../TabsNavigation/TabsNavigation';
 import { initialTabs } from '../TabsInitial/TabsInitial';
-import { useTabsState, useFormSubmission, useValidateField } from '@/hooks';
+import {
+  useTabsState,
+  useFormSubmission,
+  useValidateField,
+  useLoadData
+} from '@/hooks';
 import { BreadcrumbNav, ProgressCircles } from '../../Nav';
 import {
   AudioRecorder,
@@ -138,6 +143,9 @@ export const FormTabs = () => {
         formData[question.id] !== undefined && formData[question.id] !== ''
     );
   }, [tabs, activeTab, activeSection, formData]);
+
+  const Data = useLoadData();
+  console.log('Question', Data);
 
   return (
     <>
