@@ -31,7 +31,7 @@ DEBUG = not os.environ.get("PROD", False)
 
 ALLOWED_HOSTS = ["*"]
 
-CORS_ALLOWED_ORIGINS = ['*']
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "https://equipo-h4-01-vocaltech.vercel.app/"]
 
 
 # Application definition
