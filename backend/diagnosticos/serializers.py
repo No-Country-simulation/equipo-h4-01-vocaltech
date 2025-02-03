@@ -68,7 +68,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Question
-        fields = ['text', 'options', 'group', 'question_type']
+        fields = ['id', 'text', 'options', 'group', 'question_type']
 
 class EncuestaSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())  
