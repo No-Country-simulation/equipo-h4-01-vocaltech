@@ -3,8 +3,5 @@ from django.urls import path, include
 from .views import CitaViewSet
 
 router = DefaultRouter()
-router.register(r'citas', CitaViewSet)
-
-urlpatterns = [
-    path('', include(router.urls)),
-]
+router.register(r"citas", CitaViewSet, basename="citas")
+urlpatterns = [] + router.urls
