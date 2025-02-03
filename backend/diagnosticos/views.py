@@ -14,8 +14,7 @@ class QuestionViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
     queryset = Question.objects.all().order_by('group', 'id')
     serializer_class = QuestionSerializer
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    search_fields = ['text', 'category']
+
 
 
 class LeadEmprendimientoViewSet(viewsets.ModelViewSet):
