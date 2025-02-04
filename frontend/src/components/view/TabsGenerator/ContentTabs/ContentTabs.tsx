@@ -3,13 +3,13 @@ import { TabsContent } from '@/components/ui';
 import { ReactNode } from 'react';
 
 interface ContentTabsProps {
-  id: string;
+  value: string;
   children?: ReactNode;
 }
 
-export const ContentTabs = ({ id, children }: ContentTabsProps) => {
+export const ContentTabs = ({ value, children }: ContentTabsProps) => {
   return (
-    <TabsContent value={id} className="p-6">
+    <TabsContent value={value} className="p-6">
       {children}
     </TabsContent>
   );

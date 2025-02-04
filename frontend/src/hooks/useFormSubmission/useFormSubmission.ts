@@ -16,7 +16,7 @@ export const useFormSubmission = () => {
     async (data: any) => {
       try {
         setIsSubmitting(true);
-        console.log('Enviando:', data);
+        console.debug('Enviando:', data);
         setShowSuccess(true);
         fireConfetti('fireworks');
       } catch (error) {

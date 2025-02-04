@@ -68,7 +68,7 @@ export type TabConfig = {
   fields: SectionProps[];
   completed: boolean;
   disabled: boolean;
-  status: 'valid' | 'invalid' | 'pending' | 'error' | 'disabled';
+  status: string;
 };
 
 export interface TabLabelProps {

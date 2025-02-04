@@ -1,25 +1,26 @@
 import { TabsTrigger } from '@/components/ui';
+import { TabConfig } from '../../Cuestionario';
 import { LabelTab } from '../LabelTab/LabelTab';
-import { TabsProps } from '../TypeTabs/TypeTabs';
 
 interface TiggreProps {
-  tab: TabsProps;
+  tab: TabConfig;
   hidden?: boolean;
 }
 
 export const TriggerTabs = ({ tab, hidden = false }: TiggreProps) => {
-  const { id, title, icon, color, disabled, status } = tab;
   return (
     <TabsTrigger
-      value={id}
-      className="data-[state=active]:bg-transparent flex-1 flex justify-between border-b-2 data-[state=inactive]:border-fuchsia-300"
+      key={tab.id}
+      value={tab.title}
+      className="data-[state=active]:bg-transparent flex-1 flex justify-center "
+      disabled={tab.disabled}
     >
       <LabelTab
-        icon={icon}
-        color={color}
-        title={title}
-        disabled={disabled}
-        status={status}
+        icon={tab.icon}
+        color={tab.color}
+        title={tab.title}
+        disabled={tab.disabled}
+        status={tab.status}
         hidden={hidden}
       />
     </TabsTrigger>

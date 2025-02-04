@@ -15,15 +15,16 @@ export const useTabsState = () => {
         ...tab,
         disabled: index !== 0,
         status: index === 0 ? 'pending' : 'disabled',
-        icon: tab.icon || 'default-icon',
+        icon: tab.icon || 'MinusCircle',
         color: tab.color || '#6B7280'
       }));
       setTabs(initializedTabs);
     }
   }, [initialTabs]);
+
   const validateTab = useCallback((tabIndex: number, isValid: boolean) => {
     setTabs(prevTabs =>
-      prevTabs.map((tab, index) =>
+      prevTabs?.map((tab, index) =>
         index === tabIndex
           ? {
               ...tab,
@@ -38,7 +39,7 @@ export const useTabsState = () => {
   const handleTabChange = useCallback((newTab: number) => {
     setActiveTab(newTab);
     setTabs(prevTabs =>
-      prevTabs.map((tab, index) => ({
+      prevTabs?.map((tab, index) => ({
         ...tab,
         disabled: index !== newTab,
         status: index === newTab ? 'pending' : 'disabled'

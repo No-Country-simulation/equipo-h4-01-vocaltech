@@ -1,41 +1,39 @@
-import { ContentTabs } from '../ContentTabs/ContentTabs';
+/*import { ContentTabs } from '../ContentTabs/ContentTabs';
 import { Tabs, TabsList } from '@/components/ui';
 import { TriggerTabs } from '../TriggerTabs/TriggerTabs';
 import { ContentProps } from '../TypeTabs/TypeTabs';
 import { GeneratorForm } from '../../FormGenerator';
-
+import { SectionProps } from '../../Cuestionario';
 interface ContentRendererProps {
-  content: ContentProps[];
+  fields: SectionProps[];
 }
 
-export const ContentRenderer = ({ content }: ContentRendererProps) => {
-  return (
+export const ContentRenderer = ({ fields }: ContentRendererProps) => {
+  {
+    return (
     <>
-      {Array.isArray(content) ? (
-        <Tabs className="w-full" defaultValue={content[0]?.title}>
+      {Array.isArray(fields) ? (
+        <Tabs className="w-full" defaultValue={fields[0]?.sectionTitle}>
           <TabsList className="w-full justify-start rounded-none bg-transparent">
-            {content.map(subContent => (
-              <TriggerTabs
-                key={subContent.id}
-                id={subContent.id}
-                title={subContent.title}
-                hidden
-              />
+            {fields.map((section) => (
+              <TriggerTabs 
+                
+              hidden /> e e
             ))}
           </TabsList>
-          {content.map(subContent => (
-            <ContentTabs key={subContent.id} id={subContent.id}>
-              {Array.isArray(subContent.value) &&
-                (console.log('subContent.value', subContent.value),
-                (<GeneratorForm values={subContent.value} />))}
+          {fields.map(section => (
+            <ContentTabs key={section.sectionTitle} id={section.sectionTitle}>
+              {section.questions.map(question => (
+                <GeneratorForm key={question.id} values={question} />
+              ))}
             </ContentTabs>
           ))}
-        </Tabs>
-      ) : (
+              ) : (
         <div>
           <span className="text-2xl font-bold">{content}</span>
         </div>
       )}
     </>
   );
-};
+  }
+};*/
