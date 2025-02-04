@@ -1,4 +1,8 @@
-import { FormField, TabConfig } from '@/components/view/Cuestionario';
+import {
+  FormField,
+  StatusType,
+  TabConfig
+} from '@/components/view/Cuestionario';
 
 export interface InputQuestion {
   id: number;
@@ -45,7 +49,7 @@ export const adaptadorQuestions = (
       })),
       completed: false,
       disabled: false,
-      status: 'pending'
+      status: StatusType.Pending
     }
   ];
 };

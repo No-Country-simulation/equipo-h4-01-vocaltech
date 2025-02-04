@@ -27,6 +27,7 @@ export type FieldType =
   | 'select'
   | 'yesno'
   | 'rating';
+
 export type FieldValidation = {
   required?: boolean;
   minLength?: number;
@@ -70,7 +71,7 @@ export type TabConfig = {
   status: StatusType;
 };
 
-enum StatusType {
+export enum StatusType {
   Pending = 'pending',
   Disabled = 'disabled',
   Valid = 'valid',
