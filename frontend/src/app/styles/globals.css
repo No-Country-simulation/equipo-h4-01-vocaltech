@@ -106,9 +106,9 @@
 
 @layer components{
   .btn-primary {
-    @apply bg-lavender text-deepblue mobileL:text-lg laptop:text-xl/4 fourK:text-2xl/4
-    font-normal leading-4 tablet:py-1 tablet:px-2 py-4 px-8 rounded-md hover:bg-white border-lavender border-2 
-    tablet:w-[250px] tablet:h-[55px] w-[308px] h-[62px] fullHD:w-[220px];
+    @apply bg-lavender text-deepblue text-xl/4
+    font-normal leading-4 rounded-md hover:bg-white border-lavender border-2 
+    w-[300px] h-[60px];
   }
 
   .btn-secondary {

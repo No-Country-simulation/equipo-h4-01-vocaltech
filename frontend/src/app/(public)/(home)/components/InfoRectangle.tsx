@@ -3,7 +3,7 @@ import React from 'react'
 export default function InfoRectangle() {
   return (
     <div className='relative -mt-[20%] w-full'>
-    <div className="bg-aqua text-deepblue mobileL:p-7 tablet:pl-8 tablet:pr-8 laptop:py-[72px] laptop:pl-28 laptop:pr-20 laptopM:pr-64 laptopL:pr-80">
+    <div className="bg-aqua text-deepblue pl-[5%] pr-[20%] py-[5%]">
       <h2 className='mobileL:text-3xl/9 laptop:text-5xl/[60px] font-bold overflow-hidden mb-14'>¿Por qué realizar un diagnóstico inicial de tu empresa o emprendimiento?</h2>
       <ul className='mobileL:text-xl laptop:text-3xl/10 font-normal'>
         <li>
