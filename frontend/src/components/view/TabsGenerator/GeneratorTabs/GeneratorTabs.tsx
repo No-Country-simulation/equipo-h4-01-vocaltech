@@ -2,10 +2,10 @@ import { Tabs, TabsList } from '@/components/ui';
 import { TriggerTabs } from '../TriggerTabs/TriggerTabs';
 import { ContentRenderer } from '../ContentRenderer/ContentRenderer';
 import { ContentTabs } from '../ContentTabs/ContentTabs';
-import { TabsProps } from '../TypeTabs/TypeTabs';
+import { TabConfig } from '../../Cuestionario';
 
 interface GeneratorTabsProps {
-  data: TabsProps[];
+  data: TabConfig[];
 }
 
 export const GeneratorTabs = ({ data }: GeneratorTabsProps) => {
@@ -16,22 +16,15 @@ export const GeneratorTabs = ({ data }: GeneratorTabsProps) => {
     >
       <TabsList className="flex justify-between w-full bg-transparent pointer-events-none">
         {data.map(tad => (
-          <TriggerTabs
-            id={id}
-            title={title}
-            color={color}
-            icon={icon}
-            disabled={disabled}
-            status={status}
-          />
+          <TriggerTabs tab={tad} />
         ))}
       </TabsList>
-      {data.map(({ id, title, content }) => (
-        <ContentTabs id={id}>
+      {data.map(({ title }) => (
+        <ContentTabs value={title}>
           <div className="mb-8">
             <h2 className="text-2xl font-semibold text-primary">{title}</h2>
           </div>
-          <ContentRenderer content={content} />
+          {/*<ContentRenderer fileds={fields} />*/}
         </ContentTabs>
       ))}
     </Tabs>

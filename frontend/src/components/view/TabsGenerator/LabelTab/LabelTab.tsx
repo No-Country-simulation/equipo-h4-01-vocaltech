@@ -1,8 +1,8 @@
 'use client';
 import * as LucideIcons from 'lucide-react';
-import { TabsProps } from '../TypeTabs/TypeTabs';
+import { TabConfig, TabLabelProps } from '../../Cuestionario';
 
-const statusIcons: Record<TabsProps['status'], string> = {
+const statusIcons: Record<TabConfig['status'], string> = {
   valid: 'CheckCircle',
   invalid: 'AlertCircle',
   pending: 'Info',
@@ -10,7 +10,7 @@ const statusIcons: Record<TabsProps['status'], string> = {
   disabled: 'MinusCircle'
 };
 
-const statusColors: Record<TabsProps['status'], string> = {
+const statusColors: Record<TabConfig['status'], string> = {
   valid: '#50A5A1',
   invalid: '#F75F57',
   pending: '#040042',
@@ -18,20 +18,19 @@ const statusColors: Record<TabsProps['status'], string> = {
   disabled: '#A9A6E4'
 };
 
-interface LabelTabProps {
-  tab: TabsProps;
-  hidden?: boolean;
-}
-
-export const LabelTab = ({ tab, hidden }: LabelTabProps) => {
+export const LabelTab = ({
+  icon,
+  color,
+  title,
+  disabled,
+  status,
+  hidden
+}: TabLabelProps) => {
   if (hidden) return null;
-  const { title, disabled, status } = tab;
-  let icon = statusIcons[status || ' pending'];
-  let color = statusColors[status || ' pending'];
-  const IconComponent = (LucideIcons as any)[icon || statusIcons.pending];
+  const IconComponent = (LucideIcons as any)[icon || statusIcons[status]];
   const iconColor = disabled
     ? statusColors.disabled
-    : color || statusColors.pending;
+    : color || statusColors[status];
 
   return (
     <div className="flex justify-center items-center gap-3 w-full">

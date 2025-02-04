@@ -265,12 +265,12 @@ export const FormTabs = () => {
                   </div>
                 )}
                 <div className="flex justify-between mt-8">
-                  {activeTab >= 0 && (
+                  {activeTab > 0 && (
                     <Button
                       variant="outline"
                       onClick={() => handleNavigation('prev')}
                       disabled={
-                        tabs[activeTab]?.title === 'Encuesta'
+                        tabs[activeTab]?.title === 'Cuestionario'
                           ? !validSections[activeSection] || isSubmitting
                           : !tabs[activeTab]?.completed || isSubmitting
                       }
