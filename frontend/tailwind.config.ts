@@ -1,13 +1,13 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss';
 
 export default {
-  darkMode: ["class"],
+  darkMode: ['class'],
   content: [
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}'
   ],
   theme: {
-    extend: { 
+    extend: {
       colors: {
         deepblue: 'var(--deep-blue)',
         royalblue: 'var(--royal-blue)',
@@ -17,6 +17,7 @@ export default {
         lightpink: 'var(--light-pink)',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
+
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))'
@@ -73,5 +74,5 @@ export default {
       }
     }
   },
-  plugins: [require("tailwindcss-animate")],
-}
+  plugins: [require('tailwindcss-animate')]
+};

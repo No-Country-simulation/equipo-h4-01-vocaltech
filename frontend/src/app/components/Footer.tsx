@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import { FC } from 'react';
 
-const Footer: React.FC = () => {
+const Footer: FC = () => {
   return (
 <footer className="bg-deepblue text-white py-4">
   <div className="container mx-auto px-4 py-1 my-2 flex items-center justify-between">
@@ -37,7 +37,6 @@ const Footer: React.FC = () => {
     </div>
   </div>
 </footer>
-
   );
 };
 
