@@ -1,6 +1,5 @@
 import { Tabs, TabsList } from '@/components/ui';
 import { TriggerTabs } from '../TriggerTabs/TriggerTabs';
-import { ContentRenderer } from '../ContentRenderer/ContentRenderer';
 import { ContentTabs } from '../ContentTabs/ContentTabs';
 import { TabConfig } from '../../Cuestionario';
 

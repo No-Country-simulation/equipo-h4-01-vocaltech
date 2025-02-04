@@ -45,9 +45,7 @@ export const adaptadorQuestions = (
       })),
       completed: false,
       disabled: false,
-      status: 'pending',
-      icon: 'MinusCircle', // Ajustar según necesidad
-      color: '#A9A6E4' // Ajustar según necesidad
+      status: 'pending'
     }
   ];
 };
