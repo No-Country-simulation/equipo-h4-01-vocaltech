@@ -10,7 +10,7 @@ export default function HomeImage() {
         <Image src="/img/home.svg" alt="Impulsá tu negocio" width={2560} height={1015} />
         <Link href="/agendar-cita">
         <button className="
-        text-[clamp(1.5rem, 3vw, 2.5rem)]
+        text-2xl
         rounded-lg 
         font-semibold 
         bg-aqua 

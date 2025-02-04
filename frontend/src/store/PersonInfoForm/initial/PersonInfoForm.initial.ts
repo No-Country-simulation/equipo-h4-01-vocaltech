@@ -1,4 +1,4 @@
-import { PersonInfoFormState } from '@/store';
+import { PersonInfoFormState } from '@/store/PersonInfoForm';
 
 export const PersonInfoFormInitial: PersonInfoFormState = {
   personInfo: {
