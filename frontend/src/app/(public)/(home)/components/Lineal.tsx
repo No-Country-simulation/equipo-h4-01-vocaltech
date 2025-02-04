@@ -1,32 +1,26 @@
+import Image from 'next/image'
 import React from 'react'
 
 export default function Lineal() {
   return (
-    <>
-      <div className="basis-1/3 flex items-stretch">
-        <div className="relative h-[500px] w-full">
-            <div className="w-full h-full rounded-full overflow-hidden">
-          {/* Imagen redonda con marco degradado */}
-          <div
-            className="absolute left-[-20%] top-2/3 transform -translate-y-1/2 w-[27rem] h-[27rem] z-10 rounded-full border-4 shadow-md"
-            style={{
-              background: "linear-gradient(90deg, #070543, #b8ddda)", // Marco degradado
-              padding: "44px", // Espacio entre el marco y la imagen
-            }}
-          >
-              <img
-                src="/img/mujer-notebook.png"
-                alt="Imagen redonda"
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
-        </div>
-      <div className="flex items-stretch">
-        <div className='w-5 ml-96 rounded-b-lg bg-gradient-to-t from-red-500 to-deepblue z-20'>
-        </div>
+    <div className="relative flex w-[40%] flex-1 items-center justify-center">
+      {/* Imagen de la mujer */}
+      <Image 
+        src="/img/mujer-notebook.svg" 
+        alt="Mujer escribiendo en notebook" 
+        width={871} 
+        height={871} 
+        className="absolute tablet:top-[65rem] laptop:top-[50rem] laptopL:top-[34rem] fullHD:top-[14rem]
+                   tablet:left-[-40%] laptop:left-[-40%] laptopL:left-[-41%] fullHD:left-[-15%] 
+                   max-w-none tablet:max-w-[31rem] laptop:max-w-[40rem] laptopL:max-w-[60rem] fullHD:max-w-[80rem]"
+      />
+      
+      {/* Línea de color */}
+      <div className="absolute top-0 z-0 w-6 
+                      tablet:right-[20%] laptop:right-[25%] laptopL:right-[27%] laptopXL:right-[15%] fullHD:right-[10%] 
+                      tablet:h-[2400px] laptop:h-[1950px] laptopL:h-[1611px] laptopXL:h-[1550px] fullHD:h-[1450px] 
+                      rounded-b-lg bg-gradient-to-t from-[#F75F57] to-deepblue">
       </div>
-      </div>
-    </>
+    </div>
   )
 }

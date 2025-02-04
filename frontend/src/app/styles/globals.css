@@ -1,18 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');
-
-@layer base {
-  @font-face {
-    font-family: 'Mulish', serif;
-    src: url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');
-  }
-}
+@import "@fontsource/mulish"; 
 
 @layer base {
   * {
-    @apply bg-inherit antialiased;
+    @apply bg-inherit antialiased font-sans;
   }
 }
 
@@ -20,11 +13,13 @@
   :root {
     /* Paleta de colores añadida por los diseñadores */
     --deep-blue: #040041; /* Azul oscuro intenso */
-    --royal-blue: #1c198e; /* Azul real */
-    --lavender: #aca7f2; /* Lavanda */
-    --aqua: #b7dcda; /* Agua */
-    --yellow: #ffea62; /* Amarillo brillante */
-    --light-pink: #fcf9fa; /* Rosa claro */
+    --royal-blue: #1C198E; /* Azul real */
+    --lavender: #ACA7F2; /* Lavanda */
+    --aqua: #B7DCDA; /* Agua */
+    --dark-green: #50A5A1;
+    --yellow: #FFEA62; /* Amarillo brillante */
+    --light-pink: #FCF9FA; /* Rosa claro */
+    
 
     /* Colores generales */
     --background: 0 0% 100%; /* Fondo claro */
@@ -111,11 +106,13 @@
 
 @layer components{
   .btn-primary {
-    @apply px-12 py-2 bg-lavender text-deepblue font-semibold text-lg rounded-sm hover:bg-aqua border-2 disabled:opacity-50 disabled:hover:bg-lavender;
+    @apply bg-lavender text-deepblue mobileL:text-lg laptop:text-xl/4 fourK:text-2xl/4
+    font-normal leading-4 tablet:py-1 tablet:px-2 py-4 px-8 rounded-md hover:bg-white border-lavender border-2 
+    tablet:w-[250px] tablet:h-[55px] w-[308px] h-[62px] fullHD:w-[220px];
   }
 
   .btn-secondary {
-    @apply px-12 py-2 bg-gray-200 text-deepblue font-semibold text-lg rounded-sm hover:bg-gray-300 border-2;
+    @apply text-deepblue text-xl/4 font-normal text-center leading-4 hover:bg-aqua hover:text-white border-aqua border-2 w-[169px] h-[48px];
   }
 
   .btn-confirm {

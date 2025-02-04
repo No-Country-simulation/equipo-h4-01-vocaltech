@@ -6,7 +6,7 @@ export default async function page() {
   await new Promise(resolve => setTimeout(resolve, 3500));
   return (
     <div className="col-span-9 font-bold ">
-      <div className="flex flex-col items-center justify-center min-h-[400px] bg-white rounded-lg p-8">
+      <div className="flex flex-col items-center justify-center min-h-[25rem] bg-white rounded-lg p-8">
         <div className="flex items-center text-xl gap-2 text-aqua mb-4">
           <span>No tenés citas pendientes</span>
           <Sparkles className="w-5 h-5" />
