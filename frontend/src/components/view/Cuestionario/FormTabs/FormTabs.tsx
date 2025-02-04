@@ -1,5 +1,5 @@
 'use client';
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { Button, Tabs, TabsContent, Label, Separator } from '@/components/ui';
 import { TabsNavigation } from '../TabsNavigation/TabsNavigation';
 import { useTabsState, useFormSubmission, useValidateField } from '@/hooks';
@@ -33,7 +33,6 @@ export const FormTabs = () => {
     (fieldId: string, value: any) => {
       const newData = { ...formData, [fieldId]: value };
       setFormData(newData);
-
       // Validación en tiempo real
       const currentTab = tabs[activeTab];
       const isValid = currentTab?.fields?.every((field: any) =>
@@ -175,7 +174,7 @@ export const FormTabs = () => {
             >
               <div className="space-y-4 p-4">
                 <div className="flex justify-between item-center">
-                  <h2 className="text-xl font-semibold ">
+                  <h2 className="text-xl font-semibold">
                     {tabs[activeTab]?.fields?.[activeSection]?.sectionTitle ||
                       tab.title}
                   </h2>
@@ -197,14 +196,13 @@ export const FormTabs = () => {
                     >
                       <TabsNavigation
                         tabs={
-                          tab.fields?.map(
-                            (field: SectionProps, index: number) => ({
-                              ...field,
-                              id: index.toString(),
-                              title: field.sectionTitle || ''
-                            })
-                          ) || []
+                          tab.fields?.map((field: any, index: number) => ({
+                            ...field,
+                            id: index.toString(),
+                            title: field.sectionTitle || ''
+                          })) || []
                         }
+                        hidden
                         activeTab={activeSection}
                         setActiveTab={setActiveSection}
                       />
@@ -216,7 +214,6 @@ export const FormTabs = () => {
                           hidden={activeSection !== idx}
                         >
                           <div className="space-y-2">
-                            <h3>{field.sectionTitle}</h3>
                             {field.questions.map((question: FormField) => (
                               <div key={question.id} className="space-y-2">
                                 <Label>{question.text}</Label>
@@ -224,7 +221,10 @@ export const FormTabs = () => {
                                   field={question}
                                   value={formData[question.id]}
                                   onChange={value =>
-                                    handleFieldChange(question.id, value)
+                                    handleFieldChange(
+                                      question.id.toString(),
+                                      value
+                                    )
                                   }
                                 />
                               </div>
@@ -245,7 +245,7 @@ export const FormTabs = () => {
                               field={question}
                               value={formData[question.id]}
                               onChange={value =>
-                                handleFieldChange(question.id, value)
+                                handleFieldChange(question.id.toString(), value)
                               }
                             />
                           </div>

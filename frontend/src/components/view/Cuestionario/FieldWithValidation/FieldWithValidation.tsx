@@ -16,7 +16,7 @@ export const FieldWithValidation = ({
       value={value}
       onChange={e => onChange(e.target.value)}
       placeholder={placeholder}
-      type={type}
+      type={question_type}
       style={{ borderColor }}
       className="transition-colors duration-300"
     />

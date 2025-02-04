@@ -4,24 +4,24 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { Button, Form } from '@/components/ui';
-import { FormTypeField } from '../TypeForm/TypeForm';
 import { useFormStore } from '@/store/from/from.store';
 import { DateField } from '../ElementForm/DateField/DateField';
 import { AvatarUploader } from '../ElementForm/AvatarUploader/AvatarUploader';
 import type { ValueProps } from '../../TabsGenerator';
 import { InputField } from '../ElementForm/InputField/InputField';
+import { FormField } from '../../Cuestionario';
 
 interface FormGeneratorProps {
-  elements: ValueProps[];
+  elements: FormField[];
   onSubmit?: (data: Record<string, any>) => void;
 }
 
-const createFormSchema = (elements: ValueProps[]) => {
+const createFormSchema = (elements: FormField[]) => {
   const schemaFields: Record<string, any> = {};
   console.log('ElementsZod', elements);
-  elements.forEach((element: ValueProps) => {
+  elements.forEach((element: FormField) => {
     if (element.required) {
-      switch (element.type) {
+      switch (element.question_type) {
         case 'email':
           schemaFields[element.id] = z.string().email('Email inválido');
           break;
@@ -38,13 +38,9 @@ const createFormSchema = (elements: ValueProps[]) => {
             });
           break;
         case 'radio': {
-          const radioOptions =
-            element.options?.map(option => option.value) || [];
+          const radioOptions = element.options?.map(option => option.id) || [];
           if (radioOptions.length > 0) {
-            schemaFields[element.id] = z.enum([
-              radioOptions[0],
-              ...radioOptions.slice(1)
-            ]);
+            schemaFields[element.id] = z.string();
           }
           break;
         }
@@ -55,13 +51,9 @@ const createFormSchema = (elements: ValueProps[]) => {
             .max(1000, 'Este campo no puede superar los 1000 caracteres');
           break;
         case 'select': {
-          const selectOptions =
-            element.options?.map(option => option.value) || [];
+          const selectOptions = element.options?.map(option => option.id) || [];
           if (selectOptions.length > 0) {
-            schemaFields[element.id] = z.enum([
-              selectOptions[0],
-              ...selectOptions.slice(1)
-            ] as [string, ...string[]]);
+            schemaFields[element.id] = z.string();
           }
           break;
         }
@@ -112,9 +104,9 @@ export const SelectorElementForm = ({
       >
         <div className="space-y-4">
           {elements
-            ?.filter(field => field.type !== 'photo')
-            .map((field: FormTypeField) => {
-              if (field.type === 'date') {
+            ?.filter(field => field.question_type !== 'photo')
+            .map((field: any) => {
+              if (field.question_type === 'date') {
                 return (
                   <DateField
                     key={field.id}
@@ -124,9 +116,8 @@ export const SelectorElementForm = ({
                     value={
                       form.watch(field.id as keyof typeof formData) as string
                     }
-                    //onChange={date => form.setValue(field.id, date.toString())}
-                    onchange={date =>
-                      form.setvalue(field.id, date.toisostring())
+                    onChange={(date: Date) =>
+                      form.setValue(field.id, date.toISOString())
                     }
                   />
                 );
@@ -139,7 +130,7 @@ export const SelectorElementForm = ({
                   label={field.text}
                   required={field.required}
                   placeholder={field.placeholder}
-                  type={field.type}
+                  type={field.question_type}
                   onChange={value => form.setValue(field.id, value)}
                 />
               );
@@ -151,8 +142,8 @@ export const SelectorElementForm = ({
         </div>
         <div className="row-span-2">
           {elements
-            ?.filter(field => field.type === 'photo')
-            .map((field: FormTypeField) => (
+            ?.filter(field => field.question_type === 'photo')
+            .map((field: any) => (
               <AvatarUploader
                 key={field.id}
                 onImageChange={file => form.setValue(field.id, file)}

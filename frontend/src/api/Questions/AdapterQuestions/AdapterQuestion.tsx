@@ -23,7 +23,7 @@ export const adaptadorQuestions = (
       const groupName = question.group;
       acc[groupName] = acc[groupName] || [];
       acc[groupName].push({
-        id: question.id.toString(),
+        id: question.id,
         text: question.text,
         group: question.group,
         question_type: question.question_type,
