@@ -4,10 +4,10 @@ import { useFieldStyles } from '@/hooks';
 
 export const FieldWithValidation = ({
   placeholder,
-  question_type
+  question_type // <- Aquí se recibe la prop
 }: {
   placeholder: string;
-  question_type?: string;
+  question_type?: string; // <- Se define correctamente
 }) => {
   const { value, borderColor, onChange } = useFieldStyles('');
 
@@ -16,7 +16,7 @@ export const FieldWithValidation = ({
       value={value}
       onChange={e => onChange(e.target.value)}
       placeholder={placeholder}
-      type={type}
+      type={question_type || 'text'} // <- Se usa correctamente
       style={{ borderColor }}
       className="transition-colors duration-300"
     />

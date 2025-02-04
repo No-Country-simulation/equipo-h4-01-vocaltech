@@ -198,7 +198,7 @@ export const FormTabs = () => {
                       <TabsNavigation
                         tabs={
                           tab.fields?.map(
-                            (field: SectionProps, index: number) => ({
+                            (field: any, index: number) => ({
                               ...field,
                               id: index.toString(),
                               title: field.sectionTitle || ''

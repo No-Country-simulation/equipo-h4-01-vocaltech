@@ -1,5 +1,4 @@
 import HomeImage from './components/HomeImage'
-import '@/app/styles/globals.css'
 import './styles.css'
 import InfoRectangle from './components/InfoRectangle'
 import Lineal from './components/Lineal'

@@ -81,7 +81,7 @@ export const FieldRenderer = ({
                 onCheckedChange={checked => {
                   const newValue = checked
                     ? [...(value || []), option.id]
-                    : (value || []).filter((v: string) => v !== option.id);
+                    : (value || []).filter((v: string) => v !== option.id.toString());
                   handleChange(newValue);
                 }}
               />
