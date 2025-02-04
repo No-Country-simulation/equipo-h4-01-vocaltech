@@ -111,13 +111,13 @@ export const FieldRenderer = ({
       return (
         <div className="flex gap-4">
           <Button
-            variant={value === 'yes' ? 'default' : 'outline'}
+            variant={value === '1' ? 'default' : 'outline'}
             onClick={() => handleChange('1')}
           >
             Sí
           </Button>
           <Button
-            variant={value === 'no' ? 'default' : 'outline'}
+            variant={value === '2' ? 'default' : 'outline'}
             onClick={() => handleChange('2')}
           >
             No
