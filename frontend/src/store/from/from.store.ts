@@ -30,17 +30,23 @@ const initialState: FormData = {
 
 export const useFormStore = create<FormStore>()(
   persist(
-    (set: (fn: (state: FormStore) => FormStore) => void) => ({
+    set => ({
       formData: initialState,
       setFormData: (data: Partial<FormData>) =>
-        set((state: FormStore) => ({
+        set(state => ({
+          ...state,
           formData: { ...state.formData, ...data }
         })),
       setAudioUrl: (url: string | null) =>
-        set((state: FormStore) => ({
+        set(state => ({
+          ...state,
           formData: { ...state.formData, audioUrl: url }
         })),
-      resetForm: () => set({ formData: initialState })
+      resetForm: () =>
+        set(state => ({
+          ...state,
+          formData: initialState
+        }))
     }),
     {
       name: 'business-form-storage'
