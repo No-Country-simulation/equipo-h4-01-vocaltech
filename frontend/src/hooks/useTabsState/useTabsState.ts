@@ -1,7 +1,7 @@
 'use client';
 import { useState, useCallback, useEffect } from 'react';
-import { TabConfig } from '@/components/view/Cuestionario';
 import { useInitialTabs } from '../useInitialTabs/useInitialTabs';
+import { StatusType, TabConfig } from '@/components/view/Cuestionario';
 
 // Solo se ejecuta cuando initialTabs cambia
 export const useTabsState = () => {
@@ -14,7 +14,7 @@ export const useTabsState = () => {
       const initializedTabs = initialTabs.map((tab, index) => ({
         ...tab,
         disabled: index !== 0,
-        status: index === 0 ? 'pending' : 'disabled',
+        status: index === 0 ? StatusType.Pending : StatusType.Disabled,
         icon: tab.icon || 'MinusCircle',
         color: tab.color || '#6B7280'
       }));
@@ -28,7 +28,7 @@ export const useTabsState = () => {
         index === tabIndex
           ? {
               ...tab,
-              status: isValid ? 'valid' : 'invalid',
+              status: isValid ? StatusType.Valid : StatusType.Invalid,
               completed: isValid
             }
           : tab
@@ -42,7 +42,7 @@ export const useTabsState = () => {
       prevTabs?.map((tab, index) => ({
         ...tab,
         disabled: index !== newTab,
-        status: index === newTab ? 'pending' : 'disabled'
+        status: index === newTab ? StatusType.Pending : StatusType.Disabled
       }))
     );
   }, []);
