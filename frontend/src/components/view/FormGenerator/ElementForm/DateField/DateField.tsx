@@ -2,29 +2,35 @@ import { useFormContext } from 'react-hook-form';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
 import {
+  Button,
+  Label,
+  Calendar,
   Popover,
   PopoverContent,
-  PopoverTrigger
-} from '@/components/ui/popover';
-import { Label } from '@/components/ui/label';
-import { es } from 'date-fns/locale';
-import {
+  PopoverTrigger,
+  FormControl,
   FormField,
   FormItem,
-  FormControl,
   FormMessage
-} from '@/components/ui/form';
+} from '@/components/ui';
+import { es } from 'date-fns/locale';
 
 interface DateFieldProps {
   id: string;
   text: string;
   required?: boolean;
+  value: string;
+  onChange: (date: Date) => void;
 }
 
-export function DateField({ id, text, required }: DateFieldProps) {
+export function DateField({
+  id,
+  text,
+  required,
+  value,
+  onChange
+}: DateFieldProps) {
   const form = useFormContext();
 
   return (
@@ -45,22 +51,20 @@ export function DateField({ id, text, required }: DateFieldProps) {
                   variant={'outline'}
                   className={cn(
                     'w-full justify-start text-left font-normal mt-1.5 border-[#D0D5DD] shadow-sm',
-                    !field.value && 'text-[#667085]'
+                    !value && 'text-[#667085]'
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
-                  {field.value
-                    ? format(new Date(field.value), 'PPP', { locale: es })
+                  {value
+                    ? format(new Date(value), 'PPP', { locale: es })
                     : 'Seleccione una fecha'}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
                 <Calendar
                   mode="single"
-                  selected={field.value ? new Date(field.value) : undefined}
-                  onSelect={date =>
-                    field.onChange(date ? date.toISOString() : '')
-                  }
+                  selected={value ? new Date(value) : undefined}
+                  onSelect={date => onChange(date ? date : new Date())}
                   initialFocus
                   locale={es}
                 />

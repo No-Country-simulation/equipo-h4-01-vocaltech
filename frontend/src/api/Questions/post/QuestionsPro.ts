@@ -13,11 +13,6 @@ export const postQuestions = async (questions: any) => {
       `${API_URL_PROD}/${QUEST_PRO}/`,
       {
         ...questionAdatper
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json'
-        }
       }
     );
     return response.data;

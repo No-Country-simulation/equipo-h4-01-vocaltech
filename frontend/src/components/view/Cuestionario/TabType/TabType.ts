@@ -44,7 +44,7 @@ export type FieldOption = {
 };
 
 export type FormField = {
-  id: string;
+  id: number;
   text: string;
   group: string;
   question_type: string;

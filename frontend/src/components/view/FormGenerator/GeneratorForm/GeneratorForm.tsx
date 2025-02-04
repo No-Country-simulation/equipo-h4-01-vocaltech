@@ -3,9 +3,10 @@
 import { toast } from 'sonner';
 import { SelectorElementForm } from '../SelectorElementForm/SelectorElementForm';
 import { ValueProps } from '../../TabsGenerator';
+import { FormField } from '../../Cuestionario';
 
 interface GeneratorFormProps {
-  values: ValueProps[];
+  values: FormField[];
 }
 
 export const GeneratorForm = ({ values }: GeneratorFormProps) => {

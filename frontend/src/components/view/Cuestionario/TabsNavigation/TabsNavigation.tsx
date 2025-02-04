@@ -7,12 +7,12 @@ export const TabsNavigation = ({
   hidden,
   setActiveTab
 }: TabsNavigationProps) => (
-  <TabsList className="flex justify-between w-full bg-transparent pointer-events-none">
+  <TabsList className="flex justify-start w-full bg-transparent pointer-events-none">
     {tabs.map((tab, index) => (
       <TabsTrigger
         key={tab.id}
         value={tab.title}
-        className="data-[state=active]:bg-transparent flex-1 flex justify-center "
+        className="data-[state=active]:bg-transparent flex-1 flex justify-Start"
         disabled={tab.disabled}
         onClick={() => !tab.disabled && setActiveTab(index)}
       >

@@ -6,7 +6,7 @@ export default function HomeImage() {
 
   return (
     <>
-      <div className="absolute max-w-fourK w-full pl-[4.375rem] z-20 bg-transparent">
+      <div className="relative max-w-fourK w-full pl-[4.375rem] z-20 bg-transparent">
         <Image src="/img/home.svg" alt="Impulsá tu negocio" width={2560} height={1015} />
         <Link href="/agendar-cita">
         <button className="
@@ -22,28 +22,12 @@ export default function HomeImage() {
         border-aqua border-2 
         text-deepblue 
         absolute 
-        mobileL:top-[160px] 
-        tablet:top-[290px] 
-        laptop:top-[25rem] 
-        laptopM:top-[640px] 
-        laptopL:top-[575px] 
-        laptopXL:top-[650px] 
-        fullHD:top-[770px] 
-        fourK:top-[1050px] 
+        top-[60%] 
+        translate-y-[-50%]  
         left-0 
-        z-20 m
-        obileL:py-1 
-        mobileL:px-2 
-        tablet:py-4 
-        tablet:px-6 
-        laptop:px-12 
-        py-8 px-32 
-        tablet:w-[305px] tablet:h-[50px] 
-        laptop:w-[25rem] laptop:h-[50px]
-        laptopM:w-[480px] laptopM:h-[60px]
-        laptopL:w-[500px] laptopL:h-[4.375rem]
-        laptopXL:w-[620px] laptopXL:h-[4.375rem]
-        fullHD:w-[740px] fullHD:h-[90px] 
+        z-20
+        w-2/5 
+        h-[10%]
         ">
         Quiero obtener mi diagnóstico
         </button></Link>
