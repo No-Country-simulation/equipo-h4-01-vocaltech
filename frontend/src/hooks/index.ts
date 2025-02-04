@@ -1,6 +1,7 @@
 export * from './useAvatarSrc/useAvatarSrc';
 export * from './useConfetti/useConfetti';
 export * from './useFieldStyles/useFieldStyles';
+export * from './useHealthCheck/useHealthCheck';
 export * from './useFormSubmission/useFormSubmission';
 export * from './useInitailsName/useInitialsName';
 export * from './useInitialTabs/useInitialTabs';
