@@ -75,7 +75,8 @@ export enum StatusType {
   Pending = 'pending',
   Disabled = 'disabled',
   Valid = 'valid',
-  Invalid = 'invalid'
+  Invalid = 'invalid',
+  Error = 'error'
 }
 
 export interface TabLabelProps {
