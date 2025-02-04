@@ -27,7 +27,6 @@ export type FieldType =
   | 'select'
   | 'yesno'
   | 'rating';
-
 export type FieldValidation = {
   required?: boolean;
   minLength?: number;
@@ -68,8 +67,15 @@ export type TabConfig = {
   fields: SectionProps[];
   completed: boolean;
   disabled: boolean;
-  status: string;
+  status: StatusType;
 };
+
+enum StatusType {
+  Pending = 'pending',
+  Disabled = 'disabled',
+  Valid = 'valid',
+  Invalid = 'invalid'
+}
 
 export interface TabLabelProps {
   icon?: string;

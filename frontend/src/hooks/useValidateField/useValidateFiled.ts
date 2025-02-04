@@ -1,33 +1,38 @@
-import { FormField } from '@/components/view/Formulario';
+import { FormField } from '@/components/view/Cuestionario';
+import { z } from 'zod';
 
 export const useValidateField = (field: FormField, value: any): boolean => {
-  if (field.validation?.required) {
-    if (value === undefined || value === null) return false;
-    if (typeof value === 'string' && !value.trim()) return false;
-    if (Array.isArray(value) && value.length === 0) return false;
-  }
-
-  switch (field.type) {
-    case 'text':
-    case 'textarea':
-      if (field.validation?.min && value?.length < field.validation.min)
+  try {
+    switch (field.question_type) {
+      case 'text':
+        z.string().min(2).max(255).parse(value);
+        break;
+      case 'number':
+        z.number().parse(value);
+        break;
+      case 'textarea':
+        z.string().min(2).max(1000).parse(value);
+        break;
+      case 'radio':
+      case 'checkbox':
+      case 'select':
+        z.string().nonempty().parse(value);
+        break;
+      case 'yesno':
+        z.boolean().parse(value);
+        break;
+      case 'rating':
+        z.number().min(1).max(5).parse(value);
+        break;
+      case 'photo':
+      case 'audio':
+        z.string().url().nonempty().parse(value);
+        break;
+      default:
         return false;
-      if (field.validation?.max && value?.length > field.validation.max)
-        return false;
-      if (
-        field.validation?.pattern &&
-        !new RegExp(field.validation.pattern).test(value)
-      )
-        return false;
-      return true;
-
-    case 'rating':
-      return !(
-        field.validation?.required &&
-        (value === undefined || value < 1)
-      );
-
-    default:
-      return true;
+    }
+    return true;
+  } catch (e) {
+    return false;
   }
 };

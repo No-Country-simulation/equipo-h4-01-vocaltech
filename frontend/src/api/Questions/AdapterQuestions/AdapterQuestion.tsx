@@ -45,9 +45,7 @@ export const adaptadorQuestions = (
       })),
       completed: false,
       disabled: false,
-      status: 'pending',
-      icon: 'Info', // Ajustar según necesidad
-      color: '#040042' // Ajustar según necesidad
+      status: 'pending'
     }
   ];
 };
