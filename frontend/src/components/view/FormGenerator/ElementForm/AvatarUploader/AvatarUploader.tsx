@@ -32,7 +32,7 @@ export const AvatarUploader = ({ onImageChange }: PhotoUploadProps) => {
         >
           {preview ? (
             <Image
-              src={preview || '/placeholder.svg'}
+              src={preview || '/placeholder.webp'}
               alt="Preview"
               fill
               className="object-cover"

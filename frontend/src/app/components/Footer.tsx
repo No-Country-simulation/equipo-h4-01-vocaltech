@@ -9,7 +9,7 @@ const Footer: FC = () => {
     {/* Vocaltech Logo */}
     <Link href="/"> 
       <Image 
-        src="/img/vocaltech-logo-white.svg" 
+        src="/img/vocaltech-logo-white.webp" 
         alt="Vocaltech" 
         width={275} 
         height={38}  
@@ -20,7 +20,7 @@ const Footer: FC = () => {
     <div className="flex items-center space-x-8">
       <Link href="https://inesmonescazon.com.ar/"> 
         <Image 
-          src="/img/nocountry.svg" 
+          src="/img/vosytuvoz.webp" 
           alt="Vos y tu Voz" 
           width={83} 
           height={60}  
@@ -28,7 +28,7 @@ const Footer: FC = () => {
       </Link>
       <Link href="https://www.nocountry.tech/"> 
         <Image 
-          src="/img/vosytuvoz.svg" 
+          src="/img/nocountry.webp" 
           alt="No Country" 
           width={174} 
           height={23}  

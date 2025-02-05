@@ -15,11 +15,11 @@ const Navbar: React.FC = () => {
         <div className="space-x-12 flex items-center">
           {/* Logo */}
           <Link href="/"> 
-            <Image src="/img/vocaltech-logo.svg" alt="Vocaltech" width={220} height={30} />
+            <Image src="/img/vocaltech-logo.webp" alt="Vocaltech" width={220} height={30} />
           </Link>
           {/* Buttons */}
           <Link href="/nosotros" className='hidden laptop:flex'>
-            <button className="text-deepblue text-xl/4 font-normal leading-4 py-5 px-8 hover:bg-lavender hover:text-white rounded-[5px] border-lavender border-2">
+            <button className="btn-nav">
               Quienes somos
             </button>
           </Link>
@@ -28,12 +28,12 @@ const Navbar: React.FC = () => {
         <div className="hidden laptop:flex space-x-4">
           <button 
             onClick={() => openModal(true)}        
-            className="btn-secondary">
+            className="btn-nav border-aqua">
             Iniciar sesión
           </button>
           <button 
             onClick={() => openModal(false)}
-            className="btn-secondary">
+            className="btn-nav border-aqua">
             Registrarme
           </button>
         </div>
@@ -48,18 +48,18 @@ const Navbar: React.FC = () => {
       {isOpen && (
         <div className="laptop:hidden flex flex-col items-center space-y-4 py-4 bg-white shadow-md">
           <Link href="/nosotros">
-            <button className="text-deepblue text-lg py-2 px-4 hover:bg-lavender hover:text-white border-2 border-lavender w-48 text-center">
+            <button className="btn-nav">
               Quienes somos
             </button>
           </Link>
           <button 
             onClick={() => openModal(true)}
-            className="text-deepblue text-lg py-2 px-4 hover:bg-aqua hover:text-white border-2 border-aqua w-48">
+            className="btn-nav border-aqua">
             Iniciar sesión
           </button>
           <button 
             onClick={() => openModal(false)}
-            className="text-deepblue text-lg py-2 px-4 hover:bg-aqua hover:text-white border-2 border-aqua w-48">
+            className="btn-nav border-aqua">
             Registrarme
           </button>
         </div>

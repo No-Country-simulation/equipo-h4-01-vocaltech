@@ -34,8 +34,8 @@ export default async function page() {
             <div key={diagnostic.id} className="mb-6 bg-white rounded-lg p-6 shadow-sm">
               <div className="flex justify-between items-start mb-6">
                 <div>
-                  <p className="text-sm mb-1">{diagnostic.date}</p>
-                  <h2 className="text-xl font-bold">{diagnostic.name}</h2>
+                  <p className="text-base/10 mb-1">{diagnostic.date}</p>
+                  <h2 className="text-3xl/10 font-bold">{diagnostic.name}</h2>
                 </div>
                 <button className="bg-aqua px-4 py-2 rounded flex items-center gap-2 hover:bg-lavender">
                   <Eye className="w-4 h-4" />
@@ -46,7 +46,7 @@ export default async function page() {
               <div className="flex items-center">
                 {diagnostic.steps.map((step, index) => (
                   <React.Fragment key={step.name}>
-                    <div className="flex flex-col items-center flex-1 font-medium">
+                    <div className="flex flex-col items-center flex-1 font-medium text-base">
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center mb-2 
                         ${step.status === 'complete' ? 'bg-deepblue text-white' : 'bg-red-200'}`}>
                         {step.status === 'complete' ? (
@@ -55,9 +55,9 @@ export default async function page() {
                           <X className="w-5 h-5 text-red-500" />
                         )}
                       </div>
-                      <p className="text-xs text-center">{step.name}</p>
+                      <p className="text-center">{step.name}</p>
                       {step.date && (
-                        <p className="text-xs mt-1">{step.date}</p>
+                        <p className="mt-1">{step.date}</p>
                       )}
                     </div>
                     {index < diagnostic.steps.length - 1 && (
@@ -73,8 +73,19 @@ export default async function page() {
             </div>
           ))}
 
-          <button className="w-full bg-aqua py-3 rounded-lg font-medium hover:bg-lavender transition-colors">
-            Generar nuevo diagnóstico
+<button className="
+        text-2xl
+        rounded-lg 
+        font-bold 
+        bg-aqua 
+        hover:bg-white 
+        border-aqua border-2 
+        text-deepblue 
+        w-1/2
+        p-[1/4]
+        m-[5%]
+        ">
+            Quiero obtener mi diagnóstico
           </button>
         </div>
   );

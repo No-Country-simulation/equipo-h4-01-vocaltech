@@ -27,9 +27,10 @@ export default function AuthModal() {
   const { openModal } = useAuthModal();
 
   return (
-    <div className={`fixed overflow-auto inset-0 bg-deepblue bg-opacity-60 flex items-center justify-center z-50 ${!isOpen && "hidden"}`}>
-      <div className="p-8 w-96 text-start relative text-white top-14">
-        <h2 className="text-2xl font-bold mb-4 text-center text-white">
+    <div className="relative w-full">
+    <div className={`fixed pt-[10%] overflow-auto inset-0 bg-deepblue bg-opacity-60 flex items-center justify-center z-50 ${!isOpen && "hidden"}`}>
+      <div className="absolute w-[30rem] text-start text-lg text-white">
+        <h2 className="text-5xl font-bold mb-4 text-center text-white">
           {isLogin ? "Iniciar sesión" : "Registrarse"}
         </h2>
         <form>
@@ -69,7 +70,7 @@ export default function AuthModal() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)} // Alternar visibilidad
-              className="absolute top-3 right-3 flex items-center text-sm leading-5 text-black"
+              className="absolute top-3 right-3 flex items-center leading-5 text-black"
             >
               {showPassword ? <Eye /> : <EyeClosed />}
             </button>
@@ -97,23 +98,27 @@ export default function AuthModal() {
 
           {/* Toggle switch para seleccionar tipo de usuario */}
           {!isLogin && (
-            <div className="mb-6">
-              <label className="block text-lg">Seleccionar tipo de usuario:</label>
-              <div className="flex items-center space-x-4 mt-2">
-                <span className="text-sm text-white">Emprendedor</span>
-                <div
-                  onClick={handleToggle}
-                  className={`relative inline-block w-12 h-6 transition duration-200 ease-in-out ${isCompany ? "bg-lavender" : "bg-aqua"} rounded-full cursor-pointer`}
-                >
-                  <span
-                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 ease-in-out ${isCompany ? "translate-x-6" : ""
-                      }`}
-                  ></span>
-                </div>
-                <span className="text-sm text-white">Empresa</span>
-              </div>
-            </div>
-          )}
+  <div className="mb-6 text-center"> {/* Asegura que el texto esté centrado */}
+    <label className="block text-lg">Seleccionar tipo de usuario:</label>
+    <div className="flex items-center justify-center space-x-4 mt-2 text-md"> 
+      <span>Emprendedor</span>
+      <div
+        onClick={handleToggle}
+        className={`relative inline-block w-12 h-6 transition duration-200 ease-in-out ${
+          isCompany ? "bg-lavender" : "bg-aqua"
+        } rounded-full cursor-pointer`}
+      >
+        <span
+          className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 ease-in-out ${
+            isCompany ? "translate-x-6" : ""
+          }`}
+        ></span>
+      </div>
+      <span>Empresa</span>
+    </div>
+  </div>
+)}
+
 
           <button
             type="submit"
@@ -159,6 +164,7 @@ export default function AuthModal() {
       >
         ✕
       </button>
+    </div>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "@fontsource/mulish"; 
+@import '@fontsource/mulish';
 
 @layer base {
   * {
@@ -13,13 +13,12 @@
   :root {
     /* Paleta de colores añadida por los diseñadores */
     --deep-blue: #040041; /* Azul oscuro intenso */
-    --royal-blue: #1C198E; /* Azul real */
-    --lavender: #ACA7F2; /* Lavanda */
-    --aqua: #B7DCDA; /* Agua */
-    --dark-green: #50A5A1;
-    --yellow: #FFEA62; /* Amarillo brillante */
-    --light-pink: #FCF9FA; /* Rosa claro */
-    
+    --royal-blue: #1c198e; /* Azul real */
+    --lavender: #aca7f2; /* Lavanda */
+    --aqua: #b7dcda; /* Agua */
+    --dark-green: #50a5a1;
+    --yellow: #ffea62; /* Amarillo brillante */
+    --light-pink: #fcf9fa; /* Rosa claro */
 
     /* Colores generales */
     --background: 0 0% 100%; /* Fondo claro */
@@ -63,56 +62,21 @@
     --sidebar-ring: 217.2 91.2% 59.8%; /* Resaltado del sidebar */
   }
 
-  .dark {
-    /* Colores para modo oscuro */
-    --background: 0 0% 3.9%; /* Fondo oscuro */
-    --foreground: 0 0% 98%; /* Texto claro principal */
-    --card: 0 0% 3.9%; /* Fondo de tarjetas oscuro */
-    --card-foreground: 0 0% 98%; /* Texto de tarjetas claro */
-    --popover: 0 0% 3.9%; /* Fondo de popovers oscuros */
-    --popover-foreground: 0 0% 98%; /* Texto de popovers claro */
-    --primary: 0 0% 98%; /* Color primario claro */
-    --primary-foreground: 0 0% 9%; /* Texto del color primario oscuro */
-    --secondary: 0 0% 14.9%; /* Color secundario oscuro */
-    --secondary-foreground: 0 0% 98%; /* Texto del color secundario claro */
-    --muted: 0 0% 14.9%; /* Color apagado oscuro */
-    --muted-foreground: 0 0% 63.9%; /* Texto del color apagado claro */
-    --accent: 0 0% 14.9%; /* Color de acento oscuro */
-    --accent-foreground: 0 0% 98%; /* Texto del color de acento claro */
-    --destructive: 0 62.8% 30.6%; /* Rojo destructivo oscuro */
-    --destructive-foreground: 0 0% 98%; /* Texto sobre fondo destructivo claro */
-    --border: 0 0% 14.9%; /* Bordes oscuros */
-    --input: 0 0% 14.9%; /* Fondo de inputs oscuros */
-    --ring: 0 0% 83.1%; /* Resaltado claro */
 
-    /* Colores para gráficos en modo oscuro */
-    --chart-1: 220 70% 50%; /* Gráfico - Azul claro */
-    --chart-2: 160 60% 45%; /* Gráfico - Verde azulado */
-    --chart-3: 30 80% 55%; /* Gráfico - Naranja claro */
-    --chart-4: 280 65% 60%; /* Gráfico - Morado claro */
-    --chart-5: 340 75% 55%; /* Gráfico - Rosa brillante */
-
-    /* Colores específicos del sidebar en modo oscuro */
-    --sidebar-background: 240 5.9% 10%; /* Fondo del sidebar oscuro */
-    --sidebar-foreground: 240 4.8% 95.9%; /* Texto del sidebar claro */
-    --sidebar-primary: 224.3 76.3% 48%; /* Color principal del sidebar */
-    --sidebar-primary-foreground: 0 0% 100%; /* Texto principal del sidebar */
-    --sidebar-accent: 240 3.7% 15.9%; /* Color de acento del sidebar */
-    --sidebar-accent-foreground: 240 4.8% 95.9%; /* Texto del acento del sidebar */
-    --sidebar-border: 240 3.7% 15.9%; /* Bordes del sidebar oscuro */
-    --sidebar-ring: 217.2 91.2% 59.8%; /* Resaltado del sidebar */
-  }
 }
 
-@layer components{
+@layer components {
   .btn-primary {
-    @apply bg-lavender text-deepblue text-xl/4
+    @apply bg-lavender text-deepblue 
+    text-base
+    laptop:text-xl/4
     font-normal leading-4 rounded-md hover:bg-white border-lavender border-2 
-    w-[300px] h-[60px];
+    laptop:w-[300px] laptop:h-[60px]
+    w-[200px] h-[40px]
   }
 
-  .btn-secondary {
-    @apply text-deepblue text-xl/4 font-normal text-center leading-4 hover:bg-aqua hover:text-white border-aqua border-2 w-[169px] h-[48px];
+  .btn-nav {
+    @apply text-deepblue text-lg py-2 px-4 hover:bg-lavender hover:text-white border-2 border-lavender w-48 text-center;
   }
 
   .btn-confirm {
@@ -130,4 +94,26 @@
   .heading-primary {
     @apply font-bold text-3xl text-deepblue mb-6 text-center;
   }
+
+  /* Lineal  */
+  .circle-number {
+    @apply absolute text-4xl font-bold flex justify-center items-center 
+    bg-deepblue text-white rounded-full w-20 h-20 z-10;
+      
+    /* Alineación con la barra */
+    @apply -left-[22%];
+    
+    /* Ajuste vertical */
+    @apply top-1/2 -translate-y-1/2;
+  }
+  
+  .barra {
+    @apply absolute top-0 z-10 w-6 h-full 
+    rounded-b-lg bg-gradient-to-t from-[#F75F57] to-deepblue;
+    
+    /* Alineación con la circle-number */
+    @apply -left-[22%] translate-x-[115%];
+  }
+  
+  
 }

@@ -1,8 +1,6 @@
 import HomeImage from './components/HomeImage'
-import './styles.css'
 import InfoRectangle from './components/InfoRectangle'
 import Lineal from './components/Lineal'
-import Steps from './components/Steps'
 import Experience from './components/Experience'
 import AuthModal from './components/AuthModal'
 import Link from 'next/link'
@@ -34,10 +32,7 @@ export default async function page() {
   <AuthModal />
   <HomeImage />
   <InfoRectangle />
-  <div className="flex">
     <Lineal />
-    <Steps />
-  </div>
   <Experience />
 </div>
 

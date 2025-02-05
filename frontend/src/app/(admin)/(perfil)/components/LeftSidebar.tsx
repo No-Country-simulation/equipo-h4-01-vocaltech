@@ -32,10 +32,10 @@ export default function LeftSidebar() {
               key={item.href} 
               href={item.href}
               className={`
-                block text-lg px-4 py-2 transition-colors
+                block text-xl/10 text-deepblue font-bold px-4 py-2 transition-colors
                 ${isActive 
-                  ? 'font-medium text-deepblue border-r-4 border-aqua' 
-                  : 'text-deepblue hover:bg-gray-100'
+                  ? '!text-aqua border-r-4 border-aqua' 
+                  : 'hover:bg-gray-100'
                 }
               `}
             >

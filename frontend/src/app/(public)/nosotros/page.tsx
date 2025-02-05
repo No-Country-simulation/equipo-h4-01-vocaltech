@@ -4,50 +4,33 @@ import React from 'react'
 export default async function page() {
   await new Promise(resolve => setTimeout(resolve, 3500));
   return (
-    <div>
-        <section className="bg-gray-100 py-20">
-      <div className="flex flex-col container mx-auto px-4">
-        <div className='flex flex-col items-start w-52'>
-  <Image src="/img/vocaltech-logo.svg" alt="Vocaltech" width={200} height={200} />
-        <h2 className="text-6xl font-bold text-lavender mb-4">
-          le pone voz y tecnología a tu proyecto
-        </h2>
-        </div>
-        <div className='flex flex-col items-end absolute right-0 top-12 bg-transparent'>
-        <Image src="/img/nosotros-1.png" alt="Vocaltech" width={600} height={600} />
-        </div>
-        <p className="text-deepblue text-3xl/10 font-semibold mb-8">
-          Trabajó junto a los mejores especialistas y potenciá tu marca.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div>
-            <h3 className="text-2xl font-bold text-deepblue mb-4">
-              Vos y tu Voz
-            </h3>
-            <p className="text-gray-700 mb-4">
-              En “Vos y tu Voz” ayudamos a las personas a conectar su voz con su
-              esencia y emociones, manteniéndose auténticas y especiales. Con más
-              de 100 años de experiencia como entrenadores, nuestro enfoque está
-              en fortalecer la expresión personal para generar impacto en
-              cualquier ámbito.
-            </p>
-          </div>
-          <div>
-            <h3 className="text-2xl font-bold text-deepblue mb-4">No Country</h3>
-            <p className="text-gray-700 mb-4">
-              En “No Country”, nos especializamos en conectar a personas sin
-              experiencia con su primer empleo, ofreciendo simulaciones reales de
-              entornos laborales para prepararlos y potenciar sus habilidades en
-              contextos profesionales y sociales.
-            </p>
-          </div>
-        </div>
-        <p className="text-gray-700 mt-8">
-          Brindamos un enfoque integral para que tu voz y tu talento alcancen su
-          potencial.
+    <section>
+      <div className='w-full pl-[5%]'>
+        <Image src="/img/nosotros-1.webp" alt="Vocaltech" width={2560} height={0} />
+      </div>
+
+      <div className='p-[5%] text-darkgreen text-3xl/10 font-bold'>
+        <p>
+          VocalTech nace de unión de “Vos y tu Voz” y “No Country”:  aunque venimos de áreas distintas, compartimos un objetivo común: impulsar el crecimiento personal y profesional, combinando el desarrollo de la comunicación con oportunidades reales para aplicar estas habilidades. Creemos en una formación integral que fomente confianza, liderazgo y éxito en cualquier ámbito.
         </p>
       </div>
+
+      <div className='flex p-[0%_5%_10%_5%] items-center'>
+        <div className='basis-2/5'>
+          <Image src="/img/nosotros-2.webp" alt="Vocaltech" width={2560} height={0} />
+        </div>
+        <div className='basis-3/5 text-deepblue text-2xl/8 space-y-8'>
+          <p>
+            En “Vos y tu Voz” ayudamos a las personas a conectar su voz con su cuerpo y emociones, transformándola en una herramienta esencial para comunicarse de manera auténtica y asertiva. Con más de 20 años de experiencia como entrenadora y coach vocal, nuestro enfoque está en fortalecer la expresión personal para generar impacto en cualquier ámbito.
+          </p>
+          <p>
+            En “No Country”, nos especializamos en conectar a talentos sin experiencia con su primer empleo, ofreciendo simulaciones laborales y hackathones diseñados para potenciar sus habilidades y prepararlos para destacar en entornos profesionales reales. Enfocamos nuestro trabajo en el desarrollo de soft skills, el comportamiento y el potencial de liderazgo.
+          </p>
+          <p className='font-bold text-4xl/9 text-lavender'>
+            Brindamos un enfoque integral para que tu voz y tu talento alcancen su potencial.
+          </p>
+        </div>
+      </div>
     </section>
-    </div>
   )
 }
