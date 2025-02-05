@@ -33,7 +33,7 @@ VocalTech ofrece un enfoque integral que combina educación, tecnología y prác
 - **[Roger Parra]** - Project Manager - [LinkedIn](#) | [GitHub](#)
 - **[Camila Rotundo]** - UX/UI Designer - [LinkedIn](#) | [GitHub](#)
 - **[Ivan Medina]** - UX/UI Designer - [LinkedIn](#) | [GitHub](#)
-- **[Cristian Dizeo]** - Frontend Developer - [LinkedIn](#) | [GitHub](#)
+- **[Cristian Dizeo]** - Frontend Developer - [LinkedIn](https://www.linkedin.com/in/cristian-dizeo/) | [GitHub](https://github.com/cristiandizeo)
 - **[David Caycedo]** - Frontend Developer - [LinkedIn](#) | [GitHub](#)
 - **[Rene Silva]** - Backend Developer - [LinkedIn](#) | [GitHub](#)
 - **[Leandro Sanchez]** - Backend Developer - [LinkedIn](#) | [GitHub](#)
