@@ -9,6 +9,6 @@ router.register(r'lead-business', LeadEmprendimientoViewSet)
 router.register(r'questions', QuestionViewSet)
 
 urlpatterns = [
-    path('encuestas/procesar', RespuestaEncuesta.as_view(), name='process_entrepreneur_survey'),
+    path('encuestas/procesar/', RespuestaEncuesta.as_view(), name='process_entrepreneur_survey'),
     path('', include(router.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

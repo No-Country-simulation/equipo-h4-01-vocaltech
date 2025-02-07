@@ -1,14 +1,21 @@
 from django.db import models
 from auth_service.models import User, Role
 
+QUESTION_TYPES = [
+    ('text', 'Texto'),
+    ('radio', 'Opción única'),
+    ('checkbox', 'Múltiples opciones'),
+    ('number', 'Número'),
+    ('yes_no', 'Sí/No'),
+]
+
 class Service(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
-    client_type = models.ManyToManyField(Role, related_name='services')  # Para asociar el servicio con roles específicos
+    client_type = models.ManyToManyField(Role, related_name='services')
 
     def __str__(self):
         return self.name
-
 
 class QuestionGroup(models.Model):
     name = models.CharField(max_length=255)
@@ -17,29 +24,27 @@ class QuestionGroup(models.Model):
     def __str__(self):
         return f"{self.name} ({self.client_type})"
 
-
 class Question(models.Model):
-    QUESTION_TYPES = [
-        ('text', 'Texto'),
-        ('radio', 'Opción única'),
-        ('checkbox', 'Múltiples opciones'),
-        ('number', 'Número'),
-        ('yes_no', 'Sí/No'),
-    ]
-    group = models.ForeignKey(QuestionGroup, on_delete=models.CASCADE, related_name='questions')
-    text = models.TextField(max_length=255)
-    question_type = models.CharField(max_length=20, choices=QUESTION_TYPES)
-    services = models.ManyToManyField('Service', related_name='questions', blank=True)
-    options = models.JSONField(default=list)
-    weight = models.FloatField(default=1.0)
-    category = models.CharField(max_length=100, blank=True, null=True)
+    group = models.ForeignKey(QuestionGroup, related_name="questions", on_delete=models.CASCADE)
+    text = models.TextField()
+    question_type = models.CharField(max_length=50, choices=QUESTION_TYPES)
 
     def __str__(self):
         return self.text
 
-    def get_options(self):
-        return self.options
+class AnswerOption(models.Model):
+    question = models.ForeignKey(Question, related_name="options", on_delete=models.CASCADE)
+    text = models.CharField(max_length=255)
 
+    def __str__(self):
+        return f"{self.question.text} - {self.text}"
+
+class Recommendation(models.Model):
+    answer_options = models.ManyToManyField(AnswerOption, related_name="recommendations")
+    text = models.TextField()
+
+    def __str__(self):
+        return f"Recomendación: {self.text}"
 
 class SurveyResponse(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='survey_responses')

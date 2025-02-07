@@ -1,21 +1,24 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import viewsets, filters, status
-from utils.pagination import StandardResultsSetPagination
+from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Question, SurveyResponse, LeadEmprendimiento
-from .serializers import LeadEmprendimientoSerializer, QuestionSerializer, EncuestaSerializer
-from utils.recommendation import generar_recomendaciones_hibridas
+from rest_framework import filters, status, viewsets
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .models import LeadEmprendimiento, Question, SurveyResponse, AnswerOption
+from .serializers import EncuestaSerializer, LeadEmprendimientoSerializer, QuestionSerializer
+from utils.pagination import StandardResultsSetPagination
+from dal_select2.views import Select2QuerySetView
 
 
 class QuestionViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
     queryset = Question.objects.all().order_by('group', 'id')
     serializer_class = QuestionSerializer
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    search_fields = ['text', 'category']
+
 
 
 class LeadEmprendimientoViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
     queryset = LeadEmprendimiento.objects.all()
     serializer_class = LeadEmprendimientoSerializer
     pagination_class = StandardResultsSetPagination
@@ -25,6 +28,7 @@ class LeadEmprendimientoViewSet(viewsets.ModelViewSet):
 
 
 class RespuestaEncuesta(APIView):
+    permission_classes = [AllowAny]
     def get(self, request, id=None):
         if id:
             survey_response = SurveyResponse.objects.get(id=id)
