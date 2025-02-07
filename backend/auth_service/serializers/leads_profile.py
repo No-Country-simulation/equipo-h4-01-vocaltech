@@ -39,15 +39,18 @@ class LeadsProfileSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         user_role = instance.user.role
-        representation["role"] = [
+        representation["role"] = (
             {"id": user_role.id, "name": user_role.name} if user_role else None
-        ]
+        )
         return representation
 
     def update(self, instance, validated_data):
         role_data = validated_data.pop("role", None)
+
         if role_data:
-            instance.user.role = role_data
-            instance.user.save()
-            instance = super().update(instance, validated_data)
-            return instance
+            role_instance = Role.objects.get(id=role_data.id)
+            if instance.user.role != role_instance:
+                instance.user.role = role_instance
+                instance.user.save()
+
+        return super().update(instance, validated_data)
