@@ -29,10 +29,6 @@ SECRET_KEY = "django-insecure-k9gw($iaq*hvj(1h^%m#3ni@%2ox5a(8fftsxmn5rpkhwzmst4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not os.environ.get("PROD", False)
 
-ALLOWED_HOSTS = ["*"]
-
-CORS_ALLOWED_ORIGINS = ['*']
-
 
 # Application definition
 
@@ -46,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_extensions",
+    "corsheaders",
     # Third party libraries
     "rest_framework",
     "import_export",
@@ -82,18 +79,25 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
 }
 
-CSRF_TRUSTED_ORIGINS = ["http://localhost:8000"]
+ALLOWED_HOSTS = ["*"]
+
+CSRF_TRUSTED_ORIGINS = ["https://equipo-h4-01-vocaltech.onrender.com", "https://equipo-h4-01-vocaltech.vercel.app/", "http://localhost:8000", "http://localhost:3000"]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_CREDENTIALS = False
 
 ASGI_APPLICATION = "backend.asgi.application"
 
 DAPHNE_SERVE_STATIC = True
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware", 
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
+    #"django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",

@@ -1,40 +1,35 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from import_export.admin import ImportExportModelAdmin
-from auth_service.models.users import User
-from auth_service.models.roles import Role
-from auth_service.models.leads_profile import LeadsProfile
-
-# Register your models here.
-admin.site.register(User)
-
-
-class LeadsProfileAdmin(admin.ModelAdmin):
-    list_display_name = ("user", "first_name", "last_name", "get_role")
-    search_fields = ("first_name", "last_name", "user__email", "user__role__name")
-    readonly_fields = ("get_role",)
-
-    def get_role(self, obj):
-        return obj.user.role.name if obj.user.role else "-"
-
-    get_role.short_description = "Role"
-    get_role.admin_order_field = "user__role"
-
-    def get_model_perms(self, request):
-        perms = super().get_model_perms(request)
-        perms["add"] = False
-        perms["delete"] = False
-        return perms
-
-    def has_add_permission(self, request):
-        return False
-
-    def has_delete_permission(self, request, obj=None):
-        return False
-
-
-admin.site.register(LeadsProfile, LeadsProfileAdmin)
+from .models import User, Role, LeadsProfile
+from .forms import UserCreationForm, UserChangeForm
 
 
 @admin.register(Role)
 class RoleAdmin(ImportExportModelAdmin):
     pass
+
+
+class UserAdmin(BaseUserAdmin):
+    form = UserChangeForm
+    add_form = UserCreationForm
+
+    list_display = ('email', 'username', 'role', 'is_staff', 'is_active')
+    list_filter = ('is_staff', 'is_active')
+    fieldsets = (
+        (None, {'fields': ('first_name', 'last_name', 'email', 'username', 'password', 'role')}),
+        ('Permissions', {'fields': ('is_staff', 'is_active')}),
+    )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('first_name', 'last_name', 'email', 'username', 'password1', 'password2', 'role'),
+        }),
+    )
+    search_fields = ('email', 'username')
+    ordering = ('email',)
+    filter_horizontal = ()
+
+
+admin.site.register(User, UserAdmin)
+admin.site.register(LeadsProfile)
