@@ -50,10 +50,10 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "drf_yasg",
     # Custom apps
+    "auth_service",
     "docs",
     "notifications",
     "chat",
-    "auth_service",
     "catalogs",
     "citas",
     "airtable_bridge",
@@ -81,7 +81,12 @@ REST_FRAMEWORK = {
 
 ALLOWED_HOSTS = ["*"]
 
-CSRF_TRUSTED_ORIGINS = ["https://equipo-h4-01-vocaltech.onrender.com", "https://equipo-h4-01-vocaltech.vercel.app/", "http://localhost:8000", "http://localhost:3000"]
+CSRF_TRUSTED_ORIGINS = [
+    "https://equipo-h4-01-vocaltech.onrender.com",
+    "https://equipo-h4-01-vocaltech.vercel.app/",
+    "http://localhost:8000",
+    "http://localhost:3000",
+]
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -92,12 +97,12 @@ ASGI_APPLICATION = "backend.asgi.application"
 DAPHNE_SERVE_STATIC = True
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware", 
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    #"django.middleware.csrf.CsrfViewMiddleware",
+    # "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -132,24 +137,31 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "backend.wsgi.application"
+# WSGI_APPLICATION = "backend.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-AUTH_USER_MODEL = 'auth_service.User'
+AUTH_USER_MODEL = "auth_service.User"
 
 
 DATABASES = {
-    'default': env.db('DATABASE_URL', default='postgres://postgres:root@db:5432/vocaltech_db')
-}
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": env("DB_NAME"),
+        "USER": env("DB_USER"),
+        "PASSWORD": env("DB_PASSWORD"),
+        "HOST": env("DB_HOST"),
+        "PORT": env("DB_PORT"),
     }
 }
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -183,14 +195,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # Configuración de correo para MailHog en entorno de desarrollo
@@ -202,13 +214,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # DEFAULT_FROM_EMAIL = 'no-reply@example.com'
 
 
-#Gmail SMTP (solo en produccion)
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+# Gmail SMTP (solo en produccion)
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
-EMAIL_USE_TLS=True
-EMAIL_HOST_USER = 'leanmsan@gmail.com'
-EMAIL_HOST_PASSWORD = 'kqdz zobj gjsq wsvj'
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "leanmsan@gmail.com"
+EMAIL_HOST_PASSWORD = "kqdz zobj gjsq wsvj"
 
 
 # Looking to send emails in production? Check out our Email API/SMTP product!
