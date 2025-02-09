@@ -12,7 +12,7 @@ import {
   Label,
   Button
 } from '@/components/ui';
-import { Star } from 'lucide-react';
+
 import { FormField } from '../../Cuestionario/TabType/TabType';
 
 export const FieldRenderer = ({
