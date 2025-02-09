@@ -76,7 +76,7 @@ export const DateSelection: React.FC<DateSelectionProps> = ({ selectedDate, onDa
       <button onClick={onPrev} className="btn-secondary">
         ← Atrás
       </button>
-      <button onClick={onNext} disabled={!selectedDate} className="btn-primary">
+      <button onClick={onNext} disabled={!selectedDate} className="btn-secondary border-lavender">
         Siguiente →
       </button>
     </div>

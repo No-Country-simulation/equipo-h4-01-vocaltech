@@ -38,7 +38,7 @@ export const Confirmation: React.FC<ConfirmationProps> = ({
       <button onClick={onPrev} className="btn-secondary">
         ← Atrás
       </button>
-      <button onClick={onConfirm} className="btn-confirm">
+      <button onClick={onConfirm} className="btn-primary h-12">
         Confirmar cita
       </button>
     </div>

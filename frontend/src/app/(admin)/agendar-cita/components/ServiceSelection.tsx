@@ -36,12 +36,12 @@ export const ServiceSelection: React.FC<ServiceSelectionProps> = ({
     </div>
     <div className="flex gap-4 mt-6">
     <button onClick={onPrev} className="btn-secondary">
-        ← Cancelar
+        Cancelar
       </button>
     <button
       onClick={onNext}
       disabled={selectedServices.length === 0}
-      className="btn-primary"
+      className="btn-secondary border-lavender"
     >
       Siguiente →
     </button>

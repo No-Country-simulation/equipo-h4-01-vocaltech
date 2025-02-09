@@ -1,5 +1,6 @@
 import React from 'react';
 import { CalendarDays, CircleX } from 'lucide-react';
+import Link from 'next/link';
 
 interface ConfirmationCardProps {
   selectedDate: Date;
@@ -35,7 +36,7 @@ export const ConfirmationCard: React.FC<ConfirmationCardProps> = ({
         <br /> {selectedTime} hs (ARG)
       </h2>
       <div className="mt-4 flex justify-center">
-        <button className="btn-action bg-aqua">
+        <button className="btn-action bg-aqua hover:bg-white">
           Link para ingresar a la reunión
         </button>
       </div>
@@ -46,6 +47,13 @@ export const ConfirmationCard: React.FC<ConfirmationCardProps> = ({
         <button onClick={onReschedule} className="btn-action">
           <CalendarDays /> Reprogramar cita
         </button>
+      </div>
+      <div className="mt-4 flex justify-center">
+        <Link href="/mis-reuniones">
+        <button className="btn-action bg-aqua hover:bg-white">
+          Volver al perfil
+        </button>
+        </Link>
       </div>
   </div>
 );

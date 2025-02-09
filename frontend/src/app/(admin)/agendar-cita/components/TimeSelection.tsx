@@ -26,8 +26,8 @@ export const TimeSelection: React.FC<TimeSelectionProps> = ({
           onClick={() => onTimeChange(time)}
           className={`p-3 border rounded-sm ${
             selectedTime === time
-              ? 'bg-aqua border-aqua text-white'
-              : 'bg-white border-lavender hover:bg-lavender'
+              ? 'bg-lavender text-white'
+              : 'bg-white border-lavender hover:bg-gray-200'
           }`}
         >
           {time}
@@ -41,7 +41,7 @@ export const TimeSelection: React.FC<TimeSelectionProps> = ({
       <button
         onClick={onNext}
         disabled={!selectedTime}
-        className="btn-primary"
+        className="btn-secondary border-lavender"
       >
         Siguiente →
       </button>
