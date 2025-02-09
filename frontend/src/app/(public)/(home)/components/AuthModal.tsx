@@ -26,11 +26,30 @@ export default function AuthModal() {
 
   const { openModal } = useAuthModal();
 
+  const LoginModal = () => {
+    const { isOpen } = useAuthModal(); // Ahora está correctamente definido
+  
+    useEffect(() => {
+      if (isOpen) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
+      }
+  
+      return () => {
+        document.body.style.overflow = "";
+      };
+    }, [isOpen]);
+  
+    if (!isOpen) return null;
+  
+  };
   return (
-    <div className="relative w-full">
+    <div className="relative w-full text-white">
+      <LoginModal />
     <div className={`fixed pt-[10%] overflow-auto inset-0 bg-deepblue bg-opacity-60 flex items-center justify-center z-50 ${!isOpen && "hidden"}`}>
-      <div className="absolute w-[30rem] text-start text-lg text-white">
-        <h2 className="text-5xl font-bold mb-4 text-center text-white">
+      <div className="absolute w-[30rem] text-start text-lg">
+        <h2 className="text-5xl font-bold mb-4 text-center">
           {isLogin ? "Iniciar sesión" : "Registrarse"}
         </h2>
         <form>

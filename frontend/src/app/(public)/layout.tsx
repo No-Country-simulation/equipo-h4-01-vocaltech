@@ -1,26 +1,4 @@
-"use client";
-
-import React, { FC, ReactNode, useEffect } from "react";
-import { useAuthModal } from "@/store/useAuthModal";
-
-const LoginModal = () => {
-  const { isOpen } = useAuthModal(); // ⚡ Ahora está correctamente definido
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
-
-  if (!isOpen) return null;
-
-};
+import React, { FC, ReactNode} from "react";
 
 type LayoutProps = {
   children: ReactNode;
@@ -29,7 +7,6 @@ type LayoutProps = {
 const Layout: FC<LayoutProps> = ({ children }) => {
   return (
     <div className="flex flex-col min-h-screen bg-lightpink">
-      <LoginModal /> {/* ⚡ Ahora el modal se renderiza dentro del Layout */}
       <main>{children}</main>
     </div>
   );
