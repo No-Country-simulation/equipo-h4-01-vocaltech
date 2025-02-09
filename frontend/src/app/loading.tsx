@@ -5,7 +5,7 @@ export default function Loading() {
       <img
         src="/img/vocaltech-icon.webp"  // Ruta de tu imagen
         alt="Loading"
-        className="animate-pulse h-40 w-40"  // Aplica un efecto de pulso
+        className="animate-pulse"  // Aplica un efecto de pulso
       />
     </div>
   );
