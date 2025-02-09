@@ -1,5 +1,6 @@
 import React from 'react';
 import { Eye, Check, X } from 'lucide-react';
+import Link from 'next/link';
 
 export default async function page() {
   await new Promise(resolve => setTimeout(resolve, 3500));
@@ -72,21 +73,19 @@ export default async function page() {
               </div>
             </div>
           ))}
-
+<Link href="/mis-diagnosticos/cuestionario">
 <button className="
-        text-2xl
-        rounded-lg 
-        font-bold 
-        bg-aqua 
-        hover:bg-white 
-        border-aqua border-2 
-        text-deepblue 
-        w-1/2
-        p-[1/4]
-        m-[5%]
-        ">
-            Quiero obtener mi diagnóstico
-          </button>
+  text-2xl font-bold 
+  rounded-lg 
+  bg-aqua hover:bg-white 
+  border-2 border-aqua 
+  text-deepblue 
+  w-3/4 p-3 
+  mx-auto block
+">
+  Quiero obtener mi diagnóstico
+</button>
+</Link>
         </div>
   );
 };
