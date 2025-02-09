@@ -64,7 +64,7 @@ export const FieldRenderer = ({
                 value={option.id.toString()}
                 id={option.id.toString()}
               />
-              <Label htmlFor={option.id.toString()}>{option.text}</Label>
+              <Label className='!text-xl' htmlFor={option.id.toString()}>{option.text}</Label>
             </div>
           ))}
         </RadioGroup>

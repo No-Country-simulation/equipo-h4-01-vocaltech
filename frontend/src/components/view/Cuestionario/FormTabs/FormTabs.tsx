@@ -158,7 +158,7 @@ export const FormTabs = () => {
           tabs[activeTab]?.fields?.[activeSection]?.sectionTitle || ''
         }
       />
-      <div className="border-2 border-accent borber-opacity-20 rounded-xl p-6 m-4 lg:p-8 lg:m-8 overflow-hidden">
+      <div className="border-2 border-aqua borber-opacity-20 rounded-lg p-6 m-4 lg:p-8 lg:m-8 overflow-hidden">
         <Tabs value={tabs[activeTab]?.id || ''}>
           <TabsNavigation
             tabs={tabs}
@@ -174,7 +174,7 @@ export const FormTabs = () => {
             >
               <div className="space-y-4 p-4">
                 <div className="flex justify-between item-center">
-                  <h2 className="text-xl font-semibold">
+                  <h2 className="text-2xl/10 font-bold text-deepblue">
                     {tabs[activeTab]?.fields?.[activeSection]?.sectionTitle ||
                       tab.title}
                   </h2>
@@ -186,7 +186,7 @@ export const FormTabs = () => {
                   )}
                 </div>
                 <Separator className="boober-1 border-accent" />
-                <p className="flex justify-end text-sm text-muted-foreground mt-2">
+                <p className="flex justify-end text-xl/10 font-normal italic text-lavender mt-2">
                   Tiempo estimado de respuesta: 15 min.
                 </p>
                 {tab.title === 'Cuestionario' ? (
@@ -240,7 +240,7 @@ export const FormTabs = () => {
                       <div key={fieldIndex} className="space-y-2">
                         {field.questions.map((question: FormField) => (
                           <div key={question.id} className="space-y-2">
-                            <Label>{question.text}</Label>
+                            <Label className='text-xl'>{question.text}</Label>
                             <FieldRenderer
                               field={question}
                               value={formData[question.id]}
@@ -283,6 +283,7 @@ export const FormTabs = () => {
                   <div className="flex gap-2 ml-auto">
                     {!isLastStep ? (
                       <Button
+                      className='!btn-primary'
                         onClick={() => handleNavigation('next')}
                         disabled={
                           tabs[activeTab]?.title === 'Cuestionario'

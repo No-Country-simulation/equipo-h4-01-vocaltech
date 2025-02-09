@@ -15,18 +15,18 @@ export const ProgressCircles = ({
   }
 
   return (
-    <div className="flex items-center justify-center gap-2">
+    <div className="flex items-center justify-center gap-2 text-deepblue">
       {Array.from({ length: totalSteps }).map((_, index) => (
         <div
           key={index}
           className={cn(
-            'w-6 h-6 rounded-full flex items-center justify-center text-xs border-2',
+            'w-6 h-6 p-3 rounded-full flex items-center justify-center text-base/10 font-normal border-2',
             index + 1 < currentStep
-              ? 'bg-primary border-primary text-primary-foreground'
+              ? 'bg-deepblue border-deepblue text-deepblue'
               : index + 1 === currentStep
-                ? 'border-primary text-primary'
-                : 'border-muted text-muted-foreground',
-            'transition-all duration-300 hover:border-primary hover:text-primary'
+                ? 'border-deepblue text-deepblue'
+                : 'border-lavender text-lavender',
+            'transition-all duration-300 hover:border-deepblue hover:text-deepblue'
           )}
         >
           {index + 1 < currentStep ? (
