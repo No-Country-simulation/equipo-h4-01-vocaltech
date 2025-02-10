@@ -13,11 +13,12 @@ import {
 import { FormField, SectionProps } from '../TabType/TabType';
 import { postQuestions } from '@/api/Questions/post/QuestionsPro';
 import {
+  MvpDescription,
   PhonePrefixInput,
   TextAreaInput,
   VoiceDescription
 } from '../../FormGenerator';
-import MvpDescription from '../../FormGenerator/ElementForm/MvpDescription/MvpDescription';
+
 import { FormProvider, useForm } from 'react-hook-form';
 
 export const FormTabs = () => {

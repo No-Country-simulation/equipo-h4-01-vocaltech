@@ -11,9 +11,7 @@ interface MvpDescriptionProps {
   data?: MvpData;
 }
 
-export default function MvpDescription({
-  data = mvpData
-}: MvpDescriptionProps) {
+export const MvpDescription = ({ data = mvpData }: MvpDescriptionProps) => {
   return (
     <div className="space-y-6 max-w-3xl">
       <h2 className="text-2xl font-semibold text-accent">{data.title}</h2>
@@ -34,4 +32,4 @@ export default function MvpDescription({
       <p className="text-navy-900 leading-relaxed">{data.conclusion}</p>
     </div>
   );
-}
+};

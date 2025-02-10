@@ -1,3 +1,5 @@
+{
+  /* 
 'use client';
 import { useState, useCallback, useMemo } from 'react';
 import {
@@ -369,3 +371,5 @@ export const FormTabs = () => {
     </>
   );
 };
+  */
+}

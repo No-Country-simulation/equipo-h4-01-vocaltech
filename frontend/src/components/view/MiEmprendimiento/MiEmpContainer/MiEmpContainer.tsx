@@ -1,5 +1,4 @@
-import { MiEmpDataMock } from '../../DataMock';
-import { GeneratorTabs } from '../../TabsGenerator';
+//import { GeneratorTabs } from '../../TabsGenerator';
 
 export const MiEmpContainer = () => {
   return (
