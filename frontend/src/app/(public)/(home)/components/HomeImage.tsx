@@ -7,15 +7,21 @@ export default function HomeImage() {
   return (
     <>
       <div className="relative w-full pl-[10%] z-20 bg-transparent">
-        <Image src="/img/home.webp" alt="Impulsá tu negocio" width={2560} height={1015} />
+        <Image
+          src="/img/home.webp"
+          alt="Impulsá tu negocio"
+          width={2560}
+          height={1015}
+          priority
+        />
         <Link href="/mis-diagnosticos/cuestionario">
           <button className="
-mobileS:text-sm
-tablet:text-lg
-laptop:text-xl
-laptopL:text-2xl
-laptopXL:text-3xl
-fourK:text-5xl
+        mobileS:text-sm
+        tablet:text-lg
+        laptop:text-xl
+        laptopL:text-2xl
+        laptopXL:text-3xl
+        fourK:text-5xl
         rounded-lg 
         font-semibold 
         bg-aqua 
