@@ -4,20 +4,14 @@ from rest_framework import filters, status, viewsets
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import LeadEmprendimiento, Question, SurveyResponse, AnswerOption
-from .serializers import EncuestaSerializer, LeadEmprendimientoSerializer, QuestionSerializer
+from .models import SurveyResponse, LeadEmprendimiento
+from .serializers import EncuestaSerializer, LeadEmprendimientoSerializer
 from utils.pagination import StandardResultsSetPagination
 from dal_select2.views import Select2QuerySetView
 
 # 🔥 IMPORTACIÓN CORRECTA
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-
-
-class QuestionViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
-    queryset = Question.objects.all().order_by('group', 'id')
-    serializer_class = QuestionSerializer
 
 
 class LeadEmprendimientoViewSet(viewsets.ModelViewSet):
