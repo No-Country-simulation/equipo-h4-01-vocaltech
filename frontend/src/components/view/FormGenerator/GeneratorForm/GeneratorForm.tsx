@@ -1,7 +1,7 @@
 'use client';
 
 import { toast } from 'sonner';
-import { SelectorElementForm } from '../SelectorElementForm/SelectorElementForm';
+// import { SelectorElementForm } from '../SelectorElementForm/SelectorElementForm';
 import { FormField } from '../../Cuestionario';
 
 interface GeneratorFormProps {
@@ -15,5 +15,5 @@ export const GeneratorForm = ({ values }: GeneratorFormProps) => {
     toast.success('Formulario enviado con éxito');
   };
 
-  return <SelectorElementForm elements={values} onSubmit={handleSubmit} />;
+  // return <SelectorElementForm elements={values} onSubmit={handleSubmit} />;
 };

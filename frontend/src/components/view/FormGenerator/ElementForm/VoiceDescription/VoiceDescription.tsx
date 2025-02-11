@@ -17,12 +17,12 @@ export const VoiceDescription = ({
 }: VoiceDescriptionProps) => {
   return (
     <div className="space-y-6 max-w-3xl">
-      <h2 className="text-2xl font-semibold text-accent">{data.title}</h2>
+      <h2 className="text-subtitulo leading-10 text-darkgreen">{data.title}</h2>
 
-      <p className="text-primary leading-relaxed">{data.mainDescription}</p>
+      <p className="text-seccion font-bold leading-10">{data.mainDescription}</p>
 
       <section className="space-y-2">
-        <h3 className="text-lg font-medium text-primary">{data.subheading}</h3>
+        <h3 className="text-seccion">{data.subheading}</h3>
         <ul
           className="list-disc list-inside space-y-2 pl-4 text-primary"
           aria-label="Beneficios"
