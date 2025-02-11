@@ -2,15 +2,18 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from import_export.admin import ImportExportModelAdmin
 from .models import User, Role, LeadsProfile
+
 from .forms import UserCreationForm, UserChangeForm
 
+from unfold.forms import AdminPasswordChangeForm, UserChangeForm, UserCreationForm
+from unfold.admin import ModelAdmin
 
-@admin.register(Role)
-class RoleAdmin(ImportExportModelAdmin):
+
+class RoleAdmin(ModelAdmin, ImportExportModelAdmin):
     pass
 
 
-class UserAdmin(BaseUserAdmin):
+class UserAdmin(BaseUserAdmin, ModelAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
 
@@ -31,5 +34,11 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
+
+class LeadsProfileAdmin(ModelAdmin, ImportExportModelAdmin):
+    pass
+
+
 admin.site.register(User, UserAdmin)
-admin.site.register(LeadsProfile)
+admin.site.register(Role, RoleAdmin)
+admin.site.register(LeadsProfile, LeadsProfileAdmin)
