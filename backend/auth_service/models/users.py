@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils import timezone
+from django.utils.text import slugify
 from ..managers import UserManager
 
 
@@ -19,6 +20,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         on_delete=models.SET_NULL,
         related_name="users",
     )
+    exported_to_airtable = models.BooleanField(default=False)
 
     objects = UserManager()
 

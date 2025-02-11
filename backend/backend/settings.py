@@ -27,8 +27,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-k9gw($iaq*hvj(1h^%m#3ni@%2ox5a(8fftsxmn5rpkhwzmst4"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = not os.environ.get("PROD", False)
+PROD = os.environ.get("PROD", "False").lower() in ("true", "1", "t")
+DEBUG = not PROD
 
+ALLOWED_HOSTS = []
+OPEN_API_KEY = os.getenv("OPEN_API_KEY")
 
 # Application definition
 
@@ -79,13 +82,9 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
 }
 
-ALLOWED_HOSTS = ["*"]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://equipo-h4-01-vocaltech.onrender.com",
-    "https://equipo-h4-01-vocaltech.vercel.app/",
     "http://localhost:8000",
-    "http://localhost:3000",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -215,12 +214,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # Gmail SMTP (solo en produccion)
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "leanmsan@gmail.com"
-EMAIL_HOST_PASSWORD = "kqdz zobj gjsq wsvj"
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_HOST = "smtp.gmail.com"
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = "leanmsan@gmail.com"
+# EMAIL_HOST_PASSWORD = "kqdz zobj gjsq wsvj"
 
 
 # Looking to send emails in production? Check out our Email API/SMTP product!

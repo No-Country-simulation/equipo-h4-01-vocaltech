@@ -14,20 +14,52 @@ class UserAdmin(BaseUserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
 
-    list_display = ('email', 'username', 'role', 'is_staff', 'is_active')
-    list_filter = ('is_staff', 'is_active')
+    list_display = (
+        "email",
+        "username",
+        "role",
+        "is_staff",
+        "is_active",
+        "exported_to_airtable",
+    )
+    list_filter = ("is_staff", "is_active")
     fieldsets = (
-        (None, {'fields': ('first_name', 'last_name', 'email', 'username', 'password', 'role')}),
-        ('Permissions', {'fields': ('is_staff', 'is_active')}),
+        (
+            None,
+            {
+                "fields": (
+                    "first_name",
+                    "last_name",
+                    "email",
+                    "username",
+                    "password",
+                    "role",
+                    "exported_to_airtable",
+                )
+            },
+        ),
+        ("Permissions", {"fields": ("is_staff", "is_active")}),
     )
     add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('first_name', 'last_name', 'email', 'username', 'password1', 'password2', 'role'),
-        }),
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": (
+                    "first_name",
+                    "last_name",
+                    "email",
+                    "username",
+                    "password1",
+                    "password2",
+                    "role",
+                    "exported_to_airtable",
+                ),
+            },
+        ),
     )
-    search_fields = ('email', 'username')
-    ordering = ('email',)
+    search_fields = ("email", "username")
+    ordering = ("email",)
     filter_horizontal = ()
 
 
