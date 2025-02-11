@@ -12,6 +12,7 @@ export type SavedTabState = {
 };
 
 export interface TabsNavigationProps {
+  title: string;
   tabs: TabConfig[];
   activeTab: number;
   hidden?: boolean;

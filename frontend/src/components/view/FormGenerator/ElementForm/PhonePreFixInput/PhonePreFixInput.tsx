@@ -13,7 +13,7 @@ import { useRef, useEffect } from 'react';
 
 const countries = defaultCountries.filter(country => {
   const { iso2 } = parseCountry(country);
-  return ['ar', 'ec', 'mx'].includes(iso2);
+  return ['ar', 'ec', 'co'].includes(iso2);
 });
 
 const phoneUtil = PhoneNumberUtil.getInstance();

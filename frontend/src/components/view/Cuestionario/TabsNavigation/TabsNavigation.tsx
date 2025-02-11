@@ -3,6 +3,7 @@ import { TabsNavigationProps } from '../TabType/TabType';
 import { TabLabel } from '../TabLabel/TabLabel';
 
 export const TabsNavigation = ({
+  title,
   tabs,
   hidden,
   setActiveTab
@@ -11,15 +12,16 @@ export const TabsNavigation = ({
     {tabs.map((tab, index) => (
       <TabsTrigger
         key={tab.id}
-        value={tab.title}
-        className="data-[state=active]:bg-transparent flex-1 flex justify-center "
+        value={tab.id}
+        className="data-[state=active]:bg-transparent rounded-none px-0 py-0  borber-nome flex-1 flex justify-center "
         disabled={tab.disabled}
+        hidden={hidden}
         onClick={() => !tab.disabled && setActiveTab(index)}
       >
         <TabLabel
           icon={tab.icon}
           color={tab.color}
-          title={tab.title}
+          title={title !== '' ? title : tab.id}
           disabled={tab.disabled}
           status={tab.status}
           hidden={hidden}

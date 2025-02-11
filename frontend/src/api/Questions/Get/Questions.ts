@@ -10,13 +10,9 @@ export const getQuestions = async () => {
     const response = await axios.get<InputQuestion[]>(
       `${API_URL_PROD}/${QUEST_PRE}/`
     );
-    console.debug(response.data);
-    const adapterResponse = adaptadorQuestions(
-      response.data,
-      'Cuestionario',
-      'Cuestionario'
-    );
-    console.debug(JSON.stringify(adapterResponse, null, 2));
+    //console.debug('Data ->', JSON.stringify(response.data, null, 2));
+    const adapterResponse = adaptadorQuestions(response.data, 'Cuestionario');
+    console.debug('Respoase adpter', JSON.stringify(adapterResponse, null, 2));
     return adapterResponse;
   } catch (error) {
     console.error('Error fetching questions:', error);

@@ -11,8 +11,11 @@ export const useLoadData = () => {
       try {
         const data = await getQuestions();
         if (data) {
-          setQuestions(data);
-          localStorage.setItem('questions', JSON.stringify(data));
+          setQuestions(Array.isArray(data) ? data : [data]);
+          localStorage.setItem(
+            'questions',
+            JSON.stringify(Array.isArray(data) ? data : [data])
+          );
         }
       } catch (error) {
         console.error('Error loading questions:', error);

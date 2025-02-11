@@ -14,12 +14,10 @@ import { FormField, SectionProps } from '../TabType/TabType';
 import { postQuestions } from '@/api/Questions/post/QuestionsPro';
 import {
   MvpDescription,
-  PhonePrefixInput,
   TextAreaInput,
   VoiceDescription
 } from '../../FormGenerator';
-
-import { FormProvider, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 export const FormTabs = () => {
   const { activeTab, tabs = [], setActiveTab, validateTab } = useTabsState();
@@ -27,7 +25,6 @@ export const FormTabs = () => {
   const [activeSection, setActiveSection] = useState(0);
   const [validSections, setValidSections] = useState<boolean[]>([]);
 
-  //para el form
   const methods = useForm({
     defaultValues: {
       phone: {
@@ -37,9 +34,6 @@ export const FormTabs = () => {
     },
     mode: 'onBlur'
   });
-  const onSubmit = (data: any) => {
-    console.log('Formulario enviado:', data);
-  };
 
   const {
     showConfirmation,
@@ -55,7 +49,7 @@ export const FormTabs = () => {
     (fieldId: string, value: any) => {
       const newData = { ...formData, [fieldId]: value };
       setFormData(newData);
-      // Validación en tiempo real
+
       const currentTab = tabs[activeTab];
       const isValid = currentTab?.fields?.every((field: any) =>
         field.questions.every((question: any) =>
@@ -65,7 +59,6 @@ export const FormTabs = () => {
 
       validateTab(activeTab, isValid);
 
-      // Validación de sección
       const currentSection = tabs[activeTab]?.fields?.[activeSection];
       const isSectionValid = currentSection?.questions?.every((question: any) =>
         useValidateField(question, newData[question.id])
@@ -120,12 +113,11 @@ export const FormTabs = () => {
 
   const handleSubmitTab = useCallback(async () => {
     try {
-      // Lógica de envío aquí
       console.debug('Submitting:', formData);
       const response = await postQuestions(formData);
 
       console.debug('Response:', response);
-      localStorage.setItem('respose', JSON.stringify(response));
+      localStorage.setItem('response', JSON.stringify(response));
       await handleConfirm(formData);
     } catch (error) {
       console.error('Submission error:', error);
@@ -166,10 +158,23 @@ export const FormTabs = () => {
     );
   }, [tabs, activeTab, activeSection, formData]);
 
+  console.debug('Form data:', formData);
+  console.debug('Active tab:', activeTab);
+  console.debug('Active section:', activeSection);
+  console.debug('Valid sections:', validSections);
+  console.debug('All tabs valid:', allTabsValid);
+  console.debug('Is last step:', isLastStep);
+  console.debug('Is section complete:', isSectionComplete);
+  console.debug('Is submitting:', isSubmitting);
+  console.debug('Show confirmation:', showConfirmation);
+  console.debug('Show success:', showSuccess);
+  console.debug('Tabs:', tabs);
+
   return (
-    <div className="border-2 border-accent borber-opacity-20 rounded-xl p-6 m-4 lg:p-8 lg:m-8 overflow-hidden">
-      <Tabs value={tabs[activeTab]?.id || ''}>
+    <div className="border-2 border-accent border-opacity-20 rounded-xl p-6 m-4 lg:p-8 lg:m-8 overflow-hidden">
+      <Tabs value={tabs[activeTab]?.id}>
         <TabsNavigation
+          title=""
           tabs={tabs}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
@@ -182,19 +187,32 @@ export const FormTabs = () => {
             hidden={activeTab !== index}
           >
             <div className="space-y-4 p-4">
-              <div className="flex justify-between item-center">
+              <div className="flex justify-between items-center">
                 <h2 className="text-xl font-semibold">
-                  {tabs[activeTab]?.fields?.[activeSection]?.sectionTitle ||
-                    tab.title}
+                  {tabs[activeTab]?.fields?.[activeSection]?.sectionTitle
+                    ? tabs[activeTab]?.fields?.[activeSection]?.sectionTitle
+                        .split(' ')
+                        .slice(0, -1)
+                        .join(' ')
+                    : tab.title}
                 </h2>
                 {tab.title === 'Cuestionario' && (
                   <ProgressCircles
-                    totalSteps={tab.fields?.length || 0}
-                    currentStep={activeSection + 1}
+                    totalSteps={tabs.reduce(
+                      (acc, t) => acc + (t.fields?.length || 0),
+                      0
+                    )}
+                    currentStep={
+                      tabs
+                        .slice(0, activeTab)
+                        .reduce((acc, t) => acc + (t.fields?.length || 0), 0) +
+                      activeSection +
+                      1
+                    }
                   />
                 )}
               </div>
-              <Separator className="boober-1 border-accent" />
+              <Separator className="border-1 border-accent" />
               <p className="flex justify-end text-sm text-muted-foreground mt-2">
                 Tiempo estimado de respuesta: 15 min.
               </p>
@@ -206,9 +224,10 @@ export const FormTabs = () => {
                         tab.fields?.map((field: any, index: number) => ({
                           ...field,
                           id: index.toString(),
-                          title: field.sectionTitle || ''
+                          title: field.sectionTitle
                         })) || []
                       }
+                      title={tab.title.split(' ').slice(0, -1).join(' ')}
                       hidden
                       activeTab={activeSection}
                       setActiveTab={setActiveSection}
@@ -222,37 +241,14 @@ export const FormTabs = () => {
                       >
                         <div className="space-y-2">
                           {field.sectionTitle ===
-                            'Comunicación y Liderazgo' && (
-                            <>
-                              <VoiceDescription />
-                              <FormProvider {...methods}>
-                                <form
-                                  onSubmit={methods.handleSubmit(onSubmit)}
-                                  className="space-y-4"
-                                >
-                                  <PhonePrefixInput
-                                    control={methods.control}
-                                    name="phone"
-                                    label="Teléfono movil"
-                                    required={true}
-                                  />
-                                  <TextAreaInput
-                                    control={methods.control}
-                                    name="description"
-                                    label="Descripción"
-                                    placeholder="Hasta 1000 caracteres"
-                                    required={true}
-                                  />
-                                  <Button type="submit">Enviar</Button>
-                                </form>
-                              </FormProvider>
-                            </>
+                            'Comunicación y Liderazgo 1' && (
+                            <VoiceDescription />
                           )}
-                          {field.sectionTitle === 'Construcción de MVP' && (
+                          {field.sectionTitle === 'Construcción de MVP 5' && (
                             <MvpDescription />
                           )}
                           {field.questions.map((question: FormField) =>
-                            question.question_type === 'text' ? (
+                            question.question_type === 'textarea' ? (
                               <div key={question.id} className="space-y-2">
                                 <TextAreaInput
                                   control={methods.control}
@@ -261,18 +257,6 @@ export const FormTabs = () => {
                                   placeholder="Hasta 1000 caracteres"
                                   required={question.required}
                                 />
-                                {/*<TextArea
-                                  id={question.id.toString()}
-                                  label={question.text}
-                                  required={question.required}
-                                  placeholder="Hasta 1000 caracteres"
-                                  onChange={(value: string) =>
-                                    handleFieldChange(
-                                      question.id.toString(),
-                                      value
-                                    )
-                                  }
-                                />*/}
                               </div>
                             ) : (
                               <div key={question.id} className="space-y-2">
@@ -299,6 +283,9 @@ export const FormTabs = () => {
                 </div>
               ) : (
                 <div className="space-y-6">
+                  <span className="text-sm text-muted-foreground">
+                    {tab.title}
+                  </span>
                   {tab.fields?.map((field: any, fieldIndex: number) => (
                     <div key={fieldIndex} className="space-y-2">
                       {field.questions.map((question: FormField) => (
@@ -328,21 +315,19 @@ export const FormTabs = () => {
                 </div>
               )}
               <div className="flex justify-between mt-8">
-                {isLastStep && (
-                  <Button
-                    variant="outline"
-                    onClick={() => handleNavigation('prev')}
-                    disabled={
-                      tabs[activeTab]?.title === 'Cuestionario'
-                        ? !validSections[activeSection] ||
-                          !isSectionComplete ||
-                          isSubmitting
-                        : !tabs[activeTab]?.completed || isSubmitting
-                    }
-                  >
-                    Anterior
-                  </Button>
-                )}
+                <Button
+                  variant="outline"
+                  onClick={() => handleNavigation('prev')}
+                  disabled={
+                    tabs[activeTab]?.title === 'Cuestionario'
+                      ? !validSections[activeSection] ||
+                        !isSectionComplete ||
+                        isSubmitting
+                      : !tabs[activeTab]?.completed || isSubmitting
+                  }
+                >
+                  Anterior
+                </Button>
                 <div className="flex gap-2 ml-auto">
                   {!isLastStep ? (
                     <Button
