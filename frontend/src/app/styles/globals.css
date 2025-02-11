@@ -1,7 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import '@fontsource/mulish';
+@import '@fontsource/mulish/200.css';
+@import '@fontsource/mulish/300.css';
+@import '@fontsource/mulish/400.css';
+@import '@fontsource/mulish/500.css';
+@import '@fontsource/mulish/500.css';
+@import '@fontsource/mulish/600.css';
+@import '@fontsource/mulish/700.css';
+@import '@fontsource/mulish/800.css';
+@import '@fontsource/mulish/900.css';
+
 
 @layer base {
   * {
@@ -108,7 +117,7 @@
   .btn-secondary {
     @apply bg-white text-deepblue 
     laptop:text-xl/4
-    font-normal leading-4 border-2 border-aqua hover:font-bold
+    font-normal leading-4 border-2 disabled:text-aqua border-aqua hover:font-bold
     laptop:w-[170px] laptop:h-[50px]
     w-[100px] h-[30px];
   }
