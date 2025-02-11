@@ -28,6 +28,7 @@ urlpatterns = [
     path("api/", include("catalogs.urls")),
     path("api/", include("auth_service.urls")),
     path("api/", include("citas.urls")),
+    path("api/", include("cuestionario.urls")),
     path("api/", include("diagnosticos.urls")),
     path("docs/", include("docs.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

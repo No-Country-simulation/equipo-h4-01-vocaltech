@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import LeadEmprendimiento, Question, AnswerOption, Recommendation, QuestionGroup, SurveyResponse
+from .models import  SurveyResponse, LeadEmprendimiento
+from cuestionario.models import Question, AnswerOption, Recommendation
 from mutagen import File
 from mutagen.wave import WAVE
 from mutagen.mp3 import MP3
@@ -8,6 +9,7 @@ from mutagen.oggvorbis import OggVorbis
 from auth_service.models import User
 from utils.recommendation import generate_recommendations
 from utils.email import Email
+
 
 class LeadEmprendimientoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -49,26 +51,6 @@ class LeadEmprendimientoSerializer(serializers.ModelSerializer):
         
         return data
 
-
-class RecommendationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Recommendation
-        fields = ["id", "answer_options", "text"]
-
-class AnswerOptionSerializer(serializers.ModelSerializer):
-    recommendations = RecommendationSerializer(many=True, required=False, write_only=True)
-
-    class Meta:
-        model = AnswerOption
-        fields = ["id", "question", "text", "recommendations"]
-
-class QuestionSerializer(serializers.ModelSerializer):
-    options = AnswerOptionSerializer(many=True, read_only=True)
-    group = serializers.CharField(source='group.name', read_only=True)
-
-    class Meta:
-        model = Question
-        fields = ['id', 'text', 'options', 'group', 'question_type']
 
 class EncuestaSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())  

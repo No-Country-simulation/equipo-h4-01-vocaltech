@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "citas",
     "airtable_bridge",
     "diagnosticos",
+    "cuestionario",
 ]
 
 AUTH_USER_MODEL = "auth_service.User"
