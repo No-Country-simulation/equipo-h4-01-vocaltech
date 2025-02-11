@@ -15,8 +15,6 @@ const misdatos = [
 ]
 
 export default async function page() {
-  await new Promise(resolve => setTimeout(resolve, 3500));
-
   return (
     <>
         <div className="col-span-6 text-deepblue rounded-lg shadow-sm p-8">

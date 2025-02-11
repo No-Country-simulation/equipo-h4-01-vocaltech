@@ -3,7 +3,7 @@ import { Eye, Check, X } from 'lucide-react';
 import Link from 'next/link';
 
 export default async function page() {
-  await new Promise(resolve => setTimeout(resolve, 3500));
+  
   const diagnostics = [
     {
       id: 1,
