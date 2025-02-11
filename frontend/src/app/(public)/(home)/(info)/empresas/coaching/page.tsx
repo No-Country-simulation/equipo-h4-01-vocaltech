@@ -1,7 +1,11 @@
 import React from 'react'
+import Coaching from '../../components/Coaching'
 
-export default function page() {
+export default async function Page() {
+  
   return (
-    <div>page</div>
+    <div>
+      <Coaching />
+    </div>
   )
 }

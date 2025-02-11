@@ -29,7 +29,7 @@ export default function RectanguloAzul() {
 
   return (
     <div>
-      <div className="grid grid-cols-3 gap-0 w-full h-[615px] overflow-hidden p-16">
+      <div className="grid grid-cols-3 gap-0 w-full overflow-hidden p-16">
 
         <div className="relative col-span-2 w-full">
           <Image
@@ -39,19 +39,24 @@ export default function RectanguloAzul() {
             height={615}
             className="w-full h-full object-cover"
           />
-<div className="absolute bg-transparent inset-0 justify-center items-center z-10 text-left p-4">
-  <div className="p-12 space-y-8">
-    <h2 className="text-5xl/[3.5rem] font-bold text-white">{dataActual.title}</h2>
-    <p className="text-2xl/10 font-normal text-white">{dataActual.descripcion}</p>
-    <div className="flex justify-center p-6">
-      <Link href="/mis-diagnosticos/cuestionario">
-        <button className="bg-whitecustom border-lavender rounded-md w-full font-bold text-2xl/4 p-6">
-          Quiero obtener mi diagnóstico
-        </button>
-      </Link>
-    </div>
-  </div>
-</div>
+          <div className="absolute bg-transparent inset-0 flex justify-center items-center z-10 text-left p-4">
+            <div className="p-12 space-y-8">
+              <h2 className="text-5xl/[3.5rem] font-bold text-white">
+                {dataActual.title}
+              </h2>
+              <p className="text-2xl/10 font-normal text-white">
+                {dataActual.descripcion}
+              </p>
+              <div className="flex justify-center p-6">
+                <a href="/mis-diagnosticos/cuestionario">
+                  <button className="bg-whitecustom border-lavender rounded-md font-bold text-2xl/4 p-6">
+                    Quiero obtener mi diagnóstico
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+
 
         </div>
 
@@ -64,6 +69,7 @@ export default function RectanguloAzul() {
             width={500}
             height={615}
             className="w-full h-full object-cover"
+            priority
           />
         </div>
       </div>

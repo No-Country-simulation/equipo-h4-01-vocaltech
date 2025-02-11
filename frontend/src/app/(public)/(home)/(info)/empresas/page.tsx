@@ -1,4 +1,14 @@
+import Testimonios from "../../components/Testimonios";
+import RectanguloAzul from "../components/RectanguloAzul";
+import ServicioEspecial from "../components/ServicioEspecial";
+
 export default async function page() {
-  await new Promise(resolve => setTimeout(resolve, 3500));
-  return (null)
+  
+  return (
+    <>
+      <ServicioEspecial />
+      <RectanguloAzul />
+      <Testimonios />
+    </>
+  )
 }
