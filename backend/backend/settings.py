@@ -97,7 +97,12 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CSRF_TRUSTED_ALL_ORIGINS = True
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8000",
+    "http://localhost:3000",
+    "https://equipo-h4-01-vocaltech.onrender.com",
+    "https://equipo-h4-01-vocaltech.vercel.app",
+]
 
 CORS_ALLOW_ALL_ORIGINS = True
 
