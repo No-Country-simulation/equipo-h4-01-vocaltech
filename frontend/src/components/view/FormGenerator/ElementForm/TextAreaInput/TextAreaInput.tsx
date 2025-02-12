@@ -10,6 +10,7 @@ interface TextAreaProps {
   label: string;
   required?: boolean;
   placeholder?: string;
+  onChange?: (value: any) => void;
 }
 
 export const TextAreaInput = ({
@@ -17,7 +18,8 @@ export const TextAreaInput = ({
   name,
   label,
   required = false,
-  placeholder = ''
+  placeholder = '',
+  onChange
 }: TextAreaProps) => {
   const {
     field,
@@ -35,6 +37,9 @@ export const TextAreaInput = ({
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     field.onChange(event);
     setIsEmpty(event.target.value.trim() === '');
+    if (onChange) {
+      onChange(event.target.value);
+    }
   };
 
   const handleBlur = () => {

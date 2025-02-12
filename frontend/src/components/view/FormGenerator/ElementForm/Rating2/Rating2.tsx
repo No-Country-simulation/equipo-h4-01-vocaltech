@@ -24,7 +24,7 @@ export function Rating2({ name, scale, value, onChange }: Rating2Props) {
                 value={index + 1}
                 checked={value === index + 1}
                 onChange={() => onChange(index + 1)}
-                className="appearance-none w-4 h-4  rounded-full border border-primary checked:border-[4px] checked:border-accent transition-all duration-200 cursor-pointer"
+                className="appearance-none w-4 h-4 rounded-full border border-primary checked:border-[4px] checked:border-accent transition-all duration-200 cursor-pointer"
               />
             </label>
             <span className="text-sm text-gray-600">{index + 1}</span>

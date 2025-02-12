@@ -11,17 +11,29 @@ import { FormField } from '../TabType/TabType';
 interface Props {
   question: FormField;
   methods: UseFormReturn<any>;
+  onFieldChange: (fieldId: string, value: any) => void;
 }
 
-export const FormSelectElement = ({ question, methods }: Props) => {
+export const FormSelectElement = ({
+  question,
+  methods,
+  onFieldChange
+}: Props) => {
+  const handleChange = (value: any) => {
+    methods.setValue(question.id.toString(), value);
+    onFieldChange(question.id.toString(), value);
+  };
+
   switch (question.question_type) {
     case 'textarea':
+      console.log('ta', question.id);
       return (
         <TextAreaInput
           control={methods.control}
           name={question.id.toString()}
           label={'Por eso, te pregunto: ' + question.text}
           placeholder="Hasta 1000 caracteres"
+          onChange={handleChange}
           required={question.required}
         />
       );
@@ -40,7 +52,7 @@ export const FormSelectElement = ({ question, methods }: Props) => {
             value: option.id.toString()
           }))}
           value={methods.getValues(question.id.toString())}
-          onChange={value => methods.setValue(question.id.toString(), value)}
+          onChange={handleChange}
         />
       );
     case 'radio2':
@@ -52,15 +64,16 @@ export const FormSelectElement = ({ question, methods }: Props) => {
             value: option.id.toString()
           }))}
           value={methods.getValues(question.id.toString())}
-          onChange={value => methods.setValue(question.id.toString(), value)}
+          onChange={handleChange}
         />
       );
     case 'rating1':
+      console.log('r1', question.id);
       return (
         <Rating1
           name={question.id.toString()}
           value={methods.getValues(question.id.toString())}
-          onChange={value => methods.setValue(question.id.toString(), value)}
+          onChange={handleChange}
           min={1}
           max={5}
         />
@@ -71,14 +84,13 @@ export const FormSelectElement = ({ question, methods }: Props) => {
           name={question.id.toString()}
           scale={{
             min: 'Nada',
-            max: 'Mucho',
+            max: 'siempre',
             steps: 5
           }}
           value={methods.getValues(question.id.toString())}
-          onChange={value => methods.setValue(question.id.toString(), value)}
+          onChange={handleChange}
         />
       );
-
     default:
       return <p className="text-red-500">Tipo de pregunta no soportado</p>;
   }

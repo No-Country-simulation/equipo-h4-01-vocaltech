@@ -6,25 +6,29 @@ import {
 import { UseFormReturn } from 'react-hook-form';
 import { FormSelectElement } from '../FormSelectElement/FormSelectElement';
 
-interface Props {
+interface SectionRenderProps {
   section: SectionProps;
-  methods: UseFormReturn<any>; // Recibe el form de react-hook-form
+  methods: UseFormReturn<any>;
+  onFieldChange: (fieldId: string, value: any) => void;
 }
 
-export const SectionRender = ({ section, methods }: Props) => {
+export const SectionRender: React.FC<SectionRenderProps> = ({
+  section,
+  methods,
+  onFieldChange
+}) => {
   if (!section || !section.sectionTitle) {
     return <div>Section not found</div>;
   }
 
   const sectionSwitch = section.sectionTitle.split(' ').slice(-1)[0];
-  console.debug('sectionSwitch', sectionSwitch);
-
   const renderQuestions = (questions: FormField[]) =>
     questions.map((question: FormField) => (
       <FormSelectElement
         key={question.id}
         question={question}
         methods={methods}
+        onFieldChange={onFieldChange}
       />
     ));
 
@@ -38,7 +42,6 @@ export const SectionRender = ({ section, methods }: Props) => {
       );
     case '2':
       const npregunta = section.questions.length;
-      console.debug('npregunta', npregunta);
       section.questions[0].text.startsWith('1-')
         ? section.questions[0].text
         : (section.questions[0].text = '1- ' + section.questions[0].text);
@@ -54,6 +57,7 @@ export const SectionRender = ({ section, methods }: Props) => {
             key={section.questions[0].id}
             question={section.questions[0]}
             methods={methods}
+            onFieldChange={onFieldChange}
           />
           <div className="w-full space-y-8">
             <h2 className="text-2xl font-medium text-primary">
@@ -78,6 +82,7 @@ export const SectionRender = ({ section, methods }: Props) => {
                 key={section.questions[1].id}
                 question={section.questions[1]}
                 methods={methods}
+                onFieldChange={onFieldChange}
               />
             </div>
             <div className="flex items-start justify-between gap-4 pb-2 border-b border-gray-200">
@@ -95,6 +100,7 @@ export const SectionRender = ({ section, methods }: Props) => {
                 key={section.questions[2].id}
                 question={section.questions[2]}
                 methods={methods}
+                onFieldChange={onFieldChange}
               />
             </div>
             <div className="flex justify-end gap-4 pt-1 pr-1">
@@ -146,7 +152,11 @@ export const SectionRender = ({ section, methods }: Props) => {
                   {question.text}
                 </p>
                 <div className="pt-4 pb-4">
-                  <FormSelectElement question={question} methods={methods} />
+                  <FormSelectElement
+                    question={question}
+                    methods={methods}
+                    onFieldChange={onFieldChange}
+                  />
                 </div>
               </div>
             ))}
@@ -176,7 +186,11 @@ export const SectionRender = ({ section, methods }: Props) => {
 
             return (
               <div key={question.id}>
-                <FormSelectElement question={question} methods={methods} />
+                <FormSelectElement
+                  question={question}
+                  methods={methods}
+                  onFieldChange={onFieldChange}
+                />
               </div>
             );
           })}

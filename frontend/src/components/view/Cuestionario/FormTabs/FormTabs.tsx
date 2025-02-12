@@ -10,25 +10,34 @@ import { postQuestions } from '@/api/Questions/post/QuestionsPro';
 import { FormProvider, useForm } from 'react-hook-form';
 import { SectionRender } from '../SectionRender/SectionRender';
 
+interface FormData {
+  [key: string]: any;
+}
+
 export const FormTabs = () => {
   const { activeTab, tabs = [], setActiveTab, validateTab } = useTabsState();
   const [formData, setFormData] = useState<Record<string, any>>({});
   const [activeSection, setActiveSection] = useState(0);
-  const [validSections, setValidSections] = useState<boolean[]>([]);
 
-  //para el form
-  const methods = useForm({
+  const methods = useForm<FormData>({
     defaultValues: {
-      phone: {
-        prefix: '+54',
-        number: ''
-      }
+      1: '',
+      2: '',
+      3: '',
+      4: '',
+      5: '',
+      6: '',
+      7: '',
+      8: '',
+      9: '',
+      10: '',
+      11: '',
+      12: '',
+      13: '',
+      14: '',
+      15: ''
     }
   });
-
-  const onSubmitForm = (data: any) => {
-    console.log(data);
-  };
 
   const {
     showConfirmation,
@@ -44,7 +53,13 @@ export const FormTabs = () => {
     (fieldId: string, value: any) => {
       const newData = { ...formData, [fieldId]: value };
       setFormData(newData);
-      // Validación en tiempo real
+      methods.setValue(fieldId as keyof typeof formData, value, {
+        shouldValidate: true,
+        shouldDirty: true
+      });
+      console.debug('Field changed:', fieldId, 'Value:', value);
+      console.debug('FormData:', newData);
+
       const currentTab = tabs[activeTab];
       const isValid = currentTab?.fields?.every((field: any) =>
         field.questions.every((question: any) =>
@@ -53,20 +68,8 @@ export const FormTabs = () => {
       );
 
       validateTab(activeTab, isValid);
-
-      // Validación de sección
-      const currentSection = tabs[activeTab]?.fields?.[activeSection];
-      const isSectionValid = currentSection?.questions?.every((question: any) =>
-        useValidateField(question, newData[question.id])
-      );
-
-      setValidSections((prev: boolean[]) => {
-        const newValidSections = [...prev];
-        newValidSections[activeSection] = isSectionValid;
-        return newValidSections;
-      });
     },
-    [formData, activeTab, activeSection, tabs, validateTab]
+    [formData, activeTab, tabs, validateTab, methods]
   );
 
   const handleSection = useCallback(
@@ -107,9 +110,8 @@ export const FormTabs = () => {
     [activeSection, activeTab, tabs, handleSection, handleTab]
   );
 
-  const handleSubmitTab = useCallback(async () => {
+  const handleSubmitForm = useCallback(async () => {
     try {
-      // Lógica de envío aquí
       console.debug('Submitting:', formData);
       const response = await postQuestions(formData);
 
@@ -156,6 +158,10 @@ export const FormTabs = () => {
   }, [tabs, activeTab, activeSection, formData]);
 
   const formName = 'Cuestionario';
+
+  console.log('allTabsValid:', allTabsValid);
+  console.log('isSectionComplete:', isSectionComplete);
+  console.log('isSubmitting:', isSubmitting);
 
   return (
     <div className="border-2 border-accent borber-opacity-20 rounded-xl p-6 m-4 lg:p-8 lg:m-8 overflow-hidden">
@@ -220,12 +226,13 @@ export const FormTabs = () => {
                         <div className="w-full">
                           <FormProvider {...methods}>
                             <form
-                              onSubmit={methods.handleSubmit(onSubmitForm)}
+                              onSubmit={methods.handleSubmit(handleSubmitForm)}
                               className="space-y-4 p-4 w-full"
                             >
                               <SectionRender
                                 section={field as SectionProps}
                                 methods={methods}
+                                onFieldChange={handleFieldChange}
                               />
                             </form>
                           </FormProvider>
@@ -252,14 +259,13 @@ export const FormTabs = () => {
                 </div>
               )}
               <div className="flex justify-between mt-8">
-                {!isLastStep && (
-                  <Button
-                    variant="outline"
-                    onClick={() => handleNavigation('prev')}
-                  >
-                    Anterior
-                  </Button>
-                )}
+                <Button
+                  variant="outline"
+                  onClick={() => handleNavigation('prev')}
+                  disabled={activeTab === 0 && activeSection === 0}
+                >
+                  Anterior
+                </Button>
                 <div className="flex gap-2 ml-auto">
                   {!isLastStep ? (
                     <Button onClick={() => handleNavigation('next')}>
@@ -283,7 +289,7 @@ export const FormTabs = () => {
       </Tabs>
       <DialogConfirmation
         open={showConfirmation}
-        onConfirm={handleSubmitTab}
+        onConfirm={handleSubmitForm}
         onCancel={handleCancel}
       />
       <DialogSuccess open={showSuccess} onClose={handleSuccessClose} />
