@@ -108,19 +108,13 @@ class EncuestaSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         """Genera la encuesta y sus recomendaciones antes de guardarla."""
-        responses = validated_data["responses"]
+        responses = validated_data["responses"]  # Asegurar que responses es un diccionario
         
-        # Filtrar preguntas que no sean de tipo 'textarea'
-        filtered_responses = {}
-        question_ids = responses.keys()
-        questions = Question.objects.filter(id__in=question_ids).only("id", "question_type")
-        
-        for question in questions:
-            if question.question_type != 'textarea':
-                filtered_responses[question.id] = responses[str(question.id)]
+        respuestas = responses.values()  # Convertimos a lista
+        print(f'Estas son las respuestas en serializer: {respuestas}')
         
         # Generar recomendaciones
-        recommendations = generate_recommendations(filtered_responses)
+        recommendations = generate_recommendations(respuestas)  # Pasamos el diccionario completo
         
         # Crear la instancia de SurveyResponse
         survey_response = SurveyResponse.objects.create(
@@ -128,5 +122,8 @@ class EncuestaSerializer(serializers.ModelSerializer):
             responses=responses,
             recommendations=recommendations  # Guardamos recomendaciones
         )
+        
         Email.enviar_email_diagnotico(validated_data["user"].id, recommendations)
+        
         return survey_response
+
