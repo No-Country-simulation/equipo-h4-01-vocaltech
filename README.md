@@ -31,7 +31,7 @@ VocalTech ofrece un enfoque integral que combina educación, tecnología y prác
 ## 🛠️ Equipo de Desarrollo
 
 - **[Roger Parra]** - Project Manager - [LinkedIn](https://www.linkedin.com/in/roger-parra/) | [GitHub](https://github.com/rogerparra)
-- **[Camila Rotundo]** - UX/UI Designer - [LinkedIn]((https://www.linkedin.com/in/camila-rotundo/)) | [Behance]((https://www.behance.net/camilarotundo1))
+- **[Camila Rotundo]** - UX/UI Designer - [LinkedIn](https://www.linkedin.com/in/camila-rotundo/) | [Behance](https://www.behance.net/camilarotundo1)
 - **[Cristian Dizeo]** - Frontend Developer - [LinkedIn](https://www.linkedin.com/in/cristian-dizeo/) | [GitHub](https://github.com/cristiandizeo)
 - **[David Caycedo]** - Frontend Developer - [LinkedIn](#) | [GitHub](#)
 - **[Rene Silva]** - Backend Developer - [LinkedIn](#) | [GitHub](#)
