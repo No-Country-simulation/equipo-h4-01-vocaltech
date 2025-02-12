@@ -21,7 +21,7 @@ SECRET_KEY = "django-insecure-k9gw($iaq*hvj(1h^%m#3ni@%2ox5a(8fftsxmn5rpkhwzmst4
 PROD = os.environ.get("PROD", "False").lower() in ("true", "1", "t")
 DEBUG = not PROD
 
-ALLOWED_HOSTS = ["https://equipo-h4-01-vocaltech.onrender.com", "localhost"]
+ALLOWED_HOSTS = ["*"]
 OPEN_API_KEY = os.getenv("OPEN_API_KEY")
 
 # Application definition
