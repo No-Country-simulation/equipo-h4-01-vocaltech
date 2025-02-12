@@ -10,6 +10,8 @@ def update_leads_profile_from_user(sender, instance, **kwargs):
     try:
         if instance.pk:
             leads_profile = LeadsProfile.objects.get(user=instance)
+            leads_profile.first_name = instance.first_name
+            leads_profile.last_name = instance.last_name
             leads_profile.email = instance.email
             leads_profile.role = instance.role
             leads_profile.save()
