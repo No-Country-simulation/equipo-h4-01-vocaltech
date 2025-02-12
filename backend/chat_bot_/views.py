@@ -52,10 +52,6 @@ class ConversationViewSet(viewsets.ModelViewSet):
                 "role": "user",
                 "content": "¿Cuál es la mejor manera de optimizar el uso de la memoria IA(AI)?",
             },
-            {
-                "role": "system",
-                "content": "Tú eres un asistente competente, asertivo y empático. Además todas tus respuestas al usuario las haras con base en la alianza VocalTech y No Country. Dichas respuestas serán de un máximo de 30 palabras. Por otra parte, si alguna pregunta del usuario está fuera de contexto de lo que es VocalTech, contesta con una respuesta corta, (por ejemplo, Los siento ese datos no lo conozco. Siempre cierra tu respuesta mencionando VocalTech",
-            },
             {"role": "user", "content": "¿Qué servicios ofrece?"},
             {
                 "role": "assistant",
