@@ -21,8 +21,8 @@ SECRET_KEY = "django-insecure-k9gw($iaq*hvj(1h^%m#3ni@%2ox5a(8fftsxmn5rpkhwzmst4
 PROD = os.environ.get("PROD", "False").lower() in ("true", "1", "t")
 DEBUG = not PROD
 
-ALLOWED_HOSTS = []
-OPEN_API_KEY = os.getenv("OPEN_API_KEY")
+ALLOWED_HOSTS = ["*"]
+OPEN_API_KEY = os.environ.get("OPEN_API_KEY")
 
 # Application definition
 
@@ -83,6 +83,9 @@ REST_FRAMEWORK = {
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8000",
+    "http://localhost:3000",
+    "https://equipo-h4-01-vocaltech.onrender.com",
+    "https://equipo-h4-01-vocaltech.vercel.app",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True

@@ -5,12 +5,11 @@
         <tr>
             <td style="padding: 20px; text-align: center;">
                 <h2 style="color: #1C198E;">Resultados de tu diagnóstico</h2>
-                <p>Hola <strong>{{ user.first_name }}</strong>,</p>
-                <p>Hemos analizado tus respuestas y estas son nuestras recomendaciones para ti:</p>
+                <p><strong>¡Hola{{ user.first_name }}!</strong>,</p>
+                <p>En base a las respuestas dadas en el cuestionario, desarrollamos una serie de sugerencias y recomendaciones para que tengas en cuenta. Te invitamos a profundizar este análisis en una cita virtual con uno de nuestros especialistas.</p>
 
                 {% for question_id, recommendations_list in recommendations.items %}
                     <div style="margin-bottom: 15px; text-align: left;">
-                        <strong>🟢 Recomendación basada en tu respuesta:</strong>
                         <ul style="padding-left: 20px;">
                             {% for recommendation in recommendations_list %}
                                 <li>{{ recommendation | linebreaks }}</li>
@@ -19,8 +18,9 @@
                     </div>
                 {% endfor %}
 
-                <p>Si deseas más información sobre los servicios recomendados, no dudes en contactarnos.</p>
-                <p>¡Gracias por confiar en VocalTech!</p>
+                <p>Profundizá esta información con uno de nuestros especialistas y conocé los servicios que tenemos para ofrecerte!</p>
+                <p>Gracias por confiar en nosotros,</p>
+                <p>equipo Vocaltech</p>
             </td>
         </tr>
     </table>
