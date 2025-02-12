@@ -60,7 +60,6 @@ INSTALLED_APPS = [
     "catalogs",
     "citas",
     "airtable_bridge",
-    "chat_bot",
     "diagnosticos",
 ]
 
