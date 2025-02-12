@@ -1,6 +1,7 @@
 from django import forms
-from .models import Question, Recommendation, AnswerOption
-from .serializers import QuestionSerializer
+from cuestionario.models import Question, Recommendation, AnswerOption
+from .models import SurveyResponse
+from cuestionario.serializers import QuestionSerializer
 
 class QuestionForm(forms.ModelForm):
     class Meta:
@@ -26,3 +27,25 @@ class QuestionForm(forms.ModelForm):
             return serializer.save()  # Guarda usando la lógica del serializer
 
         raise forms.ValidationError(serializer.errors)  # Lanza errores en caso de datos inválidos
+
+class SurveyResponseForm(forms.ModelForm):
+    class Meta:
+        model = SurveyResponse
+        fields = []
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        survey_response = kwargs.get('instance')
+        if survey_response:
+            self.fields['responses'] = forms.CharField(
+                label='Responses',
+                initial=survey_response.get_responses(),
+                widget=forms.Textarea(attrs={'readonly': 'readonly', 'style': 'width: 100%; height: 200px;'}),
+                required=False
+            )
+            self.fields['recommendations'] = forms.CharField(
+                label='Recommendations',
+                initial=survey_response.get_recommendations(),
+                widget=forms.Textarea(attrs={'readonly': 'readonly', 'style': 'width: 100%; height: 200px;'}),
+                required=False
+            )
