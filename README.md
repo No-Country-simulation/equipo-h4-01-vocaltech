@@ -36,7 +36,7 @@ VocalTech ofrece un enfoque integral que combina educación, tecnología y prác
 - **[David Caycedo]** - Frontend Developer - [LinkedIn](#) | [GitHub](#)
 - **[Rene Silva]** - Backend Developer - [LinkedIn](#) | [GitHub](#)
 - **[Leandro Sanchez]** - Backend Developer - [LinkedIn](https://www.linkedin.com/in/leandromsanchez/) | [GitHub](https://github.com/leanmsan)
-- **[Yohan Rodríguez]** - QA Tester - [LinkedIn](#) | [GitHub](#)
+- **[Yohan Rodríguez]** - QA Tester - [LinkedIn](https://www.linkedin.com/in/yohanrodri/) | [GitHub](https://github.com/Rhanyojs)
 
 ## 🚀 Instalación y Configuración
 
