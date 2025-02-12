@@ -1,24 +1,34 @@
 import { RadioGroup, RadioGroupItem } from '@/components/ui';
 
-interface Props {
-  name: string;
-  value: string;
-  onChange: (value: string) => void;
-  min: number;
-  max: number;
+interface Option {
+  id: string | number;
+  text: string;
 }
 
-export function Rating1({ value, onChange, min = 32, max = 36 }: Props) {
-  console.log('value', value);
+interface Props {
+  name: string;
+  value: string | number;
+  onChange: (value: string | number) => void;
+  options: Option[];
+}
+
+export function Rating1({ value, onChange, options }: Props) {
   return (
     <RadioGroup
-      onValueChange={onChange}
-      value={value}
+      onValueChange={val => onChange(Number(val))}
+      value={String(value)} // Convertimos el valor a string
       className="flex items-center gap-4"
     >
-      {Array.from({ length: max - min + 1 }, (_, i) => i + min).map(num => (
-        <div key={num} className="flex items-center">
-          <RadioGroupItem value={`${num}`} id={`${num}`} className="h-4 w-4" />
+      {options.map(option => (
+        <div key={option.id} className="flex items-center">
+          <RadioGroupItem
+            value={String(option.id)} // Convertimos el id a string
+            id={`${option.id}`}
+            className="h-4 w-4"
+          />
+          {/*<label htmlFor={`${option.id}`} className="ml-2">
+            {option.text}
+          </label>*/}
         </div>
       ))}
     </RadioGroup>

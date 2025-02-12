@@ -127,8 +127,10 @@ export const FormTabs = () => {
     () =>
       tabs.every(tab =>
         tab.fields.every((field: any) =>
-          field.questions.every((question: any) =>
-            useValidateField(question, formData[question.id])
+          field.questions.every(
+            (question: any) =>
+              formData[question.id] !== undefined &&
+              formData[question.id] !== ''
           )
         )
       ),
@@ -274,9 +276,7 @@ export const FormTabs = () => {
                   ) : (
                     <Button
                       onClick={handleFinalize}
-                      disabled={
-                        !allTabsValid || !isSectionComplete || isSubmitting
-                      }
+                      disabled={!allTabsValid || isSubmitting}
                     >
                       {isSubmitting ? 'Enviando...' : 'Finalizar'}
                     </Button>

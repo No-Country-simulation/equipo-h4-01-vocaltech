@@ -26,7 +26,6 @@ export const FormSelectElement = ({
 
   switch (question.question_type) {
     case 'textarea':
-      console.log('ta', question.id);
       return (
         <TextAreaInput
           control={methods.control}
@@ -49,7 +48,7 @@ export const FormSelectElement = ({
           sublabel={sublabel}
           options={question.options.map(option => ({
             label: option.text,
-            value: option.id.toString()
+            value: option.id
           }))}
           value={methods.getValues(question.id.toString())}
           onChange={handleChange}
@@ -61,32 +60,26 @@ export const FormSelectElement = ({
           label={question.text}
           options={question.options.map(option => ({
             label: option.text,
-            value: option.id.toString()
+            value: option.id
           }))}
           value={methods.getValues(question.id.toString())}
           onChange={handleChange}
         />
       );
     case 'rating1':
-      console.log('r1', question.id);
       return (
         <Rating1
           name={question.id.toString()}
           value={methods.getValues(question.id.toString())}
           onChange={handleChange}
-          min={1}
-          max={5}
+          options={question.options}
         />
       );
     case 'rating2':
       return (
         <Rating2
           name={question.id.toString()}
-          scale={{
-            min: 'Nada',
-            max: 'siempre',
-            steps: 5
-          }}
+          options={question.options}
           value={methods.getValues(question.id.toString())}
           onChange={handleChange}
         />

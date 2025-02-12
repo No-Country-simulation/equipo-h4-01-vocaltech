@@ -4,15 +4,15 @@ import { Label } from '@/components/ui/label';
 
 interface RadioOption {
   label: string;
-  value: string;
+  value: number;
 }
 
 interface RadioGroupFieldProps {
   label: string;
   sublabel?: string;
   options: RadioOption[];
-  value: string;
-  onChange: (value: string) => void;
+  value: number;
+  onChange: (value: number) => void;
   error?: string;
 }
 
@@ -34,14 +34,17 @@ export const RadioGroupField = ({
       </FormLabel>
       <FormControl>
         <RadioGroup
-          onValueChange={onChange}
-          value={value}
+          onValueChange={val => onChange(Number(val))}
+          value={value.toString()} // Convertimos el valor a string
           className="space-y-2"
         >
           {options.map(option => (
             <div key={option.value} className="flex items-center space-x-2">
-              <RadioGroupItem value={option.value} id={option.value} />
-              <Label htmlFor={option.value}>{option.label}</Label>
+              <RadioGroupItem
+                value={option.value.toString()}
+                id={option.value.toString()}
+              />
+              <Label htmlFor={option.value.toString()}>{option.label}</Label>
             </div>
           ))}
         </RadioGroup>
