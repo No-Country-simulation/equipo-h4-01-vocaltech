@@ -22,6 +22,7 @@ export const FormTabs = () => {
   const [tabStatus, setTabStatus] = useState<StatusType[]>(
     tabs.map(() => StatusType.Pending)
   );
+  const [progressComplete, setProgressComplete] = useState(false);
 
   const methods = useForm<FormData>({
     defaultValues: {
@@ -132,10 +133,21 @@ export const FormTabs = () => {
       console.debug('Response:', response);
       localStorage.setItem('response', JSON.stringify(response));
       await handleConfirm(formData);
+      setProgressComplete(true); // Update progress to complete
     } catch (error) {
       console.error('Submission error:', error);
     }
   }, [formData, handleConfirm]);
+
+  const handleFinalizeClick = useCallback(() => {
+    handleFinalize();
+    setProgressComplete(true); // Mark progress as complete
+  }, [handleFinalize]);
+
+  const handleCancelClick = useCallback(() => {
+    handleCancel();
+    setProgressComplete(false); // Unmark progress
+  }, [handleCancel]);
 
   const allTabsValid = useMemo(
     () =>
@@ -211,6 +223,7 @@ export const FormTabs = () => {
                   <ProgressCircles
                     totalSteps={tab.fields?.length || 0}
                     currentStep={activeSection + 1}
+                    complete={progressComplete} // Pass the progressComplete state
                   />
                 )}
               </div>
@@ -300,7 +313,7 @@ export const FormTabs = () => {
                     </Button>
                   ) : (
                     <Button
-                      onClick={handleFinalize}
+                      onClick={handleFinalizeClick}
                       disabled={!allTabsValid || isSubmitting}
                     >
                       {isSubmitting ? 'Enviando...' : 'Finalizar'}
@@ -315,7 +328,7 @@ export const FormTabs = () => {
       <DialogConfirmation
         open={showConfirmation}
         onConfirm={handleSubmitForm}
-        onCancel={handleCancel}
+        onCancel={handleCancelClick}
       />
       <DialogSuccess open={showSuccess} onClose={handleSuccessClose} />
     </div>

@@ -4,11 +4,13 @@ import { Check } from 'lucide-react';
 interface ProgressCirclesProps {
   totalSteps: number;
   currentStep: number;
+  complete: boolean; // Add the complete prop
 }
 
 export const ProgressCircles = ({
   totalSteps,
-  currentStep
+  currentStep,
+  complete
 }: ProgressCirclesProps) => {
   if (totalSteps <= 0) {
     return null;
@@ -21,7 +23,7 @@ export const ProgressCircles = ({
           key={index}
           className={cn(
             'w-6 h-6 rounded-full flex items-center justify-center text-xs border-2',
-            index + 1 < currentStep
+            complete || index + 1 < currentStep
               ? 'bg-primary border-primary text-primary-foreground'
               : index + 1 === currentStep
                 ? 'border-primary text-primary'
@@ -29,7 +31,7 @@ export const ProgressCircles = ({
             'transition-all duration-300 hover:border-primary hover:text-primary'
           )}
         >
-          {index + 1 < currentStep ? (
+          {complete || index + 1 < currentStep ? (
             <Check className="h-3 w-3 animate-in fade-in" />
           ) : (
             index + 1
