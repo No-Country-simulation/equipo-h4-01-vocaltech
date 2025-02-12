@@ -2,14 +2,17 @@ from django import forms
 from .models import User, Role
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
+
 class UserCreationForm(forms.ModelForm):
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
+    password2 = forms.CharField(
+        label="Password confirmation", widget=forms.PasswordInput
+    )
     role = forms.ModelChoiceField(queryset=Role.objects.all(), required=False)
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'username', 'password', 'role')
+        fields = ("first_name", "last_name", "email", "username", "password", "role")
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -25,13 +28,24 @@ class UserCreationForm(forms.ModelForm):
             user.save()
         return user
 
+
 class UserChangeForm(forms.ModelForm):
     password = ReadOnlyPasswordHashField()
     role = forms.ModelChoiceField(queryset=Role.objects.all(), required=False)
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'username', 'password', 'role', 'is_active', 'is_staff')
+        fields = (
+            "first_name",
+            "last_name",
+            "email",
+            "username",
+            "password",
+            "role",
+            "is_active",
+            "is_staff",
+            "exported_to_airtable",
+        )
 
     def clean_password(self):
         return self.initial["password"]

@@ -21,6 +21,7 @@ class AbstractManager(models.Manager):
 class AbstractModel(models.Model):
     notes = models.TextField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
+    exported_to_airtable = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     objects = AbstractManager()

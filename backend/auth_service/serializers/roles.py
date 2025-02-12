@@ -18,6 +18,7 @@ class RoleDetailSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = [
             "is_active",
+            "exported_to_airtable",
             "created_at",
             "updated_at",
         ]

@@ -23,8 +23,9 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             "password",
             "role",
             "role_name",
+            "exported_to_airtable",
         )
-        read_only_fields = ["username"]
+        read_only_fields = ["username", "exported_to_airtable"]
 
     def create(self, validated_data):
         user = User(

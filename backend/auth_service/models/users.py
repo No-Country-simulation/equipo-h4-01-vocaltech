@@ -20,6 +20,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         on_delete=models.SET_NULL,
         related_name="users",
     )
+    exported_to_airtable = models.BooleanField(default=False)
 
     objects = UserManager()
 

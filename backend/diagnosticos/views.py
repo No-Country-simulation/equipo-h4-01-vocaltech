@@ -7,9 +7,6 @@ from rest_framework.views import APIView
 from .models import SurveyResponse, LeadEmprendimiento
 from .serializers import EncuestaSerializer, LeadEmprendimientoSerializer
 from utils.pagination import StandardResultsSetPagination
-from dal_select2.views import Select2QuerySetView
-
-# 🔥 IMPORTACIÓN CORRECTA
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
@@ -19,11 +16,11 @@ class LeadEmprendimientoViewSet(viewsets.ModelViewSet):
     queryset = LeadEmprendimiento.objects.all()
     serializer_class = LeadEmprendimientoSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ['años', 'empleados']
-    search_fields = ['nombre', 'ubicacion', 'sector', 'informacion']
+    filterset_fields = ["años", "empleados"]
+    search_fields = ["nombre", "ubicacion", "sector", "informacion"]
 
 
-@method_decorator(csrf_exempt, name='dispatch')  # ✅ Aplica csrf_exempt correctamente
+@method_decorator(csrf_exempt, name="dispatch")  # ✅ Aplica csrf_exempt correctamente
 class RespuestaEncuesta(APIView):
     permission_classes = [AllowAny]
 
