@@ -2,8 +2,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from django.conf.urls.static import static
-from django.conf import settings
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
@@ -33,6 +31,7 @@ urlpatterns = [
     path("api/", include("auth_service.urls")),
     path("api/", include("citas.urls")),
     path("api/", include("airtable_bridge.urls")),
+    path("api/", include("chat_bot.urls")),
     path("api/", include("diagnosticos.urls")),
     path("docs/", include("docs.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
