@@ -22,7 +22,7 @@ PROD = os.environ.get("PROD", "False").lower() in ("true", "1", "t")
 DEBUG = not PROD
 
 ALLOWED_HOSTS = ["*"]
-OPEN_API_KEY = os.environ.get("OPEN_API_KEY")
+OPEN_API_KEY = os.getenv("OPEN_API_KEY")
 
 # Application definition
 
@@ -56,7 +56,6 @@ INSTALLED_APPS = [
     "catalogs",
     "citas",
     "airtable_bridge",
-    "chat_bot",
     "diagnosticos",
     "cuestionario",
 ]
@@ -81,17 +80,6 @@ REST_FRAMEWORK = {
 }
 
 
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:8000",
-    "http://localhost:3000",
-    "https://equipo-h4-01-vocaltech.onrender.com",
-    "https://equipo-h4-01-vocaltech.vercel.app",
-]
-
-CORS_ALLOW_ALL_ORIGINS = True
-
-CORS_ALLOW_CREDENTIALS = False
-
 ASGI_APPLICATION = "backend.asgi.application"
 
 DAPHNE_SERVE_STATIC = True
@@ -107,6 +95,18 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8000",
+    "http://localhost:3000",
+    "https://equipo-h4-01-vocaltech.onrender.com",
+    "https://equipo-h4-01-vocaltech.vercel.app",
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_CREDENTIALS = False
+
 
 CHANNEL_LAYERS = {
     "default": {

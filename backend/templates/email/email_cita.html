@@ -11,26 +11,22 @@
     </tr>
     <tr>
         <td style="padding-top: 5px; font-size: 16px; color: #040041; text-align: left;">
-            <strong>¡Hola {{ lead.first_name }}!</strong>,
-        </td>
-        <td style="padding-top: 15px; font-size: 16px; color: #040041; text-align: left;">
-            <strong>¡Tu cita fue agendada con éxito!</strong>
+            Hola <strong>{{ lead.username }}</strong>,
         </td>
     </tr>
     <tr>
         <td style="font-size: 16px; color: #040041; text-align: left;">
-            Tu cita ha sido agendada para el <strong>{{ fecha }}</strong> a las <strong>{{ hora_inicio }}</strong>.
-        </td>
-    </tr>
-    
-    <tr>
-        <td style="padding-top: 15px; font-size: 16px; color: #040041; text-align: left;">
-            El enlace a la reunión será enviado luego de tu confirmación 48 hs antes del día de la reunión. No te preocupes, ¡nosotros te enviamos un mail para recordarlo!
+            Tu cita con <strong>{{ especialista.username }}</strong> ha sido agendada para el <strong>{{ fecha }}</strong> a las <strong>{{ hora_inicio }}</strong>.
         </td>
     </tr>
     <tr>
         <td style="padding-top: 15px; font-size: 16px; color: #040041; text-align: left;">
-            Si tienes algún inconveniente, puedes ponerte en contacto con nuestro soporte a través de nuestra web.
+            Para garantizar tu participación, recibirás el enlace de la reunión 48 horas antes, luego de confirmar tu asistencia.
+        </td>
+    </tr>
+    <tr>
+        <td style="padding-top: 15px; font-size: 16px; color: #040041; text-align: left;">
+            Si tienes alguna pregunta o necesitas modificar la cita, no dudes en contactarnos.
         </td>
     </tr>
 </table>
