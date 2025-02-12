@@ -1,32 +1,33 @@
 {% extends "email/email_base.html" %}
 
-{% block title %}Cita Agendada!{% endblock %}
+{% block title %}Cita Agendada{% endblock %}
 
 {% block content %}
-<table width="100%" style="border-collapse: collapse;">
+<table width="100%" style="border-collapse: collapse; text-align: center;">
     <tr>
-        <td style="font-size: 20px; font-weight: bold; color: #1C198E;">
-            ¡Tu cita ha sido agendada!
+        <td style="font-size: 22px; color: #26A69A; font-family: 'Mulish', sans-serif; font-weight: bold;">
+            Hola {{ lead.first_name }},
         </td>
     </tr>
     <tr>
-        <td style="padding-top: 5px; font-size: 16px; color: #040041; text-align: left;">
-            Hola <strong>{{ lead.username }}</strong>,
+        <td style="font-size: 20px; font-family: 'Mulish', sans-serif; font-weight: bold; color: #26A69A;">
+            ¡Tu cita fue agendada con éxito!
         </td>
     </tr>
     <tr>
-        <td style="font-size: 16px; color: #040041; text-align: left;">
-            Tu cita con <strong>{{ especialista.username }}</strong> ha sido agendada para el <strong>{{ fecha }}</strong> a las <strong>{{ hora_inicio }}</strong>.
+        <td style="font-size: 18px; font-family: 'Mulish', sans-serif; font-weight: bold; color: #26A69A;">
+            {{ fecha }} a las {{ hora_inicio }} hs.
         </td>
     </tr>
     <tr>
-        <td style="padding-top: 15px; font-size: 16px; color: #040041; text-align: left;">
-            Para garantizar tu participación, recibirás el enlace de la reunión 48 horas antes, luego de confirmar tu asistencia.
+        <td style="padding-top: 15px; padding-bottom: 15px; font-size: 16px; font-family: 'Mulish', sans-serif; color: #040041; text-align: center;">
+            El enlace a la reunión será enviado luego de tu confirmación 48 hs antes del día de la reunión.
+            No te preocupes, ¡nosotros te enviamos un mail para recordarlo!<br>
         </td>
     </tr>
     <tr>
-        <td style="padding-top: 15px; font-size: 16px; color: #040041; text-align: left;">
-            Si tienes alguna pregunta o necesitas modificar la cita, no dudes en contactarnos.
+        <td style="padding-top: 15px; font-size: 14px; font-family: 'Mulish', sans-serif; color: #26A69A; text-align: center; border-top: 1px solid #26A69A; padding-bottom: 10px;">
+            Si tienes algún inconveniente, puedes ponerte en contacto con nuestro soporte a través de nuestra web.
         </td>
     </tr>
 </table>

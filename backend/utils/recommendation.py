@@ -1,30 +1,18 @@
-from cuestionario.models import Recommendation, Question, AnswerOption
+from cuestionario.models import Recommendation, AnswerOption
 
 def parse_responses(responses):
     """Convierte las respuestas en pares clave-valor para búsqueda de recomendaciones."""
     parsed_data = {}
 
-    question_ids = responses.keys()
-    questions = Question.objects.filter(id__in=question_ids).only("id", "question_type")
-
-    question_map = {q.id: q for q in questions}
-
     for question_id, user_response in responses.items():
-        question = question_map.get(int(question_id))
-
-        if not question:
-            continue  
-
-        if question.question_type in ["radio", "yes_no"]:
-            parsed_data[f"{question_id}_{user_response}"] = None  
-
-        elif question.question_type == "checkbox":
+        if isinstance(user_response, list):
             for option_id in user_response:
-                parsed_data[f"{question_id}_{option_id}"] = None  
+                parsed_data[f"{question_id}_{option_id}"] = None
+                
+        else:
+            parsed_data[f"{question_id}_{user_response}"] = None
 
-        elif question.question_type == "number":
-            parsed_data[f"{question_id}_{int(user_response)}"] = None  
-
+    print("Parsed Data:", parsed_data)
     return parsed_data
 
 def get_recommendations(parsed_responses):
@@ -32,11 +20,12 @@ def get_recommendations(parsed_responses):
     recommendations = {}
 
     keys = list(parsed_responses.keys())
-    question_ids = [int(k.split('_')[0]) for k in keys]
     answer_option_ids = [int(k.split('_')[1]) for k in keys]
 
-    answer_options = AnswerOption.objects.filter(question_id__in=question_ids, id__in=answer_option_ids)
+    answer_options = AnswerOption.objects.filter(id__in=answer_option_ids)
+    print("Answer Options:", answer_options)
     recs = Recommendation.objects.filter(answer_options__in=answer_options).distinct()
+    print("Recommendations:", recs)
 
     rec_map = {}
     for rec in recs:
@@ -50,6 +39,7 @@ def get_recommendations(parsed_responses):
         if key in rec_map:
             recommendations[key] = rec_map[key]
 
+    print("Final Recommendations:", recommendations)
     return recommendations
 
 def generate_recommendations(responses):

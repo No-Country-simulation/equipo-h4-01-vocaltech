@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import  SurveyResponse, LeadEmprendimiento
+from .models import SurveyResponse, LeadEmprendimiento
 from cuestionario.models import Question, AnswerOption, Recommendation
 from mutagen import File
 from mutagen.wave import WAVE
@@ -9,7 +9,6 @@ from mutagen.oggvorbis import OggVorbis
 from auth_service.models import User
 from utils.recommendation import generate_recommendations
 from utils.email import Email
-
 
 class LeadEmprendimientoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -46,11 +45,10 @@ class LeadEmprendimientoSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Formato de archivo de audio no soportado.')
         
         # Validar duración
-        if duration < 30 or duration > 60:
+        if duration < 30 or duración > 60:
             raise serializers.ValidationError('La duración del audio debe estar entre 30 y 60 segundos.')
         
         return data
-
 
 class EncuestaSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())  
@@ -111,8 +109,20 @@ class EncuestaSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         """Genera la encuesta y sus recomendaciones antes de guardarla."""
         responses = validated_data["responses"]
-        recommendations = generate_recommendations(responses)  # Generamos recomendaciones
-
+        
+        # Filtrar preguntas que no sean de tipo 'textarea'
+        filtered_responses = {}
+        question_ids = responses.keys()
+        questions = Question.objects.filter(id__in=question_ids).only("id", "question_type")
+        
+        for question in questions:
+            if question.question_type != 'textarea':
+                filtered_responses[question.id] = responses[str(question.id)]
+        
+        # Generar recomendaciones
+        recommendations = generate_recommendations(filtered_responses)
+        
+        # Crear la instancia de SurveyResponse
         survey_response = SurveyResponse.objects.create(
             user=validated_data["user"],
             responses=responses,
