@@ -32,6 +32,7 @@ urlpatterns = [
     path("api/", include("citas.urls")),
     path("api/", include("airtable_bridge.urls")),
     # path("api/", include("chat_bot.urls")),
+    path("api/", include("cuestionario.urls")),
     path("api/", include("diagnosticos.urls")),
     path("docs/", include("docs.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

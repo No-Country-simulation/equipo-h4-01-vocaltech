@@ -35,6 +35,7 @@ class LeadsProfile(AbstractModel):
     phone = models.CharField(max_length=20)
 
     class Meta:
+        app_label = "auth_service"
         verbose_name = "Lead Profile"
         verbose_name_plural = "Lead Profiles"
         ordering = ["-created"]

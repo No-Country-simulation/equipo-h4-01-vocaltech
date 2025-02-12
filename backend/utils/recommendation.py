@@ -1,4 +1,4 @@
-from diagnosticos.models import Recommendation, Question, AnswerOption
+from cuestionario.models import Recommendation, Question, AnswerOption
 
 def parse_responses(responses):
     """Convierte las respuestas en pares clave-valor para búsqueda de recomendaciones."""
