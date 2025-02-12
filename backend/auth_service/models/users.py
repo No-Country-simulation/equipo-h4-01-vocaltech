@@ -33,6 +33,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         app_label = "auth_service"
         db_table = "users"
+        managed = True
 
     def __str__(self):
         return str(self.username)
