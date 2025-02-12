@@ -1,15 +1,76 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from import_export.admin import ImportExportModelAdmin
-from auth_service.models.users import User
-from auth_service.models.roles import Role
-from auth_service.models.leads_profile import LeadsProfile
+from .models import User, Role, LeadsProfile
 
-# Register your models here.
-admin.site.register(User)
+from .forms import UserCreationForm, UserChangeForm
 
-admin.site.register(LeadsProfile)
+from unfold.forms import AdminPasswordChangeForm, UserChangeForm, UserCreationForm
+from unfold.admin import ModelAdmin
 
 
-@admin.register(Role)
-class RoleAdmin(ImportExportModelAdmin):
+class RoleAdmin(ModelAdmin, ImportExportModelAdmin):
     pass
+
+
+class UserAdmin(BaseUserAdmin, ModelAdmin):
+    form = UserChangeForm
+    add_form = UserCreationForm
+
+    list_display = (
+        "email",
+        "username",
+        "role",
+        "is_staff",
+        "is_active",
+        "exported_to_airtable",
+    )
+    list_filter = ("is_staff", "is_active")
+    fieldsets = (
+        (
+            None,
+            {
+                "fields": (
+                    "first_name",
+                    "last_name",
+                    "email",
+                    "username",
+                    "password",
+                    "role",
+                    "exported_to_airtable",
+                )
+            },
+        ),
+        ("Permissions", {"fields": ("is_staff", "is_active")}),
+    )
+    add_fieldsets = (
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": (
+                    "first_name",
+                    "last_name",
+                    "email",
+                    "username",
+                    "password1",
+                    "password2",
+                    "role",
+                    "exported_to_airtable",
+                ),
+            },
+        ),
+    )
+    search_fields = ("email", "username")
+    ordering = ("email",)
+    filter_horizontal = ()
+
+
+
+class LeadsProfileAdmin(ModelAdmin, ImportExportModelAdmin):
+    pass
+
+
+admin.site.register(User, UserAdmin)
+admin.site.register(Role, RoleAdmin)
+admin.site.register(LeadsProfile, LeadsProfileAdmin)

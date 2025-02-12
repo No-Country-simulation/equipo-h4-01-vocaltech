@@ -1,34 +1,29 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import viewsets, filters, status
-from utils.pagination import StandardResultsSetPagination
+from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Question, SurveyResponse, LeadEmprendimiento
-from .serializers import LeadEmprendimientoSerializer, QuestionSerializer, EncuestaSerializer
-from utils.recommendation import generar_recomendaciones_hibridas
-from rest_framework.permissions import IsAuthenticated, AllowAny
-
-
-class QuestionViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
-    queryset = Question.objects.all().order_by('group', 'id')
-    serializer_class = QuestionSerializer
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    search_fields = ['text', 'category']
+from rest_framework import filters, status, viewsets
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .models import SurveyResponse, LeadEmprendimiento
+from .serializers import EncuestaSerializer, LeadEmprendimientoSerializer
+from utils.pagination import StandardResultsSetPagination
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
 
 class LeadEmprendimientoViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
     queryset = LeadEmprendimiento.objects.all()
     serializer_class = LeadEmprendimientoSerializer
-    pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ['años', 'empleados']
-    search_fields = ['nombre', 'ubicacion', 'sector', 'informacion']
+    filterset_fields = ["años", "empleados"]
+    search_fields = ["nombre", "ubicacion", "sector", "informacion"]
 
 
+@method_decorator(csrf_exempt, name="dispatch")  # ✅ Aplica csrf_exempt correctamente
 class RespuestaEncuesta(APIView):
     permission_classes = [AllowAny]
+
     def get(self, request, id=None):
         if id:
             survey_response = SurveyResponse.objects.get(id=id)
@@ -42,14 +37,8 @@ class RespuestaEncuesta(APIView):
     def post(self, request):
         serializer = EncuestaSerializer(data=request.data)
         if serializer.is_valid():
-            # Crear la instancia de SurveyResponse con las recomendaciones
             survey_response = serializer.save()
-            
-            # Serializar la instancia creada
             response_serializer = EncuestaSerializer(survey_response)
-            
-            # Devolver la respuesta con los datos serializados
             return Response(response_serializer.data, status=status.HTTP_201_CREATED)
-        
-        # Devolver los errores de validación
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

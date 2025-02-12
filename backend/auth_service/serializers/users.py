@@ -17,15 +17,20 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             "username",
+            "first_name",
+            "last_name",
             "email",
             "password",
             "role",
             "role_name",
+            "exported_to_airtable",
         )
+        read_only_fields = ["username", "exported_to_airtable"]
 
     def create(self, validated_data):
         user = User(
-            username=validated_data["username"],
+            first_name=validated_data["first_name"],
+            last_name=validated_data["last_name"],
             email=validated_data["email"],
         )
         user.set_password(validated_data["password"])

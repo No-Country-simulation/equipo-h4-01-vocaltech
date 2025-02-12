@@ -1,62 +1,51 @@
 from django import forms
-from .models import Question
+from cuestionario.models import Question, Recommendation, AnswerOption
+from .models import SurveyResponse
+from cuestionario.serializers import QuestionSerializer
 
 class QuestionForm(forms.ModelForm):
-    options_input = forms.CharField(widget=forms.Textarea, required=False, help_text="Ingrese las opciones separadas por salto de línea. Use ':' para separar la opción de su valoración.")
-
     class Meta:
         model = Question
-        fields = ['text', 'question_type', 'required', 'services', 'options']
+        fields = ["text", "question_type", "group"]  # Campos base de la pregunta
 
     def save(self, commit=True):
-        question = super().save(commit=False)
-        options_input = self.cleaned_data.get('options_input')
+        """Usa el serializer para manejar la creación y actualización de preguntas con opciones y recomendaciones."""
+        instance = super().save(commit=False)  # No guardamos aún en la DB
 
-        if options_input:
-            options = []
-            for option_text in options_input.splitlines():
-                parts = option_text.split(':')
-                if len(parts) == 2:
-                    text = parts[0].strip()
-                    try:
-                        value = int(parts[1].strip())  # Valoración de la opción
-                    except ValueError:
-                        value = 0  # Si no se puede convertir a entero, usar 0
-                else:
-                    text = parts[0].strip()
-                    value = 0  # Si no hay valoración, usar 0
+        # Extraer datos de request.POST para serializar junto con la instancia
+        data = {
+            "id": instance.id,
+            "text": self.cleaned_data["text"],
+            "question_type": self.cleaned_data["question_type"],
+            "group": self.cleaned_data["group"].id if self.cleaned_data["group"] else None,
+            "options": self.data.get("options", [])  # Se espera que `options` venga en el request
+        }
 
-                options.append({'text': text, 'value': value})
+        serializer = QuestionSerializer(instance, data=data, partial=True)  # `partial=True` para actualizaciones
 
-            question.options = options  # Asignar las opciones al campo JSON
+        if serializer.is_valid():
+            return serializer.save()  # Guarda usando la lógica del serializer
 
-        if commit:
-            question.save()
-        return question
+        raise forms.ValidationError(serializer.errors)  # Lanza errores en caso de datos inválidos
 
+class SurveyResponseForm(forms.ModelForm):
+    class Meta:
+        model = SurveyResponse
+        fields = []
 
-class SurveyResponseForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        questions = Question.objects.all()
-        for question in questions:
-            if question.question_type in ['radio', 'checkbox']:
-                choices = [(option['text'], option['text']) for option in question.options]
-                field = forms.MultipleChoiceField(
-                    choices=choices,
-                    widget=forms.CheckboxSelectMultiple if question.question_type == 'checkbox' else forms.RadioSelect,
-                    label=question.text,
-                    required=question.required,
-                )
-            elif question.question_type == 'text':
-                field = forms.CharField(label=question.text, required=question.required)
-            elif question.question_type == 'number':
-                field = forms.IntegerField(label=question.text, required=question.required)
-            elif question.question_type == 'yes_no':
-                field = forms.ChoiceField(
-                    choices=[('yes', 'Sí'), ('no', 'No')],
-                    widget=forms.RadioSelect,
-                    label=question.text,
-                    required=question.required,
-                )
-            self.fields[f'question_{question.id}'] = field
+        survey_response = kwargs.get('instance')
+        if survey_response:
+            self.fields['responses'] = forms.CharField(
+                label='Responses',
+                initial=survey_response.get_responses(),
+                widget=forms.Textarea(attrs={'readonly': 'readonly', 'style': 'width: 100%; height: 200px;'}),
+                required=False
+            )
+            self.fields['recommendations'] = forms.CharField(
+                label='Recommendations',
+                initial=survey_response.get_recommendations(),
+                widget=forms.Textarea(attrs={'readonly': 'readonly', 'style': 'width: 100%; height: 200px;'}),
+                required=False
+            )

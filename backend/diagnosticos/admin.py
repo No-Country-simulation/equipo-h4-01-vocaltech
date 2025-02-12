@@ -1,66 +1,40 @@
 from django.contrib import admin
+from unfold.admin import ModelAdmin
 from django import forms
-from markdown2 import markdown
-from django.utils.safestring import mark_safe
-from django.urls import path
-from .models import Question, Service, QuestionGroup, SurveyResponse, LeadEmprendimiento
+from django.utils.html import format_html
+from .models import SurveyResponse, LeadEmprendimiento
+from .forms import SurveyResponseForm
 
 
-class QuestionForm(forms.ModelForm):
-    class Meta:
-        model = Question
-        fields = ['group', 'text', 'question_type', 'services', 'options', 'weight', 'category']
-
-
-class ServiceAdmin(admin.ModelAdmin):
-    list_display = ['name', 'description']
-    search_fields = ['name', 'description']
-    list_filter = ['client_type']
-
-class QuestionGroupAdmin(admin.ModelAdmin):
-    list_display = ['name', 'client_type']
-    search_fields = ['name', 'client_type__name']
-    list_filter = ['client_type']
-
-class QuestionAdmin(admin.ModelAdmin):
-    form = QuestionForm
-    list_display = ['text', 'question_type', 'group', 'weight', 'category']
-    search_fields = ['text', 'group__name', 'category']
-    list_filter = ['question_type', 'group', 'category']
-
-class SurveyResponseAdmin(admin.ModelAdmin):
-    list_display = ['user_id', 'created_at']
-    search_fields = ['user_id__username', 'user_id__email']
-    list_filter = ['created_at']
-    readonly_fields = ['get_responses', 'get_recommendations']
-
-    def get_responses(self, obj):
-        return mark_safe(markdown(obj.get_responses()))
-    get_responses.short_description = 'Responses'
-
-    def get_recommendations(self, obj):
-        return mark_safe(markdown(obj.get_recommendations()))
-    get_recommendations.short_description = 'Recommendations'
-
-    def has_add_permission(self, request, obj=None):
-        return False
-
-    def has_change_permission(self, request, obj=None):
-        if obj is not None:
-            return False
-        return super().has_change_permission(request, obj=obj)
-
-    def has_delete_permission(self, request, obj=None):
-        # Disable delete
-        return False
-
-class LeadEmprendimientoAdmin(admin.ModelAdmin):
+class LeadEmprendimientoAdmin(ModelAdmin):
     list_display = ['nombre', 'ubicacion', 'sector', 'años', 'empleados']
     search_fields = ['nombre', 'ubicacion', 'sector']
-    list_filter = ['sector', 'años', 'empleados']
+    list_filter = ['años', 'empleados']
 
-admin.site.register(Question, QuestionAdmin)
-admin.site.register(Service, ServiceAdmin)
-admin.site.register(QuestionGroup, QuestionGroupAdmin)
-admin.site.register(SurveyResponse, SurveyResponseAdmin)
+
+class SurveyResponseAdmin(ModelAdmin):
+    form = SurveyResponseForm
+    list_display = ['user', 'created_at']
+    search_fields = ['user__username', 'user__email']
+    list_filter = ['created_at']
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return ['responses', 'recommendations']
+        return []
+
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        survey_response = self.get_object(request, object_id)
+        if survey_response:
+            extra_context = extra_context or {}
+            extra_context['responses'] = format_html(survey_response.get_responses())
+            extra_context['recommendations'] = format_html(survey_response.get_recommendations())
+        return super().change_view(request, object_id, form_url, extra_context=extra_context)
+
+    def response_change(self, request, obj):
+        if "_save" in request.POST:
+            self.message_user(request, "SurveyResponse updated successfully.")
+        return super().response_change(request, obj)
+
 admin.site.register(LeadEmprendimiento, LeadEmprendimientoAdmin)
+admin.site.register(SurveyResponse, SurveyResponseAdmin)

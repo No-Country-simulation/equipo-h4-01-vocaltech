@@ -1,14 +1,15 @@
 from rest_framework import serializers
-from .models import LeadEmprendimiento, Question, SurveyResponse
+from .models import  SurveyResponse, LeadEmprendimiento
+from cuestionario.models import Question, AnswerOption, Recommendation
 from mutagen import File
 from mutagen.wave import WAVE
 from mutagen.mp3 import MP3
 from mutagen.flac import FLAC
 from mutagen.oggvorbis import OggVorbis
-import json
 from auth_service.models import User
-from utils.recommendation import generar_recomendaciones_hibridas
+from utils.recommendation import generate_recommendations
 from utils.email import Email
+
 
 class LeadEmprendimientoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -51,30 +52,6 @@ class LeadEmprendimientoSerializer(serializers.ModelSerializer):
         return data
 
 
-class QuestionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Question
-        fields = '__all__'
-
-    def validate(self, data):
-        question_type = data.get('question_type')
-        options = data.get('options', [])
-        
-        if question_type in ['radio', 'checkbox', 'number']:
-            if not options:
-                raise serializers.ValidationError(f'Las preguntas de tipo {question_type} deben tener opciones.')
-            for option in options:
-                if 'text' not in option or 'value' not in option:
-                    raise serializers.ValidationError('Las opciones deben tener campos de texto y valor.')
-            if len(set(option['text'] for option in options)) != len(options):
-                raise serializers.ValidationError('Las opciones no pueden repetirse.')
-        
-        return data
-    
-    def create(self, validated_data):
-        return Question.objects.create(**validated_data)
-
-
 class EncuestaSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())  
     responses = serializers.JSONField()
@@ -85,20 +62,46 @@ class EncuestaSerializer(serializers.ModelSerializer):
         read_only_fields = ['recommendations']
 
     def validate_responses(self, value):
+        """Valida que las respuestas sean correctas según las preguntas disponibles."""
         question_ids = value.keys()
         questions = {q.id: q for q in Question.objects.filter(id__in=question_ids)}
 
         errors = {}
+
         for question_id, response in value.items():
-            question = questions.get(int(question_id))
-            if not question:
-                errors[question_id] = f'La pregunta {question_id} no existe.'
+            try:
+                question_id = int(question_id)
+            except ValueError:
+                errors[question_id] = ["El ID de la pregunta debe ser un número entero."]
                 continue
 
-            try:
-                self.validate_response(question, response)
-            except serializers.ValidationError as e:
-                errors[question_id] = e.detail
+            question = questions.get(question_id)
+
+            if not question:
+                errors[question_id] = [f"La pregunta {question_id} no existe."]
+                continue
+
+            # Validamos las respuestas de preguntas con opciones (radio, checkbox, yes/no)
+            if question.question_type in ["radio", "checkbox", "yes_no"]:
+                if not isinstance(response, list):  # Unificamos el formato a lista para validación
+                    response = [response]
+
+                # Obtener las opciones de respuesta disponibles
+                valid_options = list(question.options.all())
+                valid_option_ids = {option.id for option in valid_options}
+
+                # Convertimos índices a IDs cuando sea necesario
+                converted_responses = []
+                for r in response:
+                    if isinstance(r, int) and r < len(valid_options):  
+                        converted_responses.append(valid_options[r].id)  # Convertimos índice a ID
+                    else:
+                        converted_responses.append(r)  # Si ya es un ID, lo dejamos igual
+
+                # Revisar si las respuestas están dentro de las opciones válidas
+                invalid_options = [r for r in converted_responses if r not in valid_option_ids]
+                if invalid_options:
+                    errors[question_id] = [f"Las opciones {invalid_options} no son válidas para la pregunta {question_id}."]
 
         if errors:
             raise serializers.ValidationError(errors)
@@ -106,64 +109,14 @@ class EncuestaSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        user = validated_data['user'] 
-        answers = validated_data['responses']
+        """Genera la encuesta y sus recomendaciones antes de guardarla."""
+        responses = validated_data["responses"]
+        recommendations = generate_recommendations(responses)  # Generamos recomendaciones
 
-        # Generar recomendaciones
-        recomendaciones = generar_recomendaciones_hibridas(answers)
-
-        # Crear la instancia de SurveyResponse con el objeto User
         survey_response = SurveyResponse.objects.create(
-            user=user,  # ✅ Ahora pasamos el objeto `User` en lugar de su ID
-            responses=answers,
-            recommendations=recomendaciones
+            user=validated_data["user"],
+            responses=responses,
+            recommendations=recommendations  # Guardamos recomendaciones
         )
-        Email.enviar_email_diagnotico(user.id, recomendaciones)
+        Email.enviar_email_diagnotico(validated_data["user"].id, recommendations)
         return survey_response
-
-    def validate_response(self, question, response):
-        validators = {
-            'text': self.validate_text_response,
-            'number': self.validate_number_response,
-            'yes_no': self.validate_yes_no_response,
-            'radio': self.validate_radio_response,
-            'checkbox': self.validate_checkbox_response,
-        }
-        validator = validators.get(question.question_type)
-        if validator:
-            validator(question, response)
-
-    def validate_text_response(self, question, response):
-        if not isinstance(response, str) or response.strip() == "":
-            raise serializers.ValidationError(f"La respuesta a la pregunta {question.id} no puede estar vacía.")
-
-    def validate_number_response(self, question, response):
-        try:
-            response = int(response)
-            if response < 0:
-                raise serializers.ValidationError(f"La respuesta a la pregunta {question.id} no puede ser negativa.")
-        except ValueError:
-            raise serializers.ValidationError(f"La respuesta a la pregunta {question.id} debe ser un número entero.")
-
-    def validate_yes_no_response(self, question, response):
-        if response not in [0, 1]:
-            raise serializers.ValidationError(f"La respuesta a la pregunta {question.id} debe ser 0 (No) o 1 (Sí).")
-
-    def validate_radio_response(self, question, response):
-        try:
-            response = int(response)
-            if response < 0 or response >= len(question.options):
-                raise serializers.ValidationError(f"La respuesta a la pregunta {question.id} no es válida.")
-        except ValueError:
-            raise serializers.ValidationError(f"La respuesta a la pregunta {question.id} debe ser un número entero.")
-
-    def validate_checkbox_response(self, question, response):
-        if not isinstance(response, list):
-            raise serializers.ValidationError(f"La respuesta a la pregunta {question.id} debe ser una lista.")
-        for r in response:
-            try:
-                r = int(r)
-                if r < 0 or r >= len(question.options):
-                    raise serializers.ValidationError(f"Las respuestas a la pregunta {question.id} no son válidas.")
-            except ValueError:
-                raise serializers.ValidationError(f"Las respuestas a la pregunta {question.id} deben ser números enteros.")
