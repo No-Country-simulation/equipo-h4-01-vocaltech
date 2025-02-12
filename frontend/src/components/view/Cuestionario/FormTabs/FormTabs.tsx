@@ -9,6 +9,7 @@ import { SectionProps } from '../TabType/TabType';
 import { postQuestions } from '@/api/Questions/post/QuestionsPro';
 import { FormProvider, useForm } from 'react-hook-form';
 import { SectionRender } from '../SectionRender/SectionRender';
+import { StatusType } from '../TabType/TabType';
 
 interface FormData {
   [key: string]: any;
@@ -18,6 +19,9 @@ export const FormTabs = () => {
   const { activeTab, tabs = [], setActiveTab, validateTab } = useTabsState();
   const [formData, setFormData] = useState<Record<string, any>>({});
   const [activeSection, setActiveSection] = useState(0);
+  const [tabStatus, setTabStatus] = useState<StatusType[]>(
+    tabs.map(() => StatusType.Pending)
+  );
 
   const methods = useForm<FormData>({
     defaultValues: {
@@ -60,16 +64,26 @@ export const FormTabs = () => {
       console.debug('Field changed:', fieldId, 'Value:', value);
       console.debug('FormData:', newData);
 
-      const currentTab = tabs[activeTab];
-      const isValid = currentTab?.fields?.every((field: any) =>
+      const currentTabData = tabs[activeTab];
+      const isValid = currentTabData?.fields?.every((field: any) =>
         field.questions.every((question: any) =>
           useValidateField(question, newData[question.id])
         )
       );
 
       validateTab(activeTab, isValid);
+
+      const newTabStatus = [...tabStatus];
+      if (isValid) {
+        newTabStatus[activeTab] = StatusType.Valid;
+      } else if (Object.values(newData).some(value => value !== '')) {
+        newTabStatus[activeTab] = StatusType.Invalid;
+      } else {
+        newTabStatus[activeTab] = StatusType.Pending;
+      }
+      setTabStatus(newTabStatus);
     },
-    [formData, activeTab, tabs, validateTab, methods]
+    [formData, activeTab, tabs, validateTab, methods, tabStatus]
   );
 
   const handleSection = useCallback(
@@ -116,7 +130,7 @@ export const FormTabs = () => {
       const response = await postQuestions(formData);
 
       console.debug('Response:', response);
-      localStorage.setItem('respose', JSON.stringify(response));
+      localStorage.setItem('response', JSON.stringify(response));
       await handleConfirm(formData);
     } catch (error) {
       console.error('Submission error:', error);
@@ -161,9 +175,9 @@ export const FormTabs = () => {
 
   const formName = 'Cuestionario';
 
-  console.log('allTabsValid:', allTabsValid);
-  console.log('isSectionComplete:', isSectionComplete);
-  console.log('isSubmitting:', isSubmitting);
+  console.debug('allTabsValid:', allTabsValid);
+  console.debug('isSectionComplete:', isSectionComplete);
+  console.debug('isSubmitting:', isSubmitting);
 
   return (
     <div className="border-2 border-accent borber-opacity-20 rounded-xl p-6 m-4 lg:p-8 lg:m-8 overflow-hidden">
@@ -171,8 +185,10 @@ export const FormTabs = () => {
         <TabsNavigation
           title=""
           tabs={tabs}
-          activeTab={activeTab}
+          currentTab={activeTab} // Cambiado de activeTab a currentTab
           setActiveTab={setActiveTab}
+          tabStatus={tabStatus}
+          hidden={false}
         />
         {tabs.map((tab, index) => (
           <TabsContent
@@ -215,8 +231,9 @@ export const FormTabs = () => {
                       }
                       title=""
                       hidden
-                      activeTab={activeSection}
+                      currentTab={activeSection} // Cambiado de activeTab a currentTab
                       setActiveTab={setActiveSection}
+                      tabStatus={tabStatus} // Pass the tabStatus to TabsNavigation
                     />
                     {tab.fields?.map((field: SectionProps, idx: number) => (
                       <TabsContent
@@ -261,16 +278,24 @@ export const FormTabs = () => {
                 </div>
               )}
               <div className="flex justify-between mt-8">
-                <Button
-                  variant="outline"
-                  onClick={() => handleNavigation('prev')}
-                  disabled={activeTab === 0 && activeSection === 0}
-                >
-                  Anterior
-                </Button>
+                {!(activeTab === 0 && activeSection === 0) && (
+                  <Button
+                    variant="outline"
+                    onClick={() => handleNavigation('prev')}
+                    disabled={
+                      (activeTab === 0 && activeSection === 0) ||
+                      !isSectionComplete
+                    }
+                  >
+                    Anterior
+                  </Button>
+                )}
                 <div className="flex gap-2 ml-auto">
                   {!isLastStep ? (
-                    <Button onClick={() => handleNavigation('next')}>
+                    <Button
+                      onClick={() => handleNavigation('next')}
+                      disabled={!isSectionComplete}
+                    >
                       Siguiente
                     </Button>
                   ) : (

@@ -1,35 +1,46 @@
 'use client';
+import { FC } from 'react';
 import * as LucideIcons from 'lucide-react';
-import { TabConfig, TabLabelProps } from '../TabType/TabType';
+import { StatusType } from '../TabType/TabType';
 
-const statusIcons: Record<TabConfig['status'], string> = {
-  valid: 'CheckCircle',
-  invalid: 'AlertCircle',
-  pending: 'Info',
-  error: 'XCircle',
-  disabled: 'MinusCircle'
+interface TabLabelProps {
+  icon?: string;
+  color?: string;
+  title: string;
+  disabled?: boolean;
+  status: StatusType;
+  hidden?: boolean;
+}
+
+const statusIcons: Record<StatusType, string> = {
+  [StatusType.Valid]: 'CheckCircle',
+  [StatusType.Invalid]: 'AlertCircle',
+  [StatusType.Pending]: 'Info',
+  [StatusType.Error]: 'XCircle',
+  [StatusType.Disabled]: 'MinusCircle'
 };
 
-const statusColors: Record<TabConfig['status'], string> = {
-  valid: '#50A5A1',
-  invalid: '#F75F57',
-  pending: '#040042',
-  error: '#ff0000',
-  disabled: '#A9A6E4'
+const statusColors: Record<StatusType, string> = {
+  [StatusType.Valid]: '#50A5A1',
+  [StatusType.Invalid]: '#F75F57',
+  [StatusType.Pending]: '#040042',
+  [StatusType.Error]: '#ff0000',
+  [StatusType.Disabled]: '#A9A6E4'
 };
 
-export const TabLabel = ({
+export const TabLabel: FC<TabLabelProps> = ({
   icon,
   color,
   title,
   disabled,
   status,
   hidden
-}: TabLabelProps) => {
+}) => {
   if (hidden) return null;
+
   const IconComponent = (LucideIcons as any)[icon || statusIcons[status]];
   const iconColor = disabled
-    ? statusColors.disabled
+    ? statusColors[StatusType.Disabled]
     : color || statusColors[status];
 
   return (
