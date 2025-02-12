@@ -61,7 +61,7 @@ export const adaptadorQuestions = (
 
   preguntas.forEach(question => {
     question.subgroups.forEach(subgroup => {
-      const sectionTitle = `${question.name} ${subgroup.id}`; // Nombre del grupo más el ID del subgrupo
+      const sectionTitle = `${question.name === 'Construcción de MVP' ? 'Cuestionario: MVP funcional en 5 semanas' : question.name === 'Comunicación y Liderazgo' ? 'Cuestionario: comunicación y liderazgo' : question.name} ${subgroup.id}`; // Nombre del grupo más el ID del subgrupo
 
       subgroup.questions.forEach(q => {
         const { id: questionId, text, options } = q;
@@ -86,7 +86,7 @@ export const adaptadorQuestions = (
           }
         } else if (question.name === 'Construcción de MVP') {
           if (questionId === 11) {
-            questionType = 'radio';
+            questionType = 'radio2';
           } else if (
             questionId === 12 ||
             questionId === 13 ||
@@ -105,7 +105,12 @@ export const adaptadorQuestions = (
         grouped[sectionTitle].push({
           id: questionId,
           text,
-          group: question.name,
+          group:
+            question.name === 'Construcción de MVP'
+              ? 'Cuestionario: MVP funcional en 5 semanas'
+              : question.name === 'Comunicación y Liderazgo'
+                ? 'Cuestionario: comunicación y liderazgo'
+                : question.name,
           question_type: questionType,
           options:
             options?.map(opt => ({

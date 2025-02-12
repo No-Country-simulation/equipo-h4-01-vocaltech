@@ -1,23 +1,14 @@
 'use client';
 import { useState, useCallback, useMemo } from 'react';
-import { Button, Tabs, TabsContent, Label, Separator } from '@/components/ui';
+import { Button, Tabs, TabsContent, Separator } from '@/components/ui';
 import { TabsNavigation } from '../TabsNavigation/TabsNavigation';
 import { useTabsState, useFormSubmission, useValidateField } from '@/hooks';
 import { ProgressCircles } from '../../Nav';
-import {
-  AudioRecorder,
-  DialogConfirmation,
-  DialogSuccess,
-  FieldRenderer
-} from '../../Common';
-import { FormField, SectionProps } from '../TabType/TabType';
+import { AudioRecorder, DialogConfirmation, DialogSuccess } from '../../Common';
+import { SectionProps } from '../TabType/TabType';
 import { postQuestions } from '@/api/Questions/post/QuestionsPro';
-import {
-  MvpDescription,
-  TextAreaInput,
-  VoiceDescription
-} from '../../FormGenerator';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
+import { SectionRender } from '../SectionRender/SectionRender';
 
 export const FormTabs = () => {
   const { activeTab, tabs = [], setActiveTab, validateTab } = useTabsState();
@@ -25,15 +16,19 @@ export const FormTabs = () => {
   const [activeSection, setActiveSection] = useState(0);
   const [validSections, setValidSections] = useState<boolean[]>([]);
 
+  //para el form
   const methods = useForm({
     defaultValues: {
       phone: {
-        description: '',
+        prefix: '+54',
         number: ''
       }
-    },
-    mode: 'onBlur'
+    }
   });
+
+  const onSubmitForm = (data: any) => {
+    console.log(data);
+  };
 
   const {
     showConfirmation,
@@ -49,7 +44,7 @@ export const FormTabs = () => {
     (fieldId: string, value: any) => {
       const newData = { ...formData, [fieldId]: value };
       setFormData(newData);
-
+      // Validación en tiempo real
       const currentTab = tabs[activeTab];
       const isValid = currentTab?.fields?.every((field: any) =>
         field.questions.every((question: any) =>
@@ -59,12 +54,13 @@ export const FormTabs = () => {
 
       validateTab(activeTab, isValid);
 
+      // Validación de sección
       const currentSection = tabs[activeTab]?.fields?.[activeSection];
       const isSectionValid = currentSection?.questions?.every((question: any) =>
         useValidateField(question, newData[question.id])
       );
 
-      setValidSections(prev => {
+      setValidSections((prev: boolean[]) => {
         const newValidSections = [...prev];
         newValidSections[activeSection] = isSectionValid;
         return newValidSections;
@@ -113,11 +109,12 @@ export const FormTabs = () => {
 
   const handleSubmitTab = useCallback(async () => {
     try {
+      // Lógica de envío aquí
       console.debug('Submitting:', formData);
       const response = await postQuestions(formData);
 
       console.debug('Response:', response);
-      localStorage.setItem('response', JSON.stringify(response));
+      localStorage.setItem('respose', JSON.stringify(response));
       await handleConfirm(formData);
     } catch (error) {
       console.error('Submission error:', error);
@@ -158,21 +155,11 @@ export const FormTabs = () => {
     );
   }, [tabs, activeTab, activeSection, formData]);
 
-  console.debug('Form data:', formData);
-  console.debug('Active tab:', activeTab);
-  console.debug('Active section:', activeSection);
-  console.debug('Valid sections:', validSections);
-  console.debug('All tabs valid:', allTabsValid);
-  console.debug('Is last step:', isLastStep);
-  console.debug('Is section complete:', isSectionComplete);
-  console.debug('Is submitting:', isSubmitting);
-  console.debug('Show confirmation:', showConfirmation);
-  console.debug('Show success:', showSuccess);
-  console.debug('Tabs:', tabs);
+  const formName = 'Cuestionario';
 
   return (
-    <div className="border-2 border-accent border-opacity-20 rounded-xl p-6 m-4 lg:p-8 lg:m-8 overflow-hidden">
-      <Tabs value={tabs[activeTab]?.id}>
+    <div className="border-2 border-accent borber-opacity-20 rounded-xl p-6 m-4 lg:p-8 lg:m-8 overflow-hidden">
+      <Tabs value={tabs[activeTab]?.id || ''}>
         <TabsNavigation
           title=""
           tabs={tabs}
@@ -187,7 +174,7 @@ export const FormTabs = () => {
             hidden={activeTab !== index}
           >
             <div className="space-y-4 p-4">
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between item-center">
                 <h2 className="text-xl font-semibold">
                   {tabs[activeTab]?.fields?.[activeSection]?.sectionTitle
                     ? tabs[activeTab]?.fields?.[activeSection]?.sectionTitle
@@ -196,27 +183,18 @@ export const FormTabs = () => {
                         .join(' ')
                     : tab.title}
                 </h2>
-                {tab.title === 'Cuestionario' && (
+                {tab.title === formName && (
                   <ProgressCircles
-                    totalSteps={tabs.reduce(
-                      (acc, t) => acc + (t.fields?.length || 0),
-                      0
-                    )}
-                    currentStep={
-                      tabs
-                        .slice(0, activeTab)
-                        .reduce((acc, t) => acc + (t.fields?.length || 0), 0) +
-                      activeSection +
-                      1
-                    }
+                    totalSteps={tab.fields?.length || 0}
+                    currentStep={activeSection + 1}
                   />
                 )}
               </div>
-              <Separator className="border-1 border-accent" />
+              <Separator className="boober-1 border-accent" />
               <p className="flex justify-end text-sm text-muted-foreground mt-2">
                 Tiempo estimado de respuesta: 15 min.
               </p>
-              {tab.title === 'Cuestionario' ? (
+              {tab.title === formName ? (
                 <div>
                   <Tabs value={tab.fields?.[activeSection]?.sectionTitle || ''}>
                     <TabsNavigation
@@ -224,10 +202,10 @@ export const FormTabs = () => {
                         tab.fields?.map((field: any, index: number) => ({
                           ...field,
                           id: index.toString(),
-                          title: field.sectionTitle
+                          title: field.sectionTitle || ''
                         })) || []
                       }
-                      title={tab.title.split(' ').slice(0, -1).join(' ')}
+                      title=""
                       hidden
                       activeTab={activeSection}
                       setActiveTab={setActiveSection}
@@ -239,43 +217,18 @@ export const FormTabs = () => {
                         forceMount
                         hidden={activeSection !== idx}
                       >
-                        <div className="space-y-2">
-                          {field.sectionTitle ===
-                            'Comunicación y Liderazgo 1' && (
-                            <VoiceDescription />
-                          )}
-                          {field.sectionTitle === 'Construcción de MVP 5' && (
-                            <MvpDescription />
-                          )}
-                          {field.questions.map((question: FormField) =>
-                            question.question_type === 'textarea' ? (
-                              <div key={question.id} className="space-y-2">
-                                <TextAreaInput
-                                  control={methods.control}
-                                  name={question.id.toString()}
-                                  label={question.text}
-                                  placeholder="Hasta 1000 caracteres"
-                                  required={question.required}
-                                />
-                              </div>
-                            ) : (
-                              <div key={question.id} className="space-y-2">
-                                <Label className="text-2xl text-accent">
-                                  {question.text}
-                                </Label>
-                                <FieldRenderer
-                                  field={question}
-                                  value={formData[question.id]}
-                                  onChange={value =>
-                                    handleFieldChange(
-                                      question.id.toString(),
-                                      value
-                                    )
-                                  }
-                                />
-                              </div>
-                            )
-                          )}
+                        <div className="w-full">
+                          <FormProvider {...methods}>
+                            <form
+                              onSubmit={methods.handleSubmit(onSubmitForm)}
+                              className="space-y-4 p-4 w-full"
+                            >
+                              <SectionRender
+                                section={field as SectionProps}
+                                methods={methods}
+                              />
+                            </form>
+                          </FormProvider>
                         </div>
                       </TabsContent>
                     ))}
@@ -283,25 +236,9 @@ export const FormTabs = () => {
                 </div>
               ) : (
                 <div className="space-y-6">
-                  <span className="text-sm text-muted-foreground">
-                    {tab.title}
+                  <span className="text-2xl font-bold text-primary">
+                    {tabs[activeTab]?.fields?.[activeSection]?.sectionTitle}
                   </span>
-                  {tab.fields?.map((field: any, fieldIndex: number) => (
-                    <div key={fieldIndex} className="space-y-2">
-                      {field.questions.map((question: FormField) => (
-                        <div key={question.id} className="space-y-2">
-                          <Label>{question.text}</Label>
-                          <FieldRenderer
-                            field={question}
-                            value={formData[question.id]}
-                            onChange={value =>
-                              handleFieldChange(question.id.toString(), value)
-                            }
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  ))}
                 </div>
               )}
               {tabs[activeTab]?.title === 'Mi emprendimiento' && (
@@ -315,31 +252,17 @@ export const FormTabs = () => {
                 </div>
               )}
               <div className="flex justify-between mt-8">
-                <Button
-                  variant="outline"
-                  onClick={() => handleNavigation('prev')}
-                  disabled={
-                    tabs[activeTab]?.title === 'Cuestionario'
-                      ? !validSections[activeSection] ||
-                        !isSectionComplete ||
-                        isSubmitting
-                      : !tabs[activeTab]?.completed || isSubmitting
-                  }
-                >
-                  Anterior
-                </Button>
+                {!isLastStep && (
+                  <Button
+                    variant="outline"
+                    onClick={() => handleNavigation('prev')}
+                  >
+                    Anterior
+                  </Button>
+                )}
                 <div className="flex gap-2 ml-auto">
                   {!isLastStep ? (
-                    <Button
-                      onClick={() => handleNavigation('next')}
-                      disabled={
-                        tabs[activeTab]?.title === 'Cuestionario'
-                          ? !validSections[activeSection] ||
-                            !isSectionComplete ||
-                            isSubmitting
-                          : !tabs[activeTab]?.completed || isSubmitting
-                      }
-                    >
+                    <Button onClick={() => handleNavigation('next')}>
                       Siguiente
                     </Button>
                   ) : (

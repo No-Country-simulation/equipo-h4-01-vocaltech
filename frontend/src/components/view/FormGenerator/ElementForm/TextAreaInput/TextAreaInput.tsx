@@ -45,7 +45,7 @@ export const TextAreaInput = ({
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 w-full">
       <Label htmlFor={name} className="text-xl font-normal text-accent">
         {label}
         {required && <span className="text-primary">*</span>}

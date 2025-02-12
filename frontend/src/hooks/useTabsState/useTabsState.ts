@@ -15,8 +15,8 @@ export const useTabsState = () => {
         ...tab,
         disabled: index !== 0,
         status: index === 0 ? StatusType.Pending : StatusType.Disabled,
-        icon: tab.icon || 'MinusCircle',
-        color: tab.color || '#6B7280'
+        icon: tab.icon || 'Info',
+        color: tab.color || '#040042'
       }));
       setTabs(initializedTabs);
     }

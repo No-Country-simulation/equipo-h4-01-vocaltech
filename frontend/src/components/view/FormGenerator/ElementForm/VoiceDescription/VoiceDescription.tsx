@@ -16,7 +16,7 @@ export const VoiceDescription = ({
   data = voiceData
 }: VoiceDescriptionProps) => {
   return (
-    <div className="space-y-6 max-w-3xl">
+    <div className="space-y-6 w-full">
       <h2 className="text-2xl font-semibold text-accent">{data.title}</h2>
 
       <p className="text-primary leading-relaxed">{data.mainDescription}</p>

@@ -7,7 +7,7 @@ interface RadioOption {
   value: string;
 }
 
-interface RadioGroupFieldProps {
+interface Radio2Props {
   label: string;
   sublabel?: string;
   options: RadioOption[];
@@ -16,17 +16,17 @@ interface RadioGroupFieldProps {
   error?: string;
 }
 
-export const RadioGroupField = ({
+export const Radio2 = ({
   label,
   sublabel,
   options,
   value,
   onChange,
   error
-}: RadioGroupFieldProps) => {
+}: Radio2Props) => {
   return (
     <FormItem className="space-y-4">
-      <FormLabel className="text-primary text-2xl font-bold">
+      <FormLabel className="text-accent text-2xl font-bold">
         {label}
         {sublabel && (
           <span className="block text-sm text-primary">{sublabel}</span>
