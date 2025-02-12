@@ -23,7 +23,7 @@ export function Rating2({ name, options, value, onChange }: Rating2Props) {
                 value={option.id.toString()}
                 checked={value === option.id.toString() || value === option.id}
                 onChange={() => onChange(option.id)}
-                className="appearance-none w-4 h-4 rounded-full border border-primary checked:border-[4px] checked:border-accent transition-all duration-200 cursor-pointer"
+                className="appearance-none w-4 h-4 rounded-full border border-primary checked:border-[4px] checked:bg-primary transition-all duration-200 cursor-pointer"
               />
             </label>
             <span className="text-sm text-gray-600">
