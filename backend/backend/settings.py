@@ -212,12 +212,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # Gmail SMTP (solo en produccion)
-# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-# EMAIL_HOST = "smtp.gmail.com"
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = "leanmsan@gmail.com"
-# EMAIL_HOST_PASSWORD = "kqdz zobj gjsq wsvj"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "notificacionesvocaltech@gmail.com"
+EMAIL_HOST_PASSWORD = "posk peui lrzz phlo"
 
 
 # Looking to send emails in production? Check out our Email API/SMTP product!
