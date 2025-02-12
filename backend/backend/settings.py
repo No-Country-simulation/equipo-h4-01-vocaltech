@@ -81,14 +81,6 @@ REST_FRAMEWORK = {
 }
 
 
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:8000",
-]
-
-CORS_ALLOW_ALL_ORIGINS = True
-
-CORS_ALLOW_CREDENTIALS = False
-
 ASGI_APPLICATION = "backend.asgi.application"
 
 DAPHNE_SERVE_STATIC = True
@@ -104,6 +96,15 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8000",
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_CREDENTIALS = False
+
 
 CHANNEL_LAYERS = {
     "default": {
