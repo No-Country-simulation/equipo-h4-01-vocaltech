@@ -108,4 +108,9 @@ python manage.py runserver
 
 ---
 
-🔹 **VocalTech** es un proyecto realizado en el marco del Hackaton organizado por No Country. ¡Muchas gracias por esta experiencia!
+🔹 **VocalTech** Nuestra VOZ es una herramienta poderosa que trasciende las palabras. Es el vínculo con el que transmitimos nuestras ideas, emociones y visiones al mundo, convitiéndolas en realidades tangibles.
+A la hora de comunicar, una VOZ segura, clara y auténtica puede marcar la diferencia entre captar la atención de una audiencia o pasar desapercibidos.
+Mas que un medio de expresión, nuestra VOZ es el puente que conecta nuestra pasión con quienes pueden ayudarnos a materializar nuestros sue;os. 
+Cultivarla y utilizarla con itención es clave para liderar, inspirar y transformar.
+
+Es un proyecto realizado en el marco del Hackaton organizado por No Country. ¡Muchas gracias por esta experiencia!
