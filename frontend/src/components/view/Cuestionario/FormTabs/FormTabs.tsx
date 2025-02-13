@@ -149,6 +149,11 @@ export const FormTabs = () => {
     setProgressComplete(false); // Unmark progress
   }, [handleCancel]);
 
+  const handleSuccessCloseWithRedirect = useCallback(() => {
+    handleSuccessClose();
+    window.location.href = '/diagnostico'; // Redirigir a la pantalla de diagnóstico
+  }, [handleSuccessClose]);
+
   const allTabsValid = useMemo(
     () =>
       tabs.every(tab =>
@@ -200,7 +205,7 @@ export const FormTabs = () => {
           currentTab={activeTab} // Cambiado de activeTab a currentTab
           setActiveTab={setActiveTab}
           tabStatus={tabStatus}
-          hidden={false}
+          hidden
         />
         {tabs.map((tab, index) => (
           <TabsContent
@@ -330,7 +335,10 @@ export const FormTabs = () => {
         onConfirm={handleSubmitForm}
         onCancel={handleCancelClick}
       />
-      <DialogSuccess open={showSuccess} onClose={handleSuccessClose} />
+      <DialogSuccess
+        open={showSuccess}
+        onClose={handleSuccessCloseWithRedirect}
+      />
     </div>
   );
 };
