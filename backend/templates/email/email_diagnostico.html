@@ -1,26 +1,35 @@
 {% extends 'email/email_base.html' %}
 
 {% block content %}
-    <table align="center" width="600" style="background: #FFFFFF; border-radius: 12px; box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); text-align: center; border-collapse: collapse;">
+    <table align="center" width="600" style="background: #FFFFFF; border-radius: 12px; box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); text-align: left; border-collapse: collapse; padding: 20px; font-family: 'Mulish', sans-serif;">
         <tr>
-            <td style="padding: 20px; text-align: center;">
-                <h2 style="color: #1C198E;">Resultados de tu diagnóstico</h2>
-                <p>Hola <strong>{{ user.first_name }}</strong>,</p>
-                <p>Hemos analizado tus respuestas y estas son nuestras recomendaciones para ti:</p>
+            <td style="padding: 20px; padding-top: 15px;">
+                <h2 style="color: #040041; margin-bottom: 10px; font-size: 26px;">Resultados de tu diagnóstico</h2>
+                <p style="font-size: 24px; color: #040041;"><strong>¡Hola {{ user.first_name }}!</strong></p>
+                <p style="margin-top: 0; font-size: 16px; font-family: 'Mulish', sans-serif; color: #040041;">En base a las respuestas dadas en el cuestionario, desarrollamos una serie de sugerencias y recomendaciones para que tengas en cuenta. Te invitamos a profundizar este análisis en una cita virtual con uno de nuestros especialistas.</p>
+            </td>
+        </tr>
+        
+        {% for group_name, recommendations_list in recommendations.items %}
+        <tr>
+            <td style="padding: 20px; padding-top: 15px;">
+                <h2 style="color: #B7DCDA; font-size: 24px;">{{ group_name }}</h2>
+                <ul style="padding-left: 20px; color: #040041">
+                    {% for recommendation in recommendations_list %}
+                        <li style="margin-bottom: 8px; font-size: 16px; font-family: 'Mulish', sans-serif; color: #040041;">{{ recommendation.text }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        {% endfor %}
 
-                {% for question_id, recommendations_list in recommendations.items %}
-                    <div style="margin-bottom: 15px; text-align: left;">
-                        <strong>🟢 Recomendación basada en tu respuesta:</strong>
-                        <ul style="padding-left: 20px;">
-                            {% for recommendation in recommendations_list %}
-                                <li>{{ recommendation | linebreaks }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                {% endfor %}
-
-                <p>Si deseas más información sobre los servicios recomendados, no dudes en contactarnos.</p>
-                <p>¡Gracias por confiar en VocalTech!</p>
+        <tr>
+            <td style="padding: 20px; padding-top: 15px; text-align: center;">
+                <p style="color: #B7DCDA; font-size: 18px; font-weight: 600; text-align: center; line-height: 1.4; margin: 20px 0;">
+                    Profundiza esta información con uno de nuestros especialistas y conoce los servicios que tenemos para ofrecerte!
+                </p>                
+                <a href="https://equipo-h4-01-vocaltech.vercel.app/mis-reuniones/agendar-cita" style="display: inline-block; background-color: #ACA7F2; color: #1C198E; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-family: 'Mulish', sans-serif;">Agendar una cita</a>
+                <p style="margin-top: 20px; font-size: 16px;">Gracias por confiar en nosotros, <br>Equipo Vocaltech</p>
             </td>
         </tr>
     </table>

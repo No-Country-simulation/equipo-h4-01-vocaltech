@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "django_filters",
     "drf_spectacular",
     "drf_yasg",
+    "django_flatpickr",
     # Custom apps
     "auth_service",
     "docs",
@@ -232,15 +233,15 @@ EMAIL_HOST_PASSWORD = "posk peui lrzz phlo"
 UNFOLD = {
     "SITE_TITLE": "Administración Vocaltech",
     "SITE_HEADER": "Administración Vocaltech",
-    "SHOW_HISTORY": False, # show/hide "History" button, default: True
-    "SHOW_VIEW_ON_SITE": False, # show/hide "View on site" button, default: True
-    "SHOW_BACK_BUTTON": True, # show/hide "Back" button on changeform in header, default: False
+    "SHOW_HISTORY": False,  # show/hide "History" button, default: True
+    "SHOW_VIEW_ON_SITE": False,  # show/hide "View on site" button, default: True
+    "SHOW_BACK_BUTTON": True,  # show/hide "Back" button on changeform in header, default: False
     "SITE_URL": "/admin/",
-     "SITE_LOGO": {
+    "SITE_LOGO": {
         "light": lambda request: static("img/vocaltech-logo.svg"),  # light mode
         "dark": lambda request: static("img/vocaltech-logo-white.svg"),  # dark mode
     },
-     "SITE_FAVICONS": [
+    "SITE_FAVICONS": [
         {
             "rel": "icon",
             "sizes": "32x32",
@@ -275,6 +276,13 @@ UNFOLD = {
                 ],
             },
             {
+                "title": _("Citas"),
+                "separator": True,
+                "items": [
+                    {"title": _("Citas"), "icon": "event", "link": reverse_lazy("admin:citas_cita_changelist")},
+                ],
+            },
+            {
                 "title": _("Formularios de Diagnósticos"),
                 "separator": True,
                 "items": [
@@ -293,7 +301,7 @@ UNFOLD = {
                     {"title": _("Diagnósticos Respondidos"), "icon": "assignment", "link": reverse_lazy("admin:diagnosticos_surveyresponse_changelist")},
                 ],
             },
+            
         ]
     },
-    
 }
