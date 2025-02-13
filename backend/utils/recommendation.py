@@ -1,20 +1,27 @@
-from cuestionario.models import Recommendation
+from collections import defaultdict
+from cuestionario.models import Recommendation, AnswerOption, QuestionGroup
 
-def get_recommendations(responses):
-    """Obtiene las recomendaciones asociadas a las respuestas de opciones múltiples."""
-    # Convertir dict_values a lista
-    option_ids = list(responses)  # Ya es dict_values, no necesita .values()
+def get_recommendations_by_group(responses):
+    """Obtiene las recomendaciones organizadas por grupo de preguntas, evitando duplicados."""
+    option_ids = [resp for resp in responses if isinstance(resp, int)]  # Filtrar solo IDs numéricos
 
-    # Filtrar solo respuestas numéricas (evitar textos)
-    option_ids = [resp for resp in option_ids if isinstance(resp, int)]
-
-    # Obtener recomendaciones únicas asociadas a esas opciones
+    # Obtener todas las recomendaciones asociadas a esas opciones
     recommendations = Recommendation.objects.filter(answer_options__id__in=option_ids).distinct()
 
-    # Convertir a JSON
-    return [{"id": rec.id, "text": rec.text} for rec in recommendations]
+    # Diccionario para agrupar recomendaciones por grupo sin duplicados
+    grouped_recommendations = defaultdict(set)
 
+    for rec in recommendations:
+        for option in rec.answer_options.all():
+            question_group = option.question.group  # Obtener el grupo de la pregunta
+            grouped_recommendations[question_group.name].add((rec.id, rec.text))  # Usamos un set para evitar duplicados
+    
+    # Convertir el set en una lista de diccionarios para la salida JSON
+    return {
+        group_name: [{"id": rec_id, "text": rec_text} for rec_id, rec_text in recs]
+        for group_name, recs in grouped_recommendations.items()
+    }
 
 def generate_recommendations(responses):
-    """Genera recomendaciones en base a las respuestas del usuario."""
-    return get_recommendations(responses)
+    """Genera recomendaciones en base a las respuestas del usuario, agrupadas por grupo de preguntas."""
+    return get_recommendations_by_group(responses)

@@ -45,7 +45,7 @@ class LeadEmprendimientoSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Formato de archivo de audio no soportado.')
         
         # Validar duración
-        if duration < 30 or duración > 60:
+        if duration < 30 or duration > 60:
             raise serializers.ValidationError('La duración del audio debe estar entre 30 y 60 segundos.')
         
         return data
