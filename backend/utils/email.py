@@ -8,11 +8,10 @@ from auth_service.models import User
 
 class Email:
     @staticmethod
-    def enviar_email_cita(lead, especialista, fecha, hora_inicio):
+    def enviar_email_cita(lead, fecha, hora_inicio):
         asunto = "Cita agendada"
         contexto = {
             'lead': lead,
-            'especialista': especialista,
             'fecha': fecha,
             'hora_inicio': hora_inicio
         }

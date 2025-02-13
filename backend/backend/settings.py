@@ -21,7 +21,7 @@ SECRET_KEY = "django-insecure-k9gw($iaq*hvj(1h^%m#3ni@%2ox5a(8fftsxmn5rpkhwzmst4
 PROD = os.environ.get("PROD", "False").lower() in ("true", "1", "t")
 DEBUG = not PROD
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 OPEN_API_KEY = os.getenv("OPEN_API_KEY")
 
 # Application definition
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "django_filters",
     "drf_spectacular",
     "drf_yasg",
+    "django_flatpickr",
     # Custom apps
     "auth_service",
     "docs",
@@ -80,14 +81,6 @@ REST_FRAMEWORK = {
 }
 
 
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:8000",
-]
-
-CORS_ALLOW_ALL_ORIGINS = True
-
-CORS_ALLOW_CREDENTIALS = False
-
 ASGI_APPLICATION = "backend.asgi.application"
 
 DAPHNE_SERVE_STATIC = True
@@ -103,6 +96,18 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8000",
+    "http://localhost:3000",
+    "https://equipo-h4-01-vocaltech.onrender.com",
+    "https://equipo-h4-01-vocaltech.vercel.app",
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_CREDENTIALS = False
+
 
 CHANNEL_LAYERS = {
     "default": {
@@ -141,23 +146,23 @@ TEMPLATES = [
 AUTH_USER_MODEL = "auth_service.User"
 
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": env("DB_NAME"),
-        "USER": env("DB_USER"),
-        "PASSWORD": env("DB_PASSWORD"),
-        "HOST": env("DB_HOST"),
-        "PORT": env("DB_PORT"),
-    }
-}
-
 # DATABASES = {
 #     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
+#         "ENGINE": "django.db.backends.postgresql_psycopg2",
+#         "NAME": env("DB_NAME"),
+#         "USER": env("DB_USER"),
+#         "PASSWORD": env("DB_PASSWORD"),
+#         "HOST": env("DB_HOST"),
+#         "PORT": env("DB_PORT"),
 #     }
 # }
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -211,12 +216,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # Gmail SMTP (solo en produccion)
-# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-# EMAIL_HOST = "smtp.gmail.com"
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = "leanmsan@gmail.com"
-# EMAIL_HOST_PASSWORD = "kqdz zobj gjsq wsvj"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "notificacionesvocaltech@gmail.com"
+EMAIL_HOST_PASSWORD = "posk peui lrzz phlo"
 
 
 # Looking to send emails in production? Check out our Email API/SMTP product!
@@ -228,15 +233,15 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 UNFOLD = {
     "SITE_TITLE": "Administración Vocaltech",
     "SITE_HEADER": "Administración Vocaltech",
-    "SHOW_HISTORY": False, # show/hide "History" button, default: True
-    "SHOW_VIEW_ON_SITE": False, # show/hide "View on site" button, default: True
-    "SHOW_BACK_BUTTON": True, # show/hide "Back" button on changeform in header, default: False
+    "SHOW_HISTORY": False,  # show/hide "History" button, default: True
+    "SHOW_VIEW_ON_SITE": False,  # show/hide "View on site" button, default: True
+    "SHOW_BACK_BUTTON": True,  # show/hide "Back" button on changeform in header, default: False
     "SITE_URL": "/admin/",
-     "SITE_LOGO": {
+    "SITE_LOGO": {
         "light": lambda request: static("img/vocaltech-logo.svg"),  # light mode
         "dark": lambda request: static("img/vocaltech-logo-white.svg"),  # dark mode
     },
-     "SITE_FAVICONS": [
+    "SITE_FAVICONS": [
         {
             "rel": "icon",
             "sizes": "32x32",
@@ -271,6 +276,13 @@ UNFOLD = {
                 ],
             },
             {
+                "title": _("Citas"),
+                "separator": True,
+                "items": [
+                    {"title": _("Citas"), "icon": "event", "link": reverse_lazy("admin:citas_cita_changelist")},
+                ],
+            },
+            {
                 "title": _("Formularios de Diagnósticos"),
                 "separator": True,
                 "items": [
@@ -289,7 +301,7 @@ UNFOLD = {
                     {"title": _("Diagnósticos Respondidos"), "icon": "assignment", "link": reverse_lazy("admin:diagnosticos_surveyresponse_changelist")},
                 ],
             },
+            
         ]
     },
-    
 }

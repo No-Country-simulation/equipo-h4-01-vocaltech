@@ -1,4 +1,4 @@
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
 from django.utils import timezone
 from rest_framework import serializers
 from .models import Cita
@@ -8,7 +8,7 @@ from utils.email import Email
 class CitaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cita
-        fields = '__all__'
+        fields = ['fecha', 'hora_inicio', 'motivo', 'lead', 'especialista', 'estado']
 
     def validate(self, data):
         now = timezone.now()
@@ -17,7 +17,6 @@ class CitaSerializer(serializers.ModelSerializer):
 
         fecha = data.get('fecha', None)
         hora_inicio = data.get('hora_inicio', None)
-        hora_fin = data.get('hora_fin', None)
         estado = data.get('estado', None)
         lead = data.get('lead', None)
         especialista = data.get('especialista', None)
@@ -26,6 +25,11 @@ class CitaSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('La fecha no puede ser anterior a la fecha actual')
         if fecha == today and hora_inicio and hora_inicio < current_time:
             raise serializers.ValidationError('La hora de inicio no puede ser anterior a la hora actual')
+        if hora_inicio:
+            hora_inicio_dt = datetime.combine(fecha, hora_inicio)
+            hora_fin_dt = hora_inicio_dt + timedelta(minutes=30)
+            hora_fin = hora_fin_dt.time()
+            data['hora_fin'] = hora_fin
         if hora_inicio and hora_fin and hora_inicio >= hora_fin:
             raise serializers.ValidationError('La hora de inicio debe ser anterior a la hora de fin')
         if hora_inicio and hora_inicio < time(8, 0, 0) or hora_fin and hora_fin > time(18, 0, 0):
@@ -54,7 +58,6 @@ class CitaSerializer(serializers.ModelSerializer):
         print(lead_email)
         Email.enviar_email_cita( # Asegúrate de que este sea el nombre correcto del template
             validated_data['lead'],
-            validated_data['especialista'],
             validated_data['fecha'],
             validated_data['hora_inicio']
         )
@@ -66,5 +69,7 @@ class CitaSerializer(serializers.ModelSerializer):
         instance.hora_fin = validated_data.get('hora_fin', instance.hora_fin)
         instance.motivo = validated_data.get('motivo', instance.motivo)
         instance.estado = validated_data.get('estado', instance.estado)
+        instance.lead = validated_data.get('lead', instance.lead)
+        instance.especialista = validated_data.get('especialista', instance.especialista)
         instance.save()
         return instance
