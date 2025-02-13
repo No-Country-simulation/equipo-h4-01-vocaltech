@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     "django_filters",
     "drf_spectacular",
     "drf_yasg",
-    "django_flatpickr",
     # Custom apps
     "auth_service",
     "docs",
