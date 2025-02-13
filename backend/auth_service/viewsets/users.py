@@ -12,7 +12,7 @@ from auth_service.serializers.users import (
 )
 
 from django.db import transaction
-from notifications.services import NotificationService
+# from notifications.services import NotificationService
 
 
 # from rest_framework_simplejwt.tokens import RefreshToken
@@ -53,8 +53,8 @@ class LoginViewSet(viewsets.GenericViewSet):
 
         user = serializer.validated_data["user"]
         login(request, user)
-        with transaction.atomic():
-            NotificationService.create_login_notification(user)
+        # with transaction.atomic():
+        #     NotificationService.create_login_notification(user)
 
         return Response(
             {
