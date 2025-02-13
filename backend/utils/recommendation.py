@@ -1,59 +1,27 @@
-from cuestionario.models import Recommendation, Question, AnswerOption
+from collections import defaultdict
+from cuestionario.models import Recommendation, AnswerOption, QuestionGroup
 
-def parse_responses(responses):
-    """Convierte las respuestas en pares clave-valor para búsqueda de recomendaciones."""
-    parsed_data = {}
+def get_recommendations_by_group(responses):
+    """Obtiene las recomendaciones organizadas por grupo de preguntas, evitando duplicados."""
+    option_ids = [resp for resp in responses if isinstance(resp, int)]  # Filtrar solo IDs numéricos
 
-    question_ids = responses.keys()
-    questions = Question.objects.filter(id__in=question_ids).only("id", "question_type")
+    # Obtener todas las recomendaciones asociadas a esas opciones
+    recommendations = Recommendation.objects.filter(answer_options__id__in=option_ids).distinct()
 
-    question_map = {q.id: q for q in questions}
+    # Diccionario para agrupar recomendaciones por grupo sin duplicados
+    grouped_recommendations = defaultdict(set)
 
-    for question_id, user_response in responses.items():
-        question = question_map.get(int(question_id))
-
-        if not question:
-            continue  
-
-        if question.question_type in ["radio", "yes_no"]:
-            parsed_data[f"{question_id}_{user_response}"] = None  
-
-        elif question.question_type == "checkbox":
-            for option_id in user_response:
-                parsed_data[f"{question_id}_{option_id}"] = None  
-
-        elif question.question_type == "number":
-            parsed_data[f"{question_id}_{int(user_response)}"] = None  
-
-    return parsed_data
-
-def get_recommendations(parsed_responses):
-    """Busca las recomendaciones en base a los pares clave-valor generados."""
-    recommendations = {}
-
-    keys = list(parsed_responses.keys())
-    question_ids = [int(k.split('_')[0]) for k in keys]
-    answer_option_ids = [int(k.split('_')[1]) for k in keys]
-
-    answer_options = AnswerOption.objects.filter(question_id__in=question_ids, id__in=answer_option_ids)
-    recs = Recommendation.objects.filter(answer_options__in=answer_options).distinct()
-
-    rec_map = {}
-    for rec in recs:
+    for rec in recommendations:
         for option in rec.answer_options.all():
-            key = f"{option.question_id}_{option.id}"
-            if key not in rec_map:
-                rec_map[key] = []
-            rec_map[key].append(rec.text)
-
-    for key in keys:
-        if key in rec_map:
-            recommendations[key] = rec_map[key]
-
-    return recommendations
+            question_group = option.question.group  # Obtener el grupo de la pregunta
+            grouped_recommendations[question_group.name].add((rec.id, rec.text))  # Usamos un set para evitar duplicados
+    
+    # Convertir el set en una lista de diccionarios para la salida JSON
+    return {
+        group_name: [{"id": rec_id, "text": rec_text} for rec_id, rec_text in recs]
+        for group_name, recs in grouped_recommendations.items()
+    }
 
 def generate_recommendations(responses):
-    """Genera recomendaciones en base a las respuestas del usuario."""
-    parsed_responses = parse_responses(responses)
-    recommendations = get_recommendations(parsed_responses)
-    return recommendations
+    """Genera recomendaciones en base a las respuestas del usuario, agrupadas por grupo de preguntas."""
+    return get_recommendations_by_group(responses)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import  SurveyResponse, LeadEmprendimiento
+from .models import SurveyResponse, LeadEmprendimiento
 from cuestionario.models import Question, AnswerOption, Recommendation
 from mutagen import File
 from mutagen.wave import WAVE
@@ -9,7 +9,6 @@ from mutagen.oggvorbis import OggVorbis
 from auth_service.models import User
 from utils.recommendation import generate_recommendations
 from utils.email import Email
-
 
 class LeadEmprendimientoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -50,7 +49,6 @@ class LeadEmprendimientoSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('La duración del audio debe estar entre 30 y 60 segundos.')
         
         return data
-
 
 class EncuestaSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())  
@@ -110,13 +108,22 @@ class EncuestaSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         """Genera la encuesta y sus recomendaciones antes de guardarla."""
-        responses = validated_data["responses"]
-        recommendations = generate_recommendations(responses)  # Generamos recomendaciones
-
+        responses = validated_data["responses"]  # Asegurar que responses es un diccionario
+        
+        respuestas = responses.values()  # Convertimos a lista
+        print(f'Estas son las respuestas en serializer: {respuestas}')
+        
+        # Generar recomendaciones
+        recommendations = generate_recommendations(respuestas)  # Pasamos el diccionario completo
+        
+        # Crear la instancia de SurveyResponse
         survey_response = SurveyResponse.objects.create(
             user=validated_data["user"],
             responses=responses,
             recommendations=recommendations  # Guardamos recomendaciones
         )
+        
         Email.enviar_email_diagnotico(validated_data["user"].id, recommendations)
+        
         return survey_response
+
