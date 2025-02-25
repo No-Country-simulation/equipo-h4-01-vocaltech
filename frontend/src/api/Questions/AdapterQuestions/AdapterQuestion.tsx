@@ -32,7 +32,7 @@ export const adaptadorQuestions = (
         group: question.group,
         question_type: question.question_type,
         options: question.options,
-        required: false // Ajustar según necesidad
+        required: true // Ajustar según necesidad
       });
       return acc;
     },

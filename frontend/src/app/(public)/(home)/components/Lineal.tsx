@@ -35,7 +35,7 @@ export default function Lineal() {
             </div>
             {/* Contenido */}
             <div>
-              <h3 className="text-4xl/8 font-bold mb-2">Completá el formulario</h3>
+              <h3 className="text-4xl/[30px] tracking-normal font-bold mb-2">Completá el formulario</h3>
               <p className="text-[28px]/10">
                 Regístrate en nuestra página de forma gratuita y dale click al
                 botón “Quiero obtener mi diagnóstico”: solo necesitas completar un

@@ -1,11 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import '@fontsource/mulish';
+@import '@fontsource/mulish/200.css';
+@import '@fontsource/mulish/300.css';
+@import '@fontsource/mulish/400.css';
+@import '@fontsource/mulish/500.css';
+@import '@fontsource/mulish/500.css';
+@import '@fontsource/mulish/600.css';
+@import '@fontsource/mulish/700.css';
+@import '@fontsource/mulish/800.css';
+@import '@fontsource/mulish/900.css';
+
 
 @layer base {
   * {
-    @apply bg-inherit antialiased font-sans;
+    @apply bg-inherit text-inherit antialiased font-sans;
   }
 }
 
@@ -15,74 +24,113 @@
     --deep-blue: #040041; /* Azul oscuro intenso */
     --royal-blue: #1c198e; /* Azul real */
     --lavender: #aca7f2; /* Lavanda */
+    --light-lavender: #d4d2f0; /* Lavanda claro*/
     --aqua: #b7dcda; /* Agua */
     --dark-green: #50a5a1;
-    --yellow: #ffea62; /* Amarillo brillante */
-    --light-pink: #fcf9fa; /* Rosa claro */
+    --magenta-custom: #f75f57; /* Amarillo brillante */
+    --white-custom: #fcf9fa; /* Rosa claro */
 
-    /* Colores generales */
-    --background: 0 0% 100%; /* Fondo claro */
-    --foreground: 0 0% 3.9%; /* Texto oscuro principal */
-    --card: 0 0% 100%; /* Fondo de tarjetas claro */
-    --card-foreground: 0 0% 3.9%; /* Texto de tarjetas oscuro */
-    --popover: 0 0% 100%; /* Fondo de popovers */
-    --popover-foreground: 0 0% 3.9%; /* Texto de popovers */
-    --primary: 0 0% 9%; /* Color primario oscuro */
-    --primary-foreground: 0 0% 98%; /* Texto del color primario claro */
-    --secondary: 0 0% 96.1%; /* Color secundario claro */
-    --secondary-foreground: 0 0% 9%; /* Texto del color secundario oscuro */
-    --muted: 0 0% 96.1%; /* Color apagado claro */
-    --muted-foreground: 0 0% 45.1%; /* Texto del color apagado */
-    --accent: 0 0% 96.1%; /* Color de acento claro */
-    --accent-foreground: 0 0% 9%; /* Texto del color de acento */
-    --destructive: 0 84.2% 60.2%; /* Rojo destructivo */
-    --destructive-foreground: 0 0% 98%; /* Texto sobre fondo destructivo */
-    --border: 0 0% 89.8%; /* Color de bordes claros */
-    --input: 0 0% 89.8%; /* Fondo de inputs */
-    --ring: 0 0% 3.9%; /* Color de resaltado oscuro */
+    /* 🎨 Colores generales */
+    --background: #fcf8f9; /* Rosa claro */
+    --foreground: #040041; /* Negro muy oscuro - Texto principal */
+    --card: 0 0% 100%; /* Blanco puro - Fondo de tarjetas */
+    --card-foreground: 0 0% 3.9%; /* Negro muy oscuro - Texto en tarjetas */
+    --popover: 0 0% 100%; /* Blanco puro - Fondo de popovers */
+    --popover-foreground: 0 0% 3.9%; /* Negro muy oscuro - Texto en popovers */
 
-    /* Colores para gráficos */
-    --chart-1: 12 76% 61%; /* Gráfico - Rojo claro */
-    --chart-2: 173 58% 39%; /* Gráfico - Verde */
-    --chart-3: 197 37% 24%; /* Gráfico - Azul oscuro */
-    --chart-4: 43 74% 66%; /* Gráfico - Amarillo */
-    --chart-5: 27 87% 67%; /* Gráfico - Naranja */
+    /* 🔵 Colores primarios y secundarios */
+    --primary: #040041; /* Azul oscuro intenso - Color principal */
+    --primary-foreground: #b7dcda; /* Amarillo dorado - Texto sobre el primario */
+    --secondary: 244, 74%, 80%; /* Azul lavanda claro - Color secundario */
+    --secondary-foreground: 340, 33%, 98%; /* Amarillo pastel - Texto sobre el secundario */
 
-    /* Variables de diseño */
-    --radius: 0.5rem; /* Radio base para bordes redondeados */
+    /* ⚙️ Colores de estados y acentos */
+    --muted: 0 0% 96.1%; /* Gris muy claro - Elementos apagados o secundarios */
+    --muted-foreground: 0 0% 45.1%; /* Gris oscuro - Texto en elementos apagados */
+    --accent: #b7dcda; /* Turquesa suave - Color de realce o acentos */
+    --accent-foreground: 180 36% 15%; /* Verde azulado muy oscuro - Texto sobre el acento */
+    --destructive: 0 84.2% 60.2%; /* Rojo fuerte - Para alertas o acciones destructivas */
+    --destructive-foreground: 0 0% 98%; /* Blanco casi puro - Texto sobre el destructivo */
 
-    /* Colores específicos del sidebar */
-    --sidebar-background: 0 0% 98%; /* Fondo del sidebar claro */
-    --sidebar-foreground: 240 5.3% 26.1%; /* Texto del sidebar oscuro */
-    --sidebar-primary: 240 5.9% 10%; /* Color principal del sidebar */
-    --sidebar-primary-foreground: 0 0% 98%; /* Texto principal del sidebar */
-    --sidebar-accent: 240 4.8% 95.9%; /* Color de acento del sidebar */
-    --sidebar-accent-foreground: 240 5.9% 10%; /* Texto del acento del sidebar */
-    --sidebar-border: 220 13% 91%; /* Bordes del sidebar */
-    --sidebar-ring: 217.2 91.2% 59.8%; /* Resaltado del sidebar */
+    /* 🖍️ Colores de bordes y efectos */
+    --border: 0 0% 89.8%; /* Gris claro - Bordes de elementos */
+    --input: 0 0% 89.8%; /* Gris claro - Fondo de inputs */
+    --ring: 0 0% 3.9%; /* Negro muy oscuro - Efecto de foco o resaltado */
+
+    /* 📊 Colores de gráficos */
+    --chart-1: 12 76% 61%; /* Naranja rojizo */
+    --chart-2: 173 58% 39%; /* Verde azulado oscuro */
+    --chart-3: 197 37% 24%; /* Azul profundo */
+    --chart-4: 43 74% 66%; /* Amarillo dorado */
+    --chart-5: 27 87% 67%; /* Naranja cálido */
+
+    /* 📂 Colores de la barra lateral */
+    --sidebar-background: 0 0% 98%; /* Gris casi blanco - Fondo de la barra lateral */
+    --sidebar-foreground: 240 5.3% 26.1%; /* Gris azulado oscuro - Texto en la barra lateral */
+    --sidebar-primary: 240 5.9% 10%; /* Gris muy oscuro - Color principal en la barra lateral */
+    --sidebar-primary-foreground: 0 0% 98%; /* Blanco casi puro - Texto sobre sidebar-primary */
+    --sidebar-accent: 240 4.8% 95.9%; /* Gris muy claro - Color de acento en la barra lateral */
+    --sidebar-accent-foreground: 240 5.9% 10%; /* Gris oscuro - Texto sobre el acento de la barra lateral */
+    --sidebar-border: 220 13% 91%; /* Gris claro azulado - Bordes en la barra lateral */
+    --sidebar-ring: 217.2 91.2% 59.8%; /* Azul vibrante - Resaltado o efecto de foco en la barra lateral */
+
+    /* 📏 Bordes y esquinas */
+    --radius: 0.5rem; /* 8px de border-radius - Esquinas redondeadas */
   }
-
-
 }
 
 @layer components {
+  /* Texto */
+  .text-destacado {
+    @apply text-deepblue text-[107px]/[25px] font-black;
+  }
+  .text-titulo {
+    @apply text-deepblue text-5xl/6 font-bold;
+  }
+  .text-subtitulo {
+    @apply text-deepblue text-4xl/6 font-bold;
+  }
+  .text-subtitulo-2 {
+    @apply text-deepblue text-3xl/6 font-bold;
+  }
+  .text-texto-destacado {
+    @apply text-deepblue text-[28px]/6 font-normal;
+  }
+  .text-seccion {
+    @apply text-deepblue text-2xl/6 font-semibold;
+  }
+  .text-primary {
+    @apply text-deepblue text-xl/6 font-normal;
+  }
+  .text-acotacion {
+    @apply text-deepblue text-base font-normal;
+  }
+
+  /* Botones */
   .btn-primary {
     @apply bg-lavender text-deepblue 
-    text-base
     laptop:text-xl/4
-    font-normal leading-4 rounded-md hover:bg-white border-lavender border-2 
+    font-normal leading-4 rounded-md disabled:text-aqua hover:font-bold
     laptop:w-[300px] laptop:h-[60px]
-    w-[200px] h-[40px]
+    w-[200px] h-[40px];
+  }
+  .btn-secondary {
+    @apply bg-white text-deepblue 
+    laptop:text-xl/4
+    font-normal leading-4 border-2 disabled:text-aqua border-aqua hover:font-bold
+    laptop:w-[170px] laptop:h-[50px]
+    w-[100px] h-[30px];
   }
 
-  .btn-nav {
-    @apply text-deepblue text-lg py-2 px-4 hover:bg-lavender hover:text-white border-2 border-lavender w-48 text-center;
+  .btn-tertiary {
+    @apply bg-white text-deepblue 
+    laptop:text-xl/4
+    font-normal leading-4 border-2 border-aqua hover:font-bold
+    laptop:w-[400px] laptop:h-[60px]
+    w-[300px] h-[40px];
   }
 
-  .btn-confirm {
-    @apply px-12 py-2 bg-green-500 text-white font-semibold text-lg rounded-sm hover:bg-green-600 border-2;
-  }
-
+  /* Citas */
   .btn-action {
     @apply flex items-center gap-2 border border-aqua px-4 py-2 rounded-md text-deepblue hover:bg-aqua;
   }
@@ -99,21 +147,19 @@
   .circle-number {
     @apply absolute text-4xl font-bold flex justify-center items-center 
     bg-deepblue text-white rounded-full w-20 h-20 z-10;
-      
+
     /* Alineación con la barra */
     @apply -left-[22%];
-    
+
     /* Ajuste vertical */
     @apply top-1/2 -translate-y-1/2;
   }
-  
+
   .barra {
     @apply absolute top-0 z-10 w-6 h-full 
     rounded-b-lg bg-gradient-to-t from-[#F75F57] to-deepblue;
-    
+
     /* Alineación con la circle-number */
     @apply -left-[22%] translate-x-[115%];
   }
-  
-  
 }

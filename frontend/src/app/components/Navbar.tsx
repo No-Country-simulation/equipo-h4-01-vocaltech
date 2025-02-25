@@ -19,7 +19,7 @@ const Navbar: React.FC = () => {
           </Link>
           {/* Buttons */}
           <Link href="/nosotros" className='hidden laptop:flex'>
-            <button className="btn-nav">
+            <button className="btn-secondary border-lavender">
               Quienes somos
             </button>
           </Link>
@@ -28,12 +28,12 @@ const Navbar: React.FC = () => {
         <div className="hidden laptop:flex space-x-4">
           <button 
             onClick={() => openModal(true)}        
-            className="btn-nav border-aqua">
+            className="btn-secondary">
             Iniciar sesión
           </button>
           <button 
             onClick={() => openModal(false)}
-            className="btn-nav border-aqua">
+            className="btn-secondary">
             Registrarme
           </button>
         </div>
@@ -48,7 +48,7 @@ const Navbar: React.FC = () => {
       {isOpen && (
         <div className="laptop:hidden flex flex-col items-center space-y-4 py-4 bg-white shadow-md">
           <Link href="/nosotros">
-            <button className="btn-nav">
+            <button className="btn-secondary border-lavender">
               Quienes somos
             </button>
           </Link>

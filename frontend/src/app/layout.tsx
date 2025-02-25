@@ -4,6 +4,7 @@ import "./styles/globals.css";
 import AuthModal from "./(public)/(home)/components/AuthModal";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import BreadCrumb from "./(public)/(home)/components/BreadCrumb";
 
 export const metadata: Metadata = {
   title: "VocalTech",
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="es" suppressHydrationWarning>
       <body className="max-w-screen-fourK mx-auto">
         <Navbar />
+        <BreadCrumb />
         <main>
           {children}
         </main>

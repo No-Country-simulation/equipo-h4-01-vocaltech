@@ -22,15 +22,24 @@ export default {
     extend: { 
       fontFamily: {
         sans: ["Mulish", "sans-serif"],
+        destacado: 'var(--text-destacado)',
+        titulo: 'var(--text-titulo)',
+        subtitulo: 'var(--text-subtitulo)',
+        subtitulo2: 'var(--text-subtitulo-2)',
+        textodestacado: 'var(--text-texto-destacado)',
+        seccion: 'var(--text-seccion)',
+        primary: 'var(--text-primary)',
+        acotacion: 'var(--text-acotacion)',
       },
       colors: {
         deepblue: 'var(--deep-blue)',
         royalblue: 'var(--royal-blue)',
         lavender: 'var(--lavender)',
+        lightlavender: 'var(--light-lavender)',
         aqua: 'var(--aqua)',
         darkgreen: 'var(--dark-green)',
-        yellow: 'var(--yellow)',
-        lightpink: 'var(--light-pink)',
+        magentacustom: 'var(--magenta-custom)',
+        whitecustom: 'var(--white-custom)',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
 

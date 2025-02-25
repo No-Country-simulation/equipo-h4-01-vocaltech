@@ -1,5 +1,5 @@
-import { DaPerDataMock } from '../../DataMock';
-import { GeneratorTabs } from '../../TabsGenerator';
+// import { DaPerDataMock } from '../../DataMock';
+// import { GeneratorTabs } from '../../TabsGenerator';
 
 export const DaPerContainer = () => {
   return (

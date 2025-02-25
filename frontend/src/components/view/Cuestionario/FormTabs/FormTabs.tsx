@@ -3,7 +3,7 @@ import { useState, useCallback, useMemo } from 'react';
 import { Button, Tabs, TabsContent, Label, Separator } from '@/components/ui';
 import { TabsNavigation } from '../TabsNavigation/TabsNavigation';
 import { useTabsState, useFormSubmission, useValidateField } from '@/hooks';
-import { BreadcrumbNav, ProgressCircles } from '../../Nav';
+import { ProgressCircles } from '../../Nav';
 import {
   AudioRecorder,
   DialogConfirmation,
@@ -12,12 +12,33 @@ import {
 } from '../../Common';
 import { FormField, SectionProps } from '../TabType/TabType';
 import { postQuestions } from '@/api/Questions/post/QuestionsPro';
+import {
+  PhonePrefixInput,
+  TextAreaInput,
+  VoiceDescription
+} from '../../FormGenerator';
+import MvpDescription from '../../FormGenerator/ElementForm/MvpDescription/MvpDescription';
+import { FormProvider, useForm } from 'react-hook-form';
 
 export const FormTabs = () => {
   const { activeTab, tabs = [], setActiveTab, validateTab } = useTabsState();
   const [formData, setFormData] = useState<Record<string, any>>({});
   const [activeSection, setActiveSection] = useState(0);
   const [validSections, setValidSections] = useState<boolean[]>([]);
+
+  //para el form
+  const methods = useForm({
+    defaultValues: {
+      phone: {
+        description: '',
+        number: ''
+      }
+    },
+    mode: 'onBlur'
+  });
+  const onSubmit = (data: any) => {
+    console.log('Formulario enviado:', data);
+  };
 
   const {
     showConfirmation,
@@ -96,7 +117,7 @@ export const FormTabs = () => {
     [activeSection, activeTab, tabs, handleSection, handleTab]
   );
 
-  const handleSubmit = useCallback(async () => {
+  const handleSubmitTab = useCallback(async () => {
     try {
       // Lógica de envío aquí
       console.debug('Submitting:', formData);
@@ -145,78 +166,118 @@ export const FormTabs = () => {
   }, [tabs, activeTab, activeSection, formData]);
 
   return (
-    <>
-      <BreadcrumbNav
-        tabTitle={`${tabs[activeTab]?.title || ''} 
-           ${
-             tabs[activeTab]?.fields?.length > 1 &&
-             activeSection < tabs[activeTab]?.fields?.length
-               ? ` ${activeSection + 1} de ${tabs[activeTab]?.fields?.length}`
-               : ''
-           }`}
-        sectionTitle={
-          tabs[activeTab]?.fields?.[activeSection]?.sectionTitle || ''
-        }
-      />
-      <div className="border-2 border-accent borber-opacity-20 rounded-xl p-6 m-4 lg:p-8 lg:m-8 overflow-hidden">
-        <Tabs value={tabs[activeTab]?.id || ''}>
-          <TabsNavigation
-            tabs={tabs}
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-          />
-          {tabs.map((tab, index) => (
-            <TabsContent
-              key={tab.id}
-              value={tab.id}
-              forceMount
-              hidden={activeTab !== index}
-            >
-              <div className="space-y-4 p-4">
-                <div className="flex justify-between item-center">
-                  <h2 className="text-xl font-semibold">
-                    {tabs[activeTab]?.fields?.[activeSection]?.sectionTitle ||
-                      tab.title}
-                  </h2>
-                  {tab.title === 'Cuestionario' && (
-                    <ProgressCircles
-                      totalSteps={tab.fields?.length || 0}
-                      currentStep={activeSection + 1}
+    <div className="border-2 border-accent borber-opacity-20 rounded-xl p-6 m-4 lg:p-8 lg:m-8 overflow-hidden">
+      <Tabs value={tabs[activeTab]?.id || ''}>
+        <TabsNavigation
+          tabs={tabs}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+        />
+        {tabs.map((tab, index) => (
+          <TabsContent
+            key={tab.id}
+            value={tab.id}
+            forceMount
+            hidden={activeTab !== index}
+          >
+            <div className="space-y-4 p-4">
+              <div className="flex justify-between item-center">
+                <h2 className="text-xl font-semibold">
+                  {tabs[activeTab]?.fields?.[activeSection]?.sectionTitle ||
+                    tab.title}
+                </h2>
+                {tab.title === 'Cuestionario' && (
+                  <ProgressCircles
+                    totalSteps={tab.fields?.length || 0}
+                    currentStep={activeSection + 1}
+                  />
+                )}
+              </div>
+              <Separator className="boober-1 border-accent" />
+              <p className="flex justify-end text-sm text-muted-foreground mt-2">
+                Tiempo estimado de respuesta: 15 min.
+              </p>
+              {tab.title === 'Cuestionario' ? (
+                <div>
+                  <Tabs value={tab.fields?.[activeSection]?.sectionTitle || ''}>
+                    <TabsNavigation
+                      tabs={
+                        tab.fields?.map((field: any, index: number) => ({
+                          ...field,
+                          id: index.toString(),
+                          title: field.sectionTitle || ''
+                        })) || []
+                      }
+                      hidden
+                      activeTab={activeSection}
+                      setActiveTab={setActiveSection}
                     />
-                  )}
-                </div>
-                <Separator className="boober-1 border-accent" />
-                <p className="flex justify-end text-sm text-muted-foreground mt-2">
-                  Tiempo estimado de respuesta: 15 min.
-                </p>
-                {tab.title === 'Cuestionario' ? (
-                  <div>
-                    <Tabs
-                      value={tab.fields?.[activeSection]?.sectionTitle || ''}
-                    >
-                      <TabsNavigation
-                        tabs={
-                          tab.fields?.map((field: any, index: number) => ({
-                            ...field,
-                            id: index.toString(),
-                            title: field.sectionTitle || ''
-                          })) || []
-                        }
-                        hidden
-                        activeTab={activeSection}
-                        setActiveTab={setActiveSection}
-                      />
-                      {tab.fields?.map((field: SectionProps, idx: number) => (
-                        <TabsContent
-                          key={idx}
-                          value={field.sectionTitle || ''}
-                          forceMount
-                          hidden={activeSection !== idx}
-                        >
-                          <div className="space-y-2">
-                            {field.questions.map((question: FormField) => (
+                    {tab.fields?.map((field: SectionProps, idx: number) => (
+                      <TabsContent
+                        key={idx}
+                        value={field.sectionTitle || ''}
+                        forceMount
+                        hidden={activeSection !== idx}
+                      >
+                        <div className="space-y-2">
+                          {field.sectionTitle ===
+                            'Comunicación y Liderazgo' && (
+                            <>
+                              <VoiceDescription />
+                              <FormProvider {...methods}>
+                                <form
+                                  onSubmit={methods.handleSubmit(onSubmit)}
+                                  className="space-y-4"
+                                >
+                                  <PhonePrefixInput
+                                    control={methods.control}
+                                    name="phone"
+                                    label="Teléfono movil"
+                                    required={true}
+                                  />
+                                  <TextAreaInput
+                                    control={methods.control}
+                                    name="description"
+                                    label="Descripción"
+                                    placeholder="Hasta 1000 caracteres"
+                                    required={true}
+                                  />
+                                  <Button type="submit">Enviar</Button>
+                                </form>
+                              </FormProvider>
+                            </>
+                          )}
+                          {field.sectionTitle === 'Construcción de MVP' && (
+                            <MvpDescription />
+                          )}
+                          {field.questions.map((question: FormField) =>
+                            question.question_type === 'text' ? (
                               <div key={question.id} className="space-y-2">
-                                <Label>{question.text}</Label>
+                                <TextAreaInput
+                                  control={methods.control}
+                                  name={question.id.toString()}
+                                  label={question.text}
+                                  placeholder="Hasta 1000 caracteres"
+                                  required={question.required}
+                                />
+                                {/*<TextArea
+                                  id={question.id.toString()}
+                                  label={question.text}
+                                  required={question.required}
+                                  placeholder="Hasta 1000 caracteres"
+                                  onChange={(value: string) =>
+                                    handleFieldChange(
+                                      question.id.toString(),
+                                      value
+                                    )
+                                  }
+                                />*/}
+                              </div>
+                            ) : (
+                              <div key={question.id} className="space-y-2">
+                                <Label className="text-2xl text-accent">
+                                  {question.text}
+                                </Label>
                                 <FieldRenderer
                                   field={question}
                                   value={formData[question.id]}
@@ -228,47 +289,63 @@ export const FormTabs = () => {
                                   }
                                 />
                               </div>
-                            ))}
-                          </div>
-                        </TabsContent>
-                      ))}
-                    </Tabs>
-                  </div>
-                ) : (
-                  <div className="space-y-6">
-                    {tab.fields?.map((field: any, fieldIndex: number) => (
-                      <div key={fieldIndex} className="space-y-2">
-                        {field.questions.map((question: FormField) => (
-                          <div key={question.id} className="space-y-2">
-                            <Label>{question.text}</Label>
-                            <FieldRenderer
-                              field={question}
-                              value={formData[question.id]}
-                              onChange={value =>
-                                handleFieldChange(question.id.toString(), value)
-                              }
-                            />
-                          </div>
-                        ))}
-                      </div>
+                            )
+                          )}
+                        </div>
+                      </TabsContent>
                     ))}
-                  </div>
+                  </Tabs>
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {tab.fields?.map((field: any, fieldIndex: number) => (
+                    <div key={fieldIndex} className="space-y-2">
+                      {field.questions.map((question: FormField) => (
+                        <div key={question.id} className="space-y-2">
+                          <Label>{question.text}</Label>
+                          <FieldRenderer
+                            field={question}
+                            value={formData[question.id]}
+                            onChange={value =>
+                              handleFieldChange(question.id.toString(), value)
+                            }
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              )}
+              {tabs[activeTab]?.title === 'Mi emprendimiento' && (
+                <div className="border-t border-accent mt-8">
+                  <AudioRecorder />
+                  <p className="text-sm text-muted-foreground text-center">
+                    También podés comentarnos un poco sobre vos y sobre tu
+                    emprendimiento en un audio de máx. 1 min. grabado en el
+                    momento o subido desde tu notebook o celular.
+                  </p>
+                </div>
+              )}
+              <div className="flex justify-between mt-8">
+                {isLastStep && (
+                  <Button
+                    variant="outline"
+                    onClick={() => handleNavigation('prev')}
+                    disabled={
+                      tabs[activeTab]?.title === 'Cuestionario'
+                        ? !validSections[activeSection] ||
+                          !isSectionComplete ||
+                          isSubmitting
+                        : !tabs[activeTab]?.completed || isSubmitting
+                    }
+                  >
+                    Anterior
+                  </Button>
                 )}
-                {tabs[activeTab]?.title === 'Mi emprendimiento' && (
-                  <div className="border-t border-accent mt-8">
-                    <AudioRecorder />
-                    <p className="text-sm text-muted-foreground text-center">
-                      También podés comentarnos un poco sobre vos y sobre tu
-                      emprendimiento en un audio de máx. 1 min. grabado en el
-                      momento o subido desde tu notebook o celular.
-                    </p>
-                  </div>
-                )}
-                <div className="flex justify-between mt-8">
-                  {isLastStep && (
+                <div className="flex gap-2 ml-auto">
+                  {!isLastStep ? (
                     <Button
-                      variant="outline"
-                      onClick={() => handleNavigation('prev')}
+                      onClick={() => handleNavigation('next')}
                       disabled={
                         tabs[activeTab]?.title === 'Cuestionario'
                           ? !validSections[activeSection] ||
@@ -277,46 +354,30 @@ export const FormTabs = () => {
                           : !tabs[activeTab]?.completed || isSubmitting
                       }
                     >
-                      Anterior
+                      Siguiente
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={handleFinalize}
+                      disabled={
+                        !allTabsValid || !isSectionComplete || isSubmitting
+                      }
+                    >
+                      {isSubmitting ? 'Enviando...' : 'Finalizar'}
                     </Button>
                   )}
-                  <div className="flex gap-2 ml-auto">
-                    {!isLastStep ? (
-                      <Button
-                        onClick={() => handleNavigation('next')}
-                        disabled={
-                          tabs[activeTab]?.title === 'Cuestionario'
-                            ? !validSections[activeSection] ||
-                              !isSectionComplete ||
-                              isSubmitting
-                            : !tabs[activeTab]?.completed || isSubmitting
-                        }
-                      >
-                        Siguiente
-                      </Button>
-                    ) : (
-                      <Button
-                        onClick={handleFinalize}
-                        disabled={
-                          !allTabsValid || !isSectionComplete || isSubmitting
-                        }
-                      >
-                        {isSubmitting ? 'Enviando...' : 'Finalizar'}
-                      </Button>
-                    )}
-                  </div>
                 </div>
               </div>
-            </TabsContent>
-          ))}
-        </Tabs>
-        <DialogConfirmation
-          open={showConfirmation}
-          onConfirm={handleSubmit}
-          onCancel={handleCancel}
-        />
-        <DialogSuccess open={showSuccess} onClose={handleSuccessClose} />
-      </div>
-    </>
+            </div>
+          </TabsContent>
+        ))}
+      </Tabs>
+      <DialogConfirmation
+        open={showConfirmation}
+        onConfirm={handleSubmitTab}
+        onCancel={handleCancel}
+      />
+      <DialogSuccess open={showSuccess} onClose={handleSuccessClose} />
+    </div>
   );
 };

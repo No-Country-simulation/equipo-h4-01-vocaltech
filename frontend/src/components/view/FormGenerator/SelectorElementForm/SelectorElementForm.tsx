@@ -1,3 +1,4 @@
+/*
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -8,7 +9,6 @@ import { useFormStore } from '@/store/from/from.store';
 import { DateField } from '../ElementForm/DateField/DateField';
 import { AvatarUploader } from '../ElementForm/AvatarUploader/AvatarUploader';
 import type { ValueProps } from '../../TabsGenerator';
-import { InputField } from '../ElementForm/InputField/InputField';
 import { FormField } from '../../Cuestionario';
 
 interface FormGeneratorProps {
@@ -153,4 +153,4 @@ export const SelectorElementForm = ({
       </form>
     </Form>
   );
-};
+};*/
